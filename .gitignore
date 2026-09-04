@@ -1,0 +1,59 @@
+# OS & IDE
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node & Package Managers
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+.pnpm-store/
+package-lock.json
+yarn.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+build/
+.next/
+out/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Logs
+logs/
+*.log
+
+# Backup
+*.bak
+*.backup
+~*
+
+# OS
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Local development
+.cache
+.parcel-cache
+.turbo
+
+# Production
+*.gz

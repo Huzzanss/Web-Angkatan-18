@@ -1,0 +1,568 @@
+{
+  "batch": {
+    "name": "Angkatan 18",
+    "school": "SMP Islam Bunga Bangsa Samarinda",
+    "year": "2026-2029",
+    "totalStudents": 79,
+    "year_created": 2026
+  },
+  "students": {
+    "male": [
+      {
+        "id": 1,
+        "name": "Faalih Arkaan",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 2,
+        "name": "Muhammad Alfindra Auvar Rehardja",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 3,
+        "name": "Handanu Indrafaza Styawan",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 4,
+        "name": "Almer Abrisam Dzaky Noor",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 5,
+        "name": "Muhammad Hafidz Setiadi",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 6,
+        "name": "Muhammad Zharif Syatir",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 7,
+        "name": "Cheerul Risyed Ferdiansyah",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 8,
+        "name": "Hafidz Alfatih Hermanto",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 9,
+        "name": "Muhammad Atha Alieudin Hamani",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 10,
+        "name": "Muhammad Azka Alieudin Kalani",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 11,
+        "name": "Muhammad Asyraf Al Farisi",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 12,
+        "name": "Ahmad Faeyza Rafa",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 13,
+        "name": "Ahmad Abdullah Hafi Munaji",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 14,
+        "name": "Muhammad El Junot Razqal",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 15,
+        "name": "Al Ghazali Fahran",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 16,
+        "name": "Muhammad Faqih Ramadhan",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 17,
+        "name": "Muhammad Abdurrahman Dzaki",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 18,
+        "name": "Alkhalifi Hasyimi",
+        "gender": "male",
+        "class": "7A",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 19,
+        "name": "Lathief Akmal El Azzam",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 20,
+        "name": "Rega Rahmad Afandi",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 21,
+        "name": "Azka Aisy Muhammad Firdaus",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 22,
+        "name": "Muhammad Ragil Ardah Putra",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 23,
+        "name": "Giovanny Syahputra",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 24,
+        "name": "Hasan Ahmad",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 25,
+        "name": "Asbillah Saunna",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 26,
+        "name": "Ba'Ats Nurfu'Ad Wetiman",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 27,
+        "name": "Fattah Altaf Qusyairi",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 28,
+        "name": "Namara Simaloan Athariz Nasution",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 29,
+        "name": "Farrel Azka Firlana",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 30,
+        "name": "Albuchori Amrullah Syarif",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 31,
+        "name": "Super Novel Hardian",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 32,
+        "name": "Muhammad Naufal",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 33,
+        "name": "Rafay Messi",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 34,
+        "name": "Devan Rafandra Pratama",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 35,
+        "name": "Abdullah Dzaky Editya",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 36,
+        "name": "Jeevan Fhaeyza Daniswara",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 37,
+        "name": "Rayhan Aqilla Akmal Triono",
+        "gender": "male",
+        "class": "7B",
+        "batch": "Angkatan 18"
+      }
+    ],
+    "female": [
+      {
+        "id": 38,
+        "name": "Adzkira Rindu Edelweiss",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 39,
+        "name": "Annisa Wafa Luthfi",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 40,
+        "name": "Putri Meilisha",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 41,
+        "name": "Nada Fajriah Salsabilla",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 42,
+        "name": "Asghia Khaureen Nazhifa Arianto",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 43,
+        "name": "Alesha Zevanna Anneyla Alfian",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 44,
+        "name": "Alisha Nur Afiyah",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 45,
+        "name": "Alenka Shafeea Akbari",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 46,
+        "name": "Khalilah Tsamara Azizah",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 47,
+        "name": "Dzakira Talita Nur Asy",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 48,
+        "name": "Felisha Rafalya Chafid",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 49,
+        "name": "Shidqia Nabila Azzahra",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 50,
+        "name": "Arini Syaurah Zayani",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 51,
+        "name": "Ainun Miftahul Aggenia",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 52,
+        "name": "Fatimah Az-Zahra",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 53,
+        "name": "Aisyah Afiqah Wahyudi",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 54,
+        "name": "Vanisha Malditya Chafid",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 55,
+        "name": "Ameera Aqeela Sadli",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 56,
+        "name": "Amirah Ramadhani Zainal",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 57,
+        "name": "Sachi Siddiqia Tomo",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 58,
+        "name": "Zahratu Syifa",
+        "gender": "female",
+        "class": "7D",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 59,
+        "name": "Afiqah Abidah Urfa",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 60,
+        "name": "Shazia Amira Zhafirah",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 61,
+        "name": "Nur Aisyah",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 62,
+        "name": "Adinda Nur Annisa",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 63,
+        "name": "Shybilya Sheren",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 64,
+        "name": "Adelia Felicia",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 65,
+        "name": "Angelina Natalia Tennes",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 66,
+        "name": "Nabila Widya Prajna",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 67,
+        "name": "Zara Qisya Ramadhani",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 68,
+        "name": "Aqilah Khayyirah",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 69,
+        "name": "Nadhifa Wihda Syauqia",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 70,
+        "name": "Syaquila Marwa Putri Deandra",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 71,
+        "name": "Kanaya Lubna Janitra Hafizah",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 72,
+        "name": "Alisya Zella Naura Saputro",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 73,
+        "name": "Kimberly Wong",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 74,
+        "name": "Afika Aulia Izza Tunnisa'",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 75,
+        "name": "Afiqah Humayra Arresky",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 76,
+        "name": "Deeandra Mikhailla Hariyadi",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 77,
+        "name": "Hanania Hasanah Mukti",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 78,
+        "name": "Lathifah Azizah Ali",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      },
+      {
+        "id": 79,
+        "name": "Nurul Farhana Aqilah Chandra",
+        "gender": "female",
+        "class": "7C",
+        "batch": "Angkatan 18"
+      }
+    ]
+  }
+}
