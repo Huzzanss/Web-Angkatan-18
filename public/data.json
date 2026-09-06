@@ -1,0 +1,44 @@
+{
+  "batch": "Angkatan 18",
+  "school": "SMP Islam Bunga Bangsa Samarinda",
+  "years": "2026-2029",
+  "statistics": {
+    "total": 79,
+    "male": 37,
+    "female": 42,
+    "classes": {
+      "7A": 18,
+      "7B": 19,
+      "7C": 21,
+      "7D": 21
+    }
+  },
+  "classes": [
+    {
+      "id": "7A",
+      "name": "7A Bilal Bin Rabbah",
+      "count": 18,
+      "advisor": "Ustadz/Ustadzah Name"
+    },
+    {
+      "id": "7B",
+      "name": "7B Musab Bin Umair",
+      "count": 19,
+      "advisor": "Ustadz/Ustadzah Name"
+    },
+    {
+      "id": "7C",
+      "name": "7C Khadijah Binti Khuwailid",
+      "count": 21,
+      "advisor": "Ustadzah Name"
+    },
+    {
+      "id": "7D",
+      "name": "7D Halimatus Saadiyah",
+      "count": 21,
+      "advisor": "Ustadzah Name"
+    }
+  ],
+  "lastUpdated": "2026-09-04T00:00:00Z",
+  "version": "2.0"
+}

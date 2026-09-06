@@ -1,0 +1,220 @@
+/* ============================================================================
+   ADMIN PANEL STYLES
+   ============================================================================ */
+
+:root {
+    --primary: #4edea3;
+    --primary-dark: #10b981;
+    --surface: #101413;
+    --surface-light: #181c1b;
+    --surface-lighter: #272b2a;
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--surface);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glass Effect */
+.glass-effect {
+    background: rgba(13, 22, 18, 0.65);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(78, 222, 163, 0.15);
+}
+
+/* Buttons */
+.btn-primary {
+    background: var(--primary);
+    color: #003824;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    background: #38c48f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 24px rgba(78, 222, 163, 0.3);
+}
+
+.btn-secondary {
+    background: var(--surface-lighter);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border: 1px solid #3c4a42;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary:hover {
+    background: #313634;
+    border-color: var(--primary);
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    background: var(--surface-light);
+    border: 1px solid #3c4a42;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(78, 222, 163, 0.1);
+}
+
+.input-field::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--surface-light);
+    border: 1px solid #3c4a42;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 500px;
+    width: 90%;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Page Display */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Toast Notifications */
+#notificationsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast {
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    min-width: 300px;
+    animation: slideInRight 0.3s ease;
+}
+
+.toast.success {
+    background: var(--success);
+    color: white;
+}
+
+.toast.error {
+    background: var(--danger);
+    color: white;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus Visible */
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
