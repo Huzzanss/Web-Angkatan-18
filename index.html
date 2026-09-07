@@ -1,174 +1,111 @@
 <!DOCTYPE html>
-<html class="dark" lang="id">
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Angkatan 18 - SMP Islam Bunga Bangsa Samarinda</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link href="public/css/styles.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angkatan 18 - SMP Islam Bunga Bangsa</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-surface-dark font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen">
-    
-    <!-- Header -->
-    <header class="fixed top-0 inset-x-0 z-50 bg-surface-card backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-        <div class="h-16 max-w-[1200px] mx-auto px-gutter-md lg:px-gutter-xl flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="flex flex-col">
-                    <span class="font-headline-sm text-headline-sm text-text-primary tracking-tight font-bold">ANGKATAN 18</span>
-                    <span class="font-label-sm text-label-sm text-primary tracking-wider uppercase">SMP Islam Bunga Bangsa</span>
-                </div>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🎓 Angkatan 18</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="page/students.html">Siswa</a></li>
+                <li><a href="page/gallery.html">Galeri</a></li>
+                <li><a href="page/announcements.html">Pengumuman</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Angkatan 18</h1>
+            <p class="hero-sub">SMP Islam Bunga Bangsa Samarinda</p>
+            <p class="hero-desc">Batch 2026 – 2029 &nbsp;•&nbsp; 79 Siswa</p>
+            <a href="page/students.html" class="btn">Lihat Semua Siswa</a>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="stat-card">
+            <span class="stat-number">79</span>
+            <span class="stat-label">Total Siswa</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number blue">37</span>
+            <span class="stat-label">Putra (Ikhwan)</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number pink">42</span>
+            <span class="stat-label">Putri (Akhwat)</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Kelas</span>
+        </div>
+    </section>
+
+    <!-- KELAS -->
+    <section class="section">
+        <h2 class="section-title">Kelas Angkatan 18</h2>
+        <div class="class-grid">
+            <div class="class-card">
+                <div class="class-icon blue">🏫</div>
+                <h3>7A Bilal Bin Rabbah</h3>
+                <p>18 Siswa Putra (Ikhwan)</p>
             </div>
-            <nav class="hidden md:flex items-center gap-gutter-lg">
-                <a class="bg-primary-container text-on-primary-container font-label-lg text-label-lg px-3 py-1.5 rounded-lg transition-colors" href="#home">Home</a>
-                <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#students">Students</a>
-                <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#gallery">Gallery</a>
-            </nav>
-            <div class="flex items-center gap-gutter-md">
-                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                    <span class="material-symbols-outlined text-on-primary text-[18px]">people</span>
-                </div>
+            <div class="class-card">
+                <div class="class-icon blue">🏫</div>
+                <h3>7B Musab Bin Umair</h3>
+                <p>19 Siswa Putra (Ikhwan)</p>
+            </div>
+            <div class="class-card">
+                <div class="class-icon pink">🏫</div>
+                <h3>7C Khadijah Binti Khuwailid</h3>
+                <p>21 Siswi Putri (Akhwat)</p>
+            </div>
+            <div class="class-card">
+                <div class="class-icon pink">🏫</div>
+                <h3>7D Halimatus Saadiyah</h3>
+                <p>21 Siswi Putri (Akhwat)</p>
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- Main Content -->
-    <main class="w-full pt-16 bg-surface-dark">
-        <div class="flex flex-col w-full">
-            
-            <!-- Hero Section -->
-            <div class="relative w-full overflow-hidden">
-                <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[720px] h-[500px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
-                <div class="absolute top-64 -left-32 w-96 h-96 bg-primary-container/10 rounded-full blur-[120px] pointer-events-none"></div>
-                
-                <section class="relative max-w-[1200px] mx-auto px-gutter-md lg:px-gutter-xl pt-12 lg:pt-20 pb-16 lg:pb-24" id="home">
-                    <div class="flex flex-col items-center text-center">
-                        <h1 class="font-display text-display text-text-primary mb-4 tracking-tight">ANGKATAN 18</h1>
-                        <p class="font-headline-md text-headline-md text-secondary max-w-2xl mb-4 font-semibold">SMP Islam Bunga Bangsa Samarinda • 2026–2029</p>
-                        <p class="font-body-lg text-body-lg text-text-secondary max-w-xl mb-10">Menempa Karakter Islami, Mengukir Prestasi, Menembus Masa Depan.</p>
-                        
-                        <div class="flex flex-wrap items-center justify-center gap-4 mb-16">
-                            <a class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-[0_4px_24px_rgba(78,222,163,0.3)] hover:bg-tertiary transition-all duration-300 transform hover:-translate-y-0.5" href="#students">
-                                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">groups</span>Lihat Direktori Siswa
-                            </a>
-                            <a class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-surface-container-high/60 backdrop-blur-md text-text-primary hover:text-primary font-label-lg text-label-lg font-semibold hover:bg-surface-container-highest transition-all duration-300" href="#gallery">
-                                <span class="material-symbols-outlined text-[20px]">photo_library</span>Galeri Kenangan
-                            </a>
-                        </div>
-                        
-                        <!-- Stats -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl">
-                            <div class="bg-surface-container-low/90 backdrop-blur-md rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-md">
-                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                                    <span class="material-symbols-outlined text-primary text-[22px]" style="font-variation-settings: 'FILL' 1;">school</span>
-                                </div>
-                                <span class="font-headline-lg text-headline-lg font-bold text-text-primary mb-1">79</span>
-                                <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Siswa Terdaftar</span>
-                            </div>
-                            <div class="bg-surface-container-low/90 backdrop-blur-md rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-md">
-                                <div class="w-10 h-10 rounded-full bg-gender-male/10 flex items-center justify-center mb-3">
-                                    <span class="material-symbols-outlined text-gender-male text-[22px]">male</span>
-                                </div>
-                                <span class="font-headline-lg text-headline-lg font-bold text-text-primary mb-1">37</span>
-                                <span class="font-label-sm text-label-sm text-gender-male uppercase tracking-wider">Ikhwan (Putra)</span>
-                            </div>
-                            <div class="bg-surface-container-low/90 backdrop-blur-md rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-md">
-                                <div class="w-10 h-10 rounded-full bg-gender-female/10 flex items-center justify-center mb-3">
-                                    <span class="material-symbols-outlined text-gender-female text-[22px]">female</span>
-                                </div>
-                                <span class="font-headline-lg text-headline-lg font-bold text-text-primary mb-1">42</span>
-                                <span class="font-label-sm text-label-sm text-gender-female uppercase tracking-wider">Akhwat (Putri)</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Students Section -->
-            <section class="w-full bg-surface-dim py-section-sm lg:py-section-lg relative" id="students">
-                <div class="max-w-[1200px] mx-auto px-gutter-md lg:px-gutter-xl">
-                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 lg:mb-12 gap-4">
-                        <div>
-                            <div class="inline-flex items-center gap-2 text-primary font-label-sm text-label-sm uppercase tracking-widest font-bold mb-2">
-                                <span class="material-symbols-outlined text-[16px]">badge</span>Direktori Siswa
-                            </div>
-                            <h2 class="font-headline-lg text-headline-lg text-text-primary font-bold tracking-tight">Daftar Angkatan 18</h2>
-                            <p class="font-body-md text-body-md text-text-secondary mt-1">Semua siswa dan siswi angkatan 2026–2029 terurut rapi A-Z.</p>
-                        </div>
-                    </div>
-
-                    <!-- Filter & Search -->
-                    <div class="bg-surface-container/90 backdrop-blur-md rounded-2xl p-3 lg:p-4 mb-8 shadow-md flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-                        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0" id="filter-tabs">
-                            <button class="filter-tab active px-4 py-2 rounded-xl font-label-lg text-label-lg font-semibold transition-all duration-200 flex items-center gap-2 bg-primary text-on-primary" data-filter="all" type="button">
-                                <span>Semua (79)</span>
-                            </button>
-                            <button class="filter-tab px-4 py-2 rounded-xl font-label-lg text-label-lg font-semibold text-text-secondary hover:text-text-primary hover:bg-surface-container-high transition-all duration-200 flex items-center gap-2" data-filter="male" type="button">
-                                <span>Ikhwan (37)</span>
-                            </button>
-                            <button class="filter-tab px-4 py-2 rounded-xl font-label-lg text-label-lg font-semibold text-text-secondary hover:text-text-primary hover:bg-surface-container-high transition-all duration-200 flex items-center gap-2" data-filter="female" type="button">
-                                <span>Akhwat (42)</span>
-                            </button>
-                        </div>
-                        <div class="relative w-full">
-                            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
-                            <input class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface-container-lowest text-text-primary placeholder:text-text-muted font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="student-search" placeholder="Cari nama siswa..." type="text">
-                        </div>
-                    </div>
-
-                    <!-- Students Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4" id="students-grid"></div>
-                </div>
-            </section>
-
-            <!-- Gallery Section -->
-            <section class="w-full bg-surface py-section-sm lg:py-section-lg relative" id="gallery">
-                <div class="max-w-[1200px] mx-auto px-gutter-md lg:px-gutter-xl">
-                    <div class="inline-flex items-center gap-2 text-primary font-label-sm text-label-sm uppercase tracking-widest font-bold mb-2">
-                        <span class="material-symbols-outlined text-[16px]">photo_library</span>Galeri
-                    </div>
-                    <h2 class="font-headline-lg text-headline-lg text-text-primary font-bold tracking-tight mb-8">Kenangan Angkatan 18</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-tertiary h-64 md:h-72 cursor-pointer transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-2xl">
-                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors"></div>
-                            <div class="absolute inset-0 flex flex-col items-end justify-end p-6">
-                                <p class="font-headline-sm text-headline-sm text-white font-bold">Momen Berharga</p>
-                                <p class="text-white/80 text-sm mt-2">Kebersamaan Angkatan 18</p>
-                            </div>
-                        </div>
-                        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-secondary to-primary h-64 md:h-72 cursor-pointer transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-2xl">
-                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors"></div>
-                            <div class="absolute inset-0 flex flex-col items-end justify-end p-6">
-                                <p class="font-headline-sm text-headline-sm text-white font-bold">Event Spesial</p>
-                                <p class="text-white/80 text-sm mt-2">Moment yang tak terlupakan</p>
-                            </div>
-                        </div>
-                        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-tertiary to-secondary h-64 md:h-72 cursor-pointer transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-2xl">
-                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors"></div>
-                            <div class="absolute inset-0 flex flex-col items-end justify-end p-6">
-                                <p class="font-headline-sm text-headline-sm text-white font-bold">Persahabatan</p>
-                                <p class="text-white/80 text-sm mt-2">Bond yang terjalin kuat</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <!-- MENU -->
+    <section class="section">
+        <h2 class="section-title">Menu</h2>
+        <div class="menu-grid">
+            <a href="page/students.html" class="menu-card">
+                <span class="menu-icon">👥</span>
+                <h3>Direktori Siswa</h3>
+                <p>Lihat data lengkap semua 79 siswa dengan filter & pencarian</p>
+            </a>
+            <a href="page/gallery.html" class="menu-card">
+                <span class="menu-icon">📸</span>
+                <h3>Galeri</h3>
+                <p>Koleksi foto dan momen spesial Angkatan 18</p>
+            </a>
+            <a href="page/announcements.html" class="menu-card">
+                <span class="menu-icon">📢</span>
+                <h3>Pengumuman</h3>
+                <p>Info dan update penting untuk seluruh siswa</p>
+            </a>
         </div>
-    </main>
+    </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-surface-container-high bg-surface-container-low py-8">
-        <div class="max-w-[1200px] mx-auto px-gutter-md lg:px-gutter-xl text-center">
-            <p class="font-label-sm text-label-sm text-text-secondary mb-1">SMP Islam Bunga Bangsa Samarinda</p>
-            <p class="font-body-sm text-body-sm text-text-muted">Angkatan 18 (2026-2029) © 2026</p>
-        </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="public/js/config.js"></script>
-    <script src="public/js/script.js"></script>
+    <script src="app.js"></script>
+
 </body>
 </html>
