@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siswa - Angkatan 18</title>
+    <title>Siswa — Angkatan 18</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="nav-logo">🎓 Angkatan 18</a>
+            <a href="../index.html" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="students.html" class="active">Siswa</a></li>
@@ -21,20 +23,19 @@
         </div>
     </nav>
 
-    <!-- HEADER -->
     <section class="page-header">
-        <h1>👥 Direktori Siswa</h1>
+        <div class="page-header-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h1>Direktori Siswa</h1>
         <p>Semua 79 siswa Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </section>
 
-    <!-- CONTROLS -->
     <div class="controls">
-        <input
-            type="text"
-            id="search"
-            class="search-box"
-            placeholder="🔍 Cari nama siswa..."
-        >
+        <div class="search-wrap">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search" class="search-box" placeholder="Cari nama siswa...">
+        </div>
         <div class="filter-tabs">
             <button class="filter-tab active" data-filter="all">Semua (79)</button>
             <button class="filter-tab" data-filter="male">Putra (37)</button>
@@ -42,15 +43,12 @@
         </div>
     </div>
 
-    <!-- GRID -->
     <div id="students-grid" class="students-grid"></div>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
     <script src="../app.js"></script>
-
 </body>
 </html>
