@@ -19,6 +19,7 @@
                 <li><a href="students.html">Siswa</a></li>
                 <li><a href="gallery.html">Galeri</a></li>
                 <li><a href="announcements.html" class="active">Pengumuman</a></li>
+                <li><a href="admin.html">Admin</a></li>
             </ul>
         </div>
     </nav>
@@ -31,39 +32,43 @@
         <p>Update dan informasi penting untuk Angkatan 18</p>
     </section>
 
-    <div class="announcements-list">
-        <div class="announcement-card priority-high">
-            <h3>Selamat Datang di Website Angkatan 18</h3>
-            <p>Website resmi Angkatan 18 SMP Islam Bunga Bangsa Samarinda telah resmi diluncurkan. Semua siswa dapat mengakses direktori siswa, galeri, dan pengumuman di sini.</p>
-            <div class="announcement-date">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                7 September 2026
-            </div>
-        </div>
-
-        <div class="announcement-card priority-medium">
-            <h3>Informasi Penting</h3>
-            <p>Cek halaman pengumuman ini secara berkala untuk mendapatkan update terbaru tentang kegiatan Angkatan 18.</p>
-            <div class="announcement-date">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                7 September 2026
-            </div>
-        </div>
-
-        <div class="announcement-card priority-low">
-            <h3>Direktori Siswa Tersedia</h3>
-            <p>Kamu sekarang bisa melihat data semua 79 teman sekelas di halaman Siswa. Ada fitur pencarian dan filter berdasarkan gender.</p>
-            <div class="announcement-date">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                7 September 2026
-            </div>
-        </div>
-    </div>
+    <div id="announceWrap" class="announcements-list"></div>
 
     <footer class="footer">
         <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
-    <script src="../app.js"></script>
+    <script>
+        function getAnnouncements() {
+            return JSON.parse(localStorage.getItem('a18_announcements') || '[]');
+        }
+
+        function renderAnnouncements() {
+            const wrap  = document.getElementById('announceWrap');
+            const items = getAnnouncements();
+
+            if (items.length === 0) {
+                wrap.innerHTML = `
+                    <div class="empty-state">
+                        Belum ada pengumuman.<br>
+                        <a href="admin.html" style="color:#4EDEA3;font-size:13px;margin-top:8px;display:inline-block">Admin dapat menambahkan pengumuman di sini</a>
+                    </div>`;
+                return;
+            }
+
+            wrap.innerHTML = items.map(item => `
+                <div class="announcement-card priority-${item.priority}">
+                    <h3>${item.title}</h3>
+                    <p>${item.body}</p>
+                    <div class="announcement-date">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        ${item.date}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        renderAnnouncements();
+    </script>
 </body>
 </html>
