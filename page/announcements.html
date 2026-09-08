@@ -32,20 +32,27 @@
         <p>Update dan informasi penting untuk Angkatan 18</p>
     </section>
 
-    <div id="announceWrap" class="announcements-list"></div>
+    <div id="announceWrap" class="announcements-list">
+        <div class="loading-state" style="grid-column:1/-1">
+            <div class="spinner"></div>
+            <p>Memuat pengumuman...</p>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
-    <script>
-        function getAnnouncements() {
-            return JSON.parse(localStorage.getItem('a18_announcements') || '[]');
-        }
+    <script type="module">
+        import { db, ref, onValue } from "../firebase.js";
 
-        function renderAnnouncements() {
-            const wrap  = document.getElementById('announceWrap');
-            const items = getAnnouncements();
+        const wrap = document.getElementById('announceWrap');
+
+        onValue(ref(db, 'announcements'), snap => {
+            const items = [];
+            snap.forEach(child => {
+                items.unshift({ key: child.key, ...child.val() });
+            });
 
             if (items.length === 0) {
                 wrap.innerHTML = `
@@ -66,9 +73,8 @@
                     </div>
                 </div>
             `).join('');
-        }
-
-        renderAnnouncements();
+        });
     </script>
+
 </body>
 </html>

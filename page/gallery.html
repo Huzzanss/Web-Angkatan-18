@@ -32,11 +32,12 @@
         <p>Koleksi foto dan momen spesial Angkatan 18</p>
     </section>
 
-    <div id="galleryWrap" class="gallery-section"></div>
-
-    <footer class="footer">
-        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
-    </footer>
+    <div id="galleryWrap" class="gallery-section">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Memuat galeri...</p>
+        </div>
+    </div>
 
     <!-- LIGHTBOX -->
     <div id="lightbox" style="display:none">
@@ -50,15 +51,25 @@
         </div>
     </div>
 
-    <script>
-        function getGallery() {
-            return JSON.parse(localStorage.getItem('a18_gallery') || '[]');
-        }
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
 
-        function renderGallery() {
-            const wrap  = document.getElementById('galleryWrap');
-            const items = getGallery();
+    <script type="module">
+        import { db, ref, onValue } from "../firebase.js";
 
+        const wrap = document.getElementById('galleryWrap');
+        let allItems = [];
+
+        onValue(ref(db, 'gallery'), snap => {
+            allItems = [];
+            snap.forEach(child => {
+                allItems.unshift({ key: child.key, ...child.val() });
+            });
+            renderGallery(allItems);
+        });
+
+        function renderGallery(items) {
             if (items.length === 0) {
                 wrap.innerHTML = `
                     <div class="gallery-empty">
@@ -82,12 +93,11 @@
                 `).join('')
             }</div>`;
 
-            // Lightbox
             wrap.querySelectorAll('.gallery-item').forEach(el => {
                 el.addEventListener('click', () => {
-                    const i = +el.dataset.index;
-                    document.getElementById('lightboxImg').src = items[i].src;
-                    document.getElementById('lightboxTitle').textContent = items[i].title;
+                    const item = allItems[+el.dataset.index];
+                    document.getElementById('lightboxImg').src   = item.src;
+                    document.getElementById('lightboxTitle').textContent = item.title;
                     document.getElementById('lightbox').style.display = 'flex';
                 });
             });
@@ -99,8 +109,7 @@
         document.getElementById('lightboxOverlay').addEventListener('click', () => {
             document.getElementById('lightbox').style.display = 'none';
         });
-
-        renderGallery();
     </script>
+
 </body>
 </html>
