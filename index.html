@@ -110,49 +110,35 @@
     <!-- SECRET TOAST -->
     <div id="secretToast" class="secret-toast">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span id="secretToastText">Klik 5x untuk masuk admin</span>
+        <span id="secretToastText"></span>
     </div>
 
-    <script src="app.js"></script>
     <script>
-        // ── SECRET ADMIN TRIGGER ──────────────────────────────
-        // Klik logo "Angkatan 18" 5x dalam 3 detik → redirect ke admin
         let clickCount = 0;
         let clickTimer = null;
-        const trigger = document.getElementById('secretTrigger');
-        const toast   = document.getElementById('secretToast');
+        const trigger   = document.getElementById('secretTrigger');
+        const toast     = document.getElementById('secretToast');
         const toastText = document.getElementById('secretToastText');
 
         trigger.addEventListener('click', e => {
             e.preventDefault();
             clickCount++;
-
-            // Mulai timer reset
             clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
-                hideToast();
-            }, 3000);
+            clickTimer = setTimeout(() => { clickCount = 0; hideToast(); }, 3000);
 
-            if (clickCount === 2) showToast(`Klik ${5 - clickCount}x lagi...`);
-            if (clickCount === 3) showToast(`Klik ${5 - clickCount}x lagi...`);
+            if (clickCount === 2) showToast('Klik 3x lagi...');
+            if (clickCount === 3) showToast('Klik 2x lagi...');
             if (clickCount === 4) showToast('Klik 1x lagi...');
             if (clickCount >= 5) {
                 clickCount = 0;
                 clearTimeout(clickTimer);
-                showToast('Masuk admin...');
+                showToast('Membuka admin...');
                 setTimeout(() => window.location.href = 'page/admin.html', 600);
             }
         });
 
-        function showToast(msg) {
-            toastText.textContent = msg;
-            toast.classList.add('show');
-        }
-
-        function hideToast() {
-            toast.classList.remove('show');
-        }
+        function showToast(msg) { toastText.textContent = msg; toast.classList.add('show'); }
+        function hideToast()    { toast.classList.remove('show'); }
     </script>
 </body>
 </html>
