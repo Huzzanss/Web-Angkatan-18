@@ -19,14 +19,13 @@
                 <li><a href="students.html">Siswa</a></li>
                 <li><a href="gallery.html" class="active">Galeri</a></li>
                 <li><a href="announcements.html">Pengumuman</a></li>
-                <li><a href="admin.html">Admin</a></li>
             </ul>
         </div>
     </nav>
 
     <section class="page-header">
         <div class="page-header-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
         </div>
         <h1>Galeri</h1>
         <p>Koleksi foto dan momen spesial Angkatan 18</p>
@@ -43,11 +42,11 @@
     <div id="lightbox" style="display:none">
         <div id="lightboxOverlay"></div>
         <div id="lightboxContent">
-            <img id="lightboxImg" src="" alt="">
-            <p id="lightboxTitle"></p>
             <button id="lightboxClose">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
+            <img id="lightboxImg" src="" alt="">
+            <p id="lightboxTitle"></p>
         </div>
     </div>
 
@@ -63,32 +62,24 @@
 
         onValue(ref(db, 'gallery'), snap => {
             allItems = [];
-            snap.forEach(child => {
-                allItems.unshift({ key: child.key, ...child.val() });
-            });
+            snap.forEach(child => allItems.unshift({ key: child.key, ...child.val() }));
             renderGallery(allItems);
         });
 
         function renderGallery(items) {
             if (items.length === 0) {
                 wrap.innerHTML = `
-                    <div class="gallery-empty">
-                        <div class="gallery-placeholder">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3;margin:0 auto 16px;display:block"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            <p>Belum ada foto</p>
-                            <p style="margin-top:6px;font-size:13px;opacity:0.5">Admin dapat menambahkan foto melalui <a href="admin.html" style="color:#4EDEA3">halaman admin</a></p>
-                        </div>
+                    <div class="gallery-placeholder">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.25;margin:0 auto 14px;display:block"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        <p>Belum ada foto</p>
                     </div>`;
                 return;
             }
-
             wrap.innerHTML = `<div class="gallery-grid">${
                 items.map((item, i) => `
                     <div class="gallery-item" data-index="${i}">
                         <img src="${item.src}" alt="${item.title}" loading="lazy">
-                        <div class="gallery-item-overlay">
-                            <p>${item.title}</p>
-                        </div>
+                        <div class="gallery-item-overlay"><p>${item.title}</p></div>
                     </div>
                 `).join('')
             }</div>`;
@@ -96,7 +87,7 @@
             wrap.querySelectorAll('.gallery-item').forEach(el => {
                 el.addEventListener('click', () => {
                     const item = allItems[+el.dataset.index];
-                    document.getElementById('lightboxImg').src   = item.src;
+                    document.getElementById('lightboxImg').src = item.src;
                     document.getElementById('lightboxTitle').textContent = item.title;
                     document.getElementById('lightbox').style.display = 'flex';
                 });
@@ -110,6 +101,5 @@
             document.getElementById('lightbox').style.display = 'none';
         });
     </script>
-
 </body>
 </html>

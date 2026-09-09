@@ -1,9 +1,8 @@
-// ── ADMIN.JS — Firebase Realtime Database ────────────────────
-import { db, ref, push, onValue, remove } from "../firebase.js";
+import { db, ref, push, onValue, remove } from "./firebase.js";
 
-// ── CREDENTIALS ───────────────────────────────────────────────
-const ADMIN_USER = 'admin18';
-const ADMIN_PASS = 'bunga2026';
+// ── CREDENTIALS dari .env ─────────────────────────────────────
+const ADMIN_USER = import.meta.env.VITE_ADMIN_USER;
+const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS;
 
 // ── AUTH ──────────────────────────────────────────────────────
 function isLoggedIn() {
@@ -33,23 +32,17 @@ function showDashboard() {
 
 // ── FIREBASE LISTENERS ────────────────────────────────────────
 function listenGallery() {
-  const galleryRef = ref(db, 'gallery');
-  onValue(galleryRef, snap => {
+  onValue(ref(db, 'gallery'), snap => {
     const items = [];
-    snap.forEach(child => {
-      items.unshift({ key: child.key, ...child.val() });
-    });
+    snap.forEach(child => items.unshift({ key: child.key, ...child.val() }));
     renderAdminGallery(items);
   });
 }
 
 function listenAnnouncements() {
-  const announceRef = ref(db, 'announcements');
-  onValue(announceRef, snap => {
+  onValue(ref(db, 'announcements'), snap => {
     const items = [];
-    snap.forEach(child => {
-      items.unshift({ key: child.key, ...child.val() });
-    });
+    snap.forEach(child => items.unshift({ key: child.key, ...child.val() }));
     renderAdminAnnouncements(items);
   });
 }
@@ -59,7 +52,7 @@ function renderAdminGallery(items) {
   const grid = document.getElementById('adminGalleryGrid');
   if (!grid) return;
 
-  if (!items || items.length === 0) {
+  if (!items.length) {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">Belum ada foto. Klik "Tambah Foto" untuk mulai.</div>`;
     return;
   }
@@ -86,7 +79,7 @@ function renderAdminAnnouncements(items) {
   const list = document.getElementById('adminAnnounceList');
   if (!list) return;
 
-  if (!items || items.length === 0) {
+  if (!items.length) {
     list.innerHTML = `<div class="empty-state">Belum ada pengumuman. Klik "Tambah Pengumuman" untuk mulai.</div>`;
     return;
   }
@@ -140,16 +133,13 @@ function initTabs() {
 
 // ── PHOTO MODAL ───────────────────────────────────────────────
 function initPhotoModal() {
-  const modal     = document.getElementById('modalPhoto');
-  const fileDrop  = document.getElementById('fileDrop');
-  const fileInput = document.getElementById('photoFile');
-  const preview   = document.getElementById('photoPreview');
-  const previewImg= document.getElementById('previewImg');
+  const modal      = document.getElementById('modalPhoto');
+  const fileDrop   = document.getElementById('fileDrop');
+  const fileInput  = document.getElementById('photoFile');
+  const preview    = document.getElementById('photoPreview');
+  const previewImg = document.getElementById('previewImg');
 
-  document.getElementById('openAddPhoto').addEventListener('click', () => {
-    modal.style.display = 'flex';
-  });
-
+  document.getElementById('openAddPhoto').addEventListener('click', () => modal.style.display = 'flex');
   document.getElementById('closeModalPhoto').addEventListener('click', closePhotoModal);
   document.getElementById('cancelPhoto').addEventListener('click', closePhotoModal);
 
@@ -158,10 +148,7 @@ function initPhotoModal() {
   fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Ukuran file terlalu besar. Maks 5MB.');
-      return;
-    }
+    if (file.size > 5 * 1024 * 1024) { alert('Ukuran file terlalu besar. Maks 5MB.'); return; }
     const reader = new FileReader();
     reader.onload = e => {
       previewImg.src = e.target.result;
@@ -182,11 +169,7 @@ function initPhotoModal() {
     btn.disabled = true;
 
     try {
-      await push(ref(db, 'gallery'), {
-        title,
-        src,
-        date: today()
-      });
+      await push(ref(db, 'gallery'), { title, src, date: today() });
       closePhotoModal();
     } catch (err) {
       alert('Gagal menyimpan: ' + err.message);
@@ -210,10 +193,7 @@ function closePhotoModal() {
 function initAnnounceModal() {
   const modal = document.getElementById('modalAnnounce');
 
-  document.getElementById('openAddAnnounce').addEventListener('click', () => {
-    modal.style.display = 'flex';
-  });
-
+  document.getElementById('openAddAnnounce').addEventListener('click', () => modal.style.display = 'flex');
   document.getElementById('closeModalAnnounce').addEventListener('click', closeAnnounceModal);
   document.getElementById('cancelAnnounce').addEventListener('click', closeAnnounceModal);
 
@@ -229,12 +209,7 @@ function initAnnounceModal() {
     btn.disabled = true;
 
     try {
-      await push(ref(db, 'announcements'), {
-        title,
-        body,
-        priority,
-        date: today()
-      });
+      await push(ref(db, 'announcements'), { title, body, priority, date: today() });
       closeAnnounceModal();
     } catch (err) {
       alert('Gagal menyimpan: ' + err.message);
@@ -262,13 +237,8 @@ function today() {
 document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('loginPage')) return;
 
-  if (isLoggedIn()) {
-    showDashboard();
-  } else {
-    showLogin();
-  }
+  isLoggedIn() ? showDashboard() : showLogin();
 
-  // Login
   document.getElementById('loginForm').addEventListener('submit', e => {
     e.preventDefault();
     const user = document.getElementById('inputUsername').value.trim();
@@ -282,16 +252,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Toggle password
   document.getElementById('togglePw').addEventListener('click', () => {
     const input = document.getElementById('inputPassword');
     input.type = input.type === 'password' ? 'text' : 'password';
   });
 
-  // Logout
   document.getElementById('logoutBtn').addEventListener('click', logout);
 
-  // Delete confirm
   document.getElementById('confirmDelete').addEventListener('click', async () => {
     if (!deleteTarget) return;
     const path = deleteTarget.type === 'gallery'
@@ -307,7 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('cancelDelete').addEventListener('click', closeDeleteModal);
 
-  // Close modal on overlay click
   ['modalPhoto', 'modalAnnounce', 'modalDelete'].forEach(id => {
     document.getElementById(id).addEventListener('click', function(e) {
       if (e.target === this) this.style.display = 'none';
