@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoutout — Angkatan 18</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="students.html">Siswa</a></li>
+                <li><a href="messages.html">Pesan & Kesan</a></li>
+                <li><a href="shoutout.html" class="active">Shoutout</a></li>
+                <li><a href="gallery.html">Galeri</a></li>
+                <li><a href="announcements.html">Pengumuman</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+        </div>
+        <h1>Shoutout</h1>
+        <p>Apresiasi dan ucapan spesial untuk teman-teman Angkatan 18</p>
+    </section>
+
+    <!-- FORM -->
+    <div class="msg-form-wrap">
+        <div class="msg-form-card">
+            <h3>Beri Shoutout</h3>
+            <form id="shoutForm">
+                <div class="form-group">
+                    <label>Dari</label>
+                    <input type="text" id="shoutFrom" placeholder="Namamu..." maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label>Untuk</label>
+                    <input type="text" id="shoutTo" placeholder="Nama teman yang mau di-shoutout..." maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label>Alasan</label>
+                    <textarea id="shoutMsg" placeholder="Kenapa dia layak dapat shoutout?" rows="3" maxlength="300" required></textarea>
+                    <div class="char-count"><span id="shoutCount">0</span>/300</div>
+                </div>
+                <div class="form-group">
+                    <label>Pilih Emoji</label>
+                    <div class="emoji-picker">
+                        <button type="button" class="emoji-btn active" data-emoji="🏆">🏆</button>
+                        <button type="button" class="emoji-btn" data-emoji="❤️">❤️</button>
+                        <button type="button" class="emoji-btn" data-emoji="🔥">🔥</button>
+                        <button type="button" class="emoji-btn" data-emoji="⭐">⭐</button>
+                        <button type="button" class="emoji-btn" data-emoji="💪">💪</button>
+                        <button type="button" class="emoji-btn" data-emoji="🎉">🎉</button>
+                        <button type="button" class="emoji-btn" data-emoji="🙏">🙏</button>
+                        <button type="button" class="emoji-btn" data-emoji="😂">😂</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-full">Kirim Shoutout 📣</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LIST -->
+    <div id="shoutList" class="msg-list">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Memuat shoutout...</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script type="module">
+        import { db, ref, push, onValue } from "../firebase.js";
+
+        let selectedEmoji = '🏆';
+
+        document.querySelectorAll('.emoji-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedEmoji = btn.dataset.emoji;
+            });
+        });
+
+        const shoutMsg = document.getElementById('shoutMsg');
+        shoutMsg.addEventListener('input', () => {
+            document.getElementById('shoutCount').textContent = shoutMsg.value.length;
+        });
+
+        document.getElementById('shoutForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const from = document.getElementById('shoutFrom').value.trim();
+            const to   = document.getElementById('shoutTo').value.trim();
+            const msg  = shoutMsg.value.trim();
+            if (!from || !to || !msg) return;
+
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.textContent = 'Mengirim...';
+            btn.disabled = true;
+
+            try {
+                await push(ref(db, 'shoutouts'), {
+                    from, to, msg,
+                    emoji: selectedEmoji,
+                    timestamp: Date.now(),
+                    date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
+                });
+                e.target.reset();
+                document.getElementById('shoutCount').textContent = '0';
+                document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.emoji-btn[data-emoji="🏆"]').classList.add('active');
+                selectedEmoji = '🏆';
+            } catch (err) {
+                alert('Gagal: ' + err.message);
+            } finally {
+                btn.textContent = 'Kirim Shoutout 📣';
+                btn.disabled = false;
+            }
+        });
+
+        onValue(ref(db, 'shoutouts'), snap => {
+            const items = [];
+            snap.forEach(child => items.unshift({ key: child.key, ...child.val() }));
+            renderShoutouts(items);
+        });
+
+        function renderShoutouts(items) {
+            const list = document.getElementById('shoutList');
+            if (items.length === 0) {
+                list.innerHTML = `<div class="empty-state">Belum ada shoutout. Jadilah yang pertama! 📣</div>`;
+                return;
+            }
+            list.innerHTML = items.map(s => `
+                <div class="shout-card">
+                    <div class="shout-emoji">${s.emoji}</div>
+                    <div class="shout-body">
+                        <div class="shout-header">
+                            <span class="shout-to">${s.to}</span>
+                            <span class="shout-from">dari ${s.from}</span>
+                        </div>
+                        <p class="msg-content">${s.msg}</p>
+                        <p class="msg-date">${s.date}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

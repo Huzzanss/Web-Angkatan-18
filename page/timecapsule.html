@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Capsule — Angkatan 18</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="students.html">Siswa</a></li>
+                <li><a href="timecapsule.html" class="active">Time Capsule</a></li>
+                <li><a href="gallery.html">Galeri</a></li>
+                <li><a href="announcements.html">Pengumuman</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h1>Time Capsule</h1>
+        <p>Pesan untuk dirimu 3 tahun yang akan datang</p>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <div class="capsule-countdown-wrap">
+        <div class="capsule-countdown">
+            <div class="capsule-lock">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <p class="capsule-opens">Kapsul dibuka pada</p>
+            <p class="capsule-date">9 September 2029</p>
+            <div class="capsule-timer" id="capsuleTimer">
+                <div class="timer-block"><span id="tDays">000</span><p>Hari</p></div>
+                <div class="timer-sep">:</div>
+                <div class="timer-block"><span id="tHours">00</span><p>Jam</p></div>
+                <div class="timer-sep">:</div>
+                <div class="timer-block"><span id="tMins">00</span><p>Menit</p></div>
+                <div class="timer-sep">:</div>
+                <div class="timer-block"><span id="tSecs">00</span><p>Detik</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="capsule-info">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Pesan yang kamu tulis akan terkunci dan baru bisa dibaca saat kapsul dibuka pada 9 September 2029.
+    </div>
+
+    <!-- FORM TULIS PESAN -->
+    <div class="msg-form-wrap">
+        <div class="msg-form-card">
+            <h3>Tulis Pesan untuk Dirimu</h3>
+            <form id="capsuleForm">
+                <div class="form-group">
+                    <label>Namamu</label>
+                    <input type="text" id="capsuleName" placeholder="Nama kamu..." maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label>Pesan untuk dirimu 3 tahun lagi</label>
+                    <textarea id="capsuleContent" placeholder="Hai aku di masa depan... apa yang kamu bayangkan 3 tahun ke depan?" rows="5" maxlength="1000" required></textarea>
+                    <div class="char-count"><span id="capsuleCount">0</span>/1000</div>
+                </div>
+                <div class="form-group">
+                    <label>Harapan & Mimpi</label>
+                    <input type="text" id="capsuleDream" placeholder="Apa yang ingin kamu capai 3 tahun lagi?" maxlength="200">
+                </div>
+                <button type="submit" class="btn btn-full">Kirim ke Kapsul Waktu 🕰️</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PESAN YANG SUDAH TERSIMPAN (tampil hanya setelah dibuka) -->
+    <div id="capsuleMessages"></div>
+
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script type="module">
+        import { db, ref, push, onValue } from "../firebase.js";
+
+        // Tanggal kapsul dibuka: 9 September 2029
+        const OPEN_DATE = new Date('2029-09-09T00:00:00').getTime();
+        const isOpen    = Date.now() >= OPEN_DATE;
+
+        // ── COUNTDOWN ──
+        function updateTimer() {
+            const now  = Date.now();
+            const diff = OPEN_DATE - now;
+            if (diff <= 0) {
+                document.getElementById('capsuleTimer').innerHTML = '<p style="color:#4EDEA3;font-size:18px;font-weight:600">🎉 Kapsul Sudah Dibuka!</p>';
+                return;
+            }
+            const days  = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins  = Math.floor((diff % 3600000) / 60000);
+            const secs  = Math.floor((diff % 60000) / 1000);
+
+            document.getElementById('tDays').textContent  = String(days).padStart(3, '0');
+            document.getElementById('tHours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('tMins').textContent  = String(mins).padStart(2, '0');
+            document.getElementById('tSecs').textContent  = String(secs).padStart(2, '0');
+        }
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        // ── CHAR COUNT ──
+        document.getElementById('capsuleContent').addEventListener('input', e => {
+            document.getElementById('capsuleCount').textContent = e.target.value.length;
+        });
+
+        // ── SUBMIT ──
+        document.getElementById('capsuleForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const name    = document.getElementById('capsuleName').value.trim();
+            const content = document.getElementById('capsuleContent').value.trim();
+            const dream   = document.getElementById('capsuleDream').value.trim();
+            if (!name || !content) return;
+
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.textContent = 'Menyimpan...';
+            btn.disabled = true;
+
+            try {
+                await push(ref(db, 'timecapsule'), {
+                    name, content, dream,
+                    timestamp: Date.now(),
+                    date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
+                });
+                e.target.reset();
+                document.getElementById('capsuleCount').textContent = '0';
+                alert('Pesanmu berhasil disimpan! 🕰️\nKamu bisa membacanya pada 9 September 2029.');
+            } catch (err) {
+                alert('Gagal: ' + err.message);
+            } finally {
+                btn.textContent = 'Kirim ke Kapsul Waktu 🕰️';
+                btn.disabled = false;
+            }
+        });
+
+        // ── TAMPILKAN PESAN (hanya setelah dibuka) ──
+        if (isOpen) {
+            onValue(ref(db, 'timecapsule'), snap => {
+                const messages = [];
+                snap.forEach(child => messages.push({ key: child.key, ...child.val() }));
+                const wrap = document.getElementById('capsuleMessages');
+
+                if (messages.length === 0) {
+                    wrap.innerHTML = '';
+                    return;
+                }
+
+                wrap.innerHTML = `
+                    <div style="max-width:720px;margin:0 auto;padding:0 24px 72px">
+                        <h2 style="color:#f0f4f2;font-size:20px;margin-bottom:20px">📬 Pesan dari masa lalu</h2>
+                        ${messages.map(m => `
+                            <div class="capsule-msg-card">
+                                <div class="msg-card-top">
+                                    <div class="msg-avatar">${m.name.charAt(0).toUpperCase()}</div>
+                                    <div class="msg-meta">
+                                        <strong>${m.name}</strong>
+                                        <p class="msg-date">Ditulis ${m.date}</p>
+                                    </div>
+                                </div>
+                                <p class="msg-content">${m.content}</p>
+                                ${m.dream ? `<div class="capsule-dream">💭 ${m.dream}</div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

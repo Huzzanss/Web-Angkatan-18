@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polling — Angkatan 18</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="students.html">Siswa</a></li>
+                <li><a href="polling.html" class="active">Polling</a></li>
+                <li><a href="gallery.html">Galeri</a></li>
+                <li><a href="announcements.html">Pengumuman</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h1>Polling</h1>
+        <p>Voting seru seputar Angkatan 18</p>
+    </section>
+
+    <!-- POLLING LIST -->
+    <div id="pollList" class="poll-list">
+        <div class="loading-state"><div class="spinner"></div><p>Memuat polling...</p></div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script type="module">
+        import { db, ref, onValue, push } from "../firebase.js";
+        import { update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        // Voted polls disimpan di localStorage biar gak double vote
+        const voted = JSON.parse(localStorage.getItem('a18_voted_polls') || '{}');
+
+        onValue(ref(db, 'polls'), snap => {
+            const polls = [];
+            snap.forEach(child => polls.unshift({ key: child.key, ...child.val() }));
+            renderPolls(polls);
+        });
+
+        function renderPolls(polls) {
+            const list = document.getElementById('pollList');
+            if (polls.length === 0) {
+                list.innerHTML = `<div class="empty-state">Belum ada polling. Admin akan segera menambahkan!</div>`;
+                return;
+            }
+
+            list.innerHTML = polls.map(poll => {
+                const hasVoted = voted[poll.key];
+                const total    = Object.values(poll.options || {}).reduce((a, o) => a + (o.votes || 0), 0);
+
+                const optionsHTML = Object.entries(poll.options || {}).map(([optKey, opt]) => {
+                    const pct = total > 0 ? Math.round((opt.votes || 0) / total * 100) : 0;
+                    const isWinner = hasVoted && Object.entries(poll.options).reduce((a, [k, o]) =>
+                        (o.votes || 0) > (a[1].votes || 0) ? [k, o] : a
+                    )[0] === optKey;
+
+                    return hasVoted ? `
+                        <div class="poll-result ${isWinner ? 'poll-winner' : ''}">
+                            <div class="poll-result-bar" style="width:${pct}%"></div>
+                            <div class="poll-result-text">
+                                <span>${opt.text}</span>
+                                <span>${pct}% (${opt.votes || 0})</span>
+                            </div>
+                        </div>
+                    ` : `
+                        <button class="poll-option" data-poll="${poll.key}" data-opt="${optKey}">
+                            ${opt.text}
+                        </button>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="poll-card">
+                        <div class="poll-question">${poll.question}</div>
+                        <div class="poll-options">${optionsHTML}</div>
+                        <div class="poll-footer">
+                            <span>${total} suara</span>
+                            ${hasVoted ? '<span class="poll-voted">✓ Sudah voting</span>' : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.poll-option').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const pollKey = btn.dataset.poll;
+                    const optKey  = btn.dataset.opt;
+                    const poll    = polls.find(p => p.key === pollKey);
+                    if (!poll || voted[pollKey]) return;
+
+                    const curVotes = (poll.options[optKey].votes || 0) + 1;
+                    try {
+                        await update(ref(db, `polls/${pollKey}/options/${optKey}`), { votes: curVotes });
+                        voted[pollKey] = optKey;
+                        localStorage.setItem('a18_voted_polls', JSON.stringify(voted));
+                    } catch (err) {
+                        alert('Gagal vote: ' + err.message);
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

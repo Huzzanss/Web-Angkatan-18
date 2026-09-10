@@ -16,9 +16,6 @@
             </a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="students.html">Siswa</a></li>
-                <li><a href="gallery.html">Galeri</a></li>
-                <li><a href="announcements.html">Pengumuman</a></li>
                 <li><a href="admin.html" class="active">Admin</a></li>
             </ul>
         </div>
@@ -32,16 +29,16 @@
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </div>
                 <h1>Admin Login</h1>
-                <p>Masuk untuk mengelola galeri dan pengumuman</p>
+                <p>Masuk untuk mengelola website Angkatan 18</p>
                 <form id="loginForm" class="auth-form">
                     <div class="form-group">
                         <label>Username</label>
-                        <input type="text" id="inputUsername" placeholder="Masukkan username" autocomplete="off">
+                        <input type="text" id="inputUsername" placeholder="Username..." autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label>Password</label>
                         <div class="input-pw-wrap">
-                            <input type="password" id="inputPassword" placeholder="Masukkan password">
+                            <input type="password" id="inputPassword" placeholder="Password...">
                             <button type="button" id="togglePw" class="toggle-pw">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                             </button>
@@ -59,7 +56,7 @@
         <div class="dashboard-header">
             <div>
                 <h1>Dashboard Admin</h1>
-                <p>Kelola galeri dan pengumuman Angkatan 18</p>
+                <p>Kelola konten website Angkatan 18</p>
             </div>
             <button id="logoutBtn" class="btn-outline">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -70,12 +67,16 @@
         <div class="dashboard-body">
             <div class="dash-tabs">
                 <button class="dash-tab active" data-tab="gallery">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     Galeri
                 </button>
                 <button class="dash-tab" data-tab="announcements">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                     Pengumuman
+                </button>
+                <button class="dash-tab" data-tab="polls">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Polling
                 </button>
             </div>
 
@@ -84,15 +85,12 @@
                 <div class="panel-top">
                     <h2>Foto Galeri</h2>
                     <button class="btn" id="openAddPhoto">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         Tambah Foto
                     </button>
                 </div>
                 <div id="adminGalleryGrid" class="admin-gallery-grid">
-                    <div class="empty-state" style="grid-column:1/-1">
-                        <div class="spinner" style="margin:0 auto 12px"></div>
-                        Memuat...
-                    </div>
+                    <div class="empty-state" style="grid-column:1/-1"><div class="spinner" style="margin:0 auto 12px"></div>Memuat...</div>
                 </div>
             </div>
 
@@ -101,15 +99,26 @@
                 <div class="panel-top">
                     <h2>Pengumuman</h2>
                     <button class="btn" id="openAddAnnounce">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         Tambah Pengumuman
                     </button>
                 </div>
                 <div id="adminAnnounceList" class="admin-announce-list">
-                    <div class="empty-state">
-                        <div class="spinner" style="margin:0 auto 12px"></div>
-                        Memuat...
-                    </div>
+                    <div class="empty-state"><div class="spinner" style="margin:0 auto 12px"></div>Memuat...</div>
+                </div>
+            </div>
+
+            <!-- TAB: POLLS -->
+            <div id="tabPolls" class="dash-panel">
+                <div class="panel-top">
+                    <h2>Polling</h2>
+                    <button class="btn" id="openAddPoll">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Buat Polling
+                    </button>
+                </div>
+                <div id="adminPollList" class="admin-announce-list">
+                    <div class="empty-state"><div class="spinner" style="margin:0 auto 12px"></div>Memuat...</div>
                 </div>
             </div>
         </div>
@@ -120,11 +129,9 @@
         <div class="modal-box">
             <div class="modal-head">
                 <h3>Tambah Foto</h3>
-                <button class="modal-close" id="closeModalPhoto">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
+                <button class="modal-close" id="closeModalPhoto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
             </div>
-            <form id="photoForm" class="modal-form">
+            <form id="photoForm">
                 <div class="form-group">
                     <label>Judul Foto</label>
                     <input type="text" id="photoTitle" placeholder="Contoh: Foto Kelas 7A" required>
@@ -154,18 +161,16 @@
         <div class="modal-box">
             <div class="modal-head">
                 <h3>Tambah Pengumuman</h3>
-                <button class="modal-close" id="closeModalAnnounce">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
+                <button class="modal-close" id="closeModalAnnounce"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
             </div>
-            <form id="announceForm" class="modal-form">
+            <form id="announceForm">
                 <div class="form-group">
                     <label>Judul</label>
                     <input type="text" id="announceTitle" placeholder="Judul pengumuman" required>
                 </div>
                 <div class="form-group">
-                    <label>Isi Pengumuman</label>
-                    <textarea id="announceBody" placeholder="Tulis isi pengumuman..." rows="4" required></textarea>
+                    <label>Isi</label>
+                    <textarea id="announceBody" placeholder="Isi pengumuman..." rows="4" required></textarea>
                 </div>
                 <div class="form-group">
                     <label>Prioritas</label>
@@ -183,13 +188,47 @@
         </div>
     </div>
 
-    <!-- MODAL: CONFIRM DELETE -->
+    <!-- MODAL: ADD POLL -->
+    <div id="modalPoll" class="modal-overlay" style="display:none">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h3>Buat Polling</h3>
+                <button class="modal-close" id="closeModalPoll"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            </div>
+            <form id="pollForm">
+                <div class="form-group">
+                    <label>Pertanyaan</label>
+                    <input type="text" id="pollQuestion" placeholder="Tulis pertanyaan polling..." required>
+                </div>
+                <div class="form-group">
+                    <label>Pilihan A</label>
+                    <input type="text" id="pollOpt1" placeholder="Pilihan pertama..." required>
+                </div>
+                <div class="form-group">
+                    <label>Pilihan B</label>
+                    <input type="text" id="pollOpt2" placeholder="Pilihan kedua..." required>
+                </div>
+                <div class="form-group">
+                    <label>Pilihan C <span style="color:var(--text3);font-weight:400">(opsional)</span></label>
+                    <input type="text" id="pollOpt3" placeholder="Pilihan ketiga...">
+                </div>
+                <div class="form-group">
+                    <label>Pilihan D <span style="color:var(--text3);font-weight:400">(opsional)</span></label>
+                    <input type="text" id="pollOpt4" placeholder="Pilihan keempat...">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-outline" id="cancelPoll">Batal</button>
+                    <button type="submit" class="btn">Buat Polling</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: DELETE -->
     <div id="modalDelete" class="modal-overlay" style="display:none">
         <div class="modal-box modal-box-sm">
-            <div class="modal-head">
-                <h3>Hapus Item</h3>
-            </div>
-            <p style="color:#7a8a82;font-size:14px;margin-bottom:24px">Yakin ingin menghapus ini? Tindakan ini tidak bisa dibatalkan.</p>
+            <div class="modal-head"><h3>Hapus Item</h3></div>
+            <p style="color:var(--text2);font-size:14px;margin-bottom:24px">Yakin ingin menghapus ini?</p>
             <div class="modal-actions">
                 <button class="btn-outline" id="cancelDelete">Batal</button>
                 <button class="btn btn-danger" id="confirmDelete">Hapus</button>
@@ -201,9 +240,7 @@
         <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
-    <!-- admin.js sebagai module, app.js sebagai script biasa -->
     <script src="../app.js"></script>
     <script type="module" src="../admin.js"></script>
-
 </body>
 </html>

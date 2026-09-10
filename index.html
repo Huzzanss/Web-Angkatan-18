@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,12 +14,32 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
                 Angkatan 18
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="page/students.html">Siswa</a></li>
-                <li><a href="page/gallery.html">Galeri</a></li>
-                <li><a href="page/announcements.html">Pengumuman</a></li>
-            </ul>
+            <div style="display:flex;align-items:center;gap:20px">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="page/students.html">Siswa</a></li>
+                    <li><a href="page/gallery.html">Galeri</a></li>
+                    <li><a href="page/announcements.html">Pengumuman</a></li>
+                    <li class="nav-more">
+                        <button class="nav-more-btn" id="moreBtn">Lainnya ▾</button>
+                        <ul class="nav-dropdown" id="navDropdown">
+                            <li><a href="page/messages.html">💬 Pesan & Kesan</a></li>
+                            <li><a href="page/shoutout.html">📣 Shoutout</a></li>
+                            <li><a href="page/confession.html">🤫 Confession</a></li>
+                            <li><a href="page/forum.html">🗨️ Forum</a></li>
+                            <li><a href="page/polling.html">📊 Polling</a></li>
+                            <li><a href="page/timecapsule.html">🕰️ Time Capsule</a></li>
+                            <li><a href="page/leaderboard.html">🏆 Leaderboard</a></li>
+                            <li><a href="page/wordle.html">🔤 Wordle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- DARK/LIGHT TOGGLE -->
+                <button class="theme-toggle" id="themeToggle" title="Toggle tema">
+                    <svg id="moonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="sunIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -60,18 +80,16 @@
         </div>
     </section>
 
-    <!-- MENU -->
+    <!-- MENU UTAMA -->
     <section class="section">
+        <h2 class="section-label">Menu Utama</h2>
         <div class="menu-grid">
             <a href="page/students.html" class="menu-card">
                 <div class="menu-card-inner">
                     <div class="menu-icon-wrap">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     </div>
-                    <div>
-                        <h3>Direktori Siswa</h3>
-                        <p>Semua 79 siswa, filter & pencarian</p>
-                    </div>
+                    <div><h3>Direktori Siswa</h3><p>Semua 79 siswa, filter & pencarian</p></div>
                 </div>
                 <svg class="menu-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </a>
@@ -80,10 +98,7 @@
                     <div class="menu-icon-wrap">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     </div>
-                    <div>
-                        <h3>Galeri</h3>
-                        <p>Foto dan momen spesial</p>
-                    </div>
+                    <div><h3>Galeri</h3><p>Foto dan momen spesial</p></div>
                 </div>
                 <svg class="menu-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </a>
@@ -92,12 +107,55 @@
                     <div class="menu-icon-wrap">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                     </div>
-                    <div>
-                        <h3>Pengumuman</h3>
-                        <p>Info dan update terbaru</p>
-                    </div>
+                    <div><h3>Pengumuman</h3><p>Info dan update terbaru</p></div>
                 </div>
                 <svg class="menu-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- MENU KOMUNITAS -->
+    <section class="section">
+        <h2 class="section-label">Komunitas</h2>
+        <div class="feature-grid">
+            <a href="page/messages.html" class="feature-card">
+                <span class="feature-emoji">💬</span>
+                <div><h3>Pesan & Kesan</h3><p>Tulis kenangan untuk angkatan</p></div>
+            </a>
+            <a href="page/shoutout.html" class="feature-card">
+                <span class="feature-emoji">📣</span>
+                <div><h3>Shoutout</h3><p>Apresiasi teman-temanmu</p></div>
+            </a>
+            <a href="page/confession.html" class="feature-card">
+                <span class="feature-emoji">🤫</span>
+                <div><h3>Confession</h3><p>Ungkapkan perasaan anonim</p></div>
+            </a>
+            <a href="page/forum.html" class="feature-card">
+                <span class="feature-emoji">🗨️</span>
+                <div><h3>Forum Diskusi</h3><p>Diskusi bebas angkatan</p></div>
+            </a>
+            <a href="page/polling.html" class="feature-card">
+                <span class="feature-emoji">📊</span>
+                <div><h3>Polling</h3><p>Vote hal-hal seru</p></div>
+            </a>
+            <a href="page/timecapsule.html" class="feature-card">
+                <span class="feature-emoji">🕰️</span>
+                <div><h3>Time Capsule</h3><p>Pesan untuk 3 tahun lagi</p></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- MENU FUN -->
+    <section class="section">
+        <h2 class="section-label">Fun</h2>
+        <div class="feature-grid">
+            <a href="page/leaderboard.html" class="feature-card">
+                <span class="feature-emoji">🏆</span>
+                <div><h3>Leaderboard</h3><p>Siapa yang paling aktif?</p></div>
+            </a>
+            <a href="page/wordle.html" class="feature-card">
+                <span class="feature-emoji">🔤</span>
+                <div><h3>Wordle Nama</h3><p>Tebak nama teman dalam 6 giliran</p></div>
             </a>
         </div>
     </section>
@@ -114,10 +172,10 @@
     </div>
 
     <script>
-        let clickCount = 0;
-        let clickTimer = null;
-        const trigger   = document.getElementById('secretTrigger');
-        const toast     = document.getElementById('secretToast');
+        // ── SECRET ADMIN ──────────────────────────────────────
+        let clickCount = 0, clickTimer = null;
+        const trigger = document.getElementById('secretTrigger');
+        const toast = document.getElementById('secretToast');
         const toastText = document.getElementById('secretToastText');
 
         trigger.addEventListener('click', e => {
@@ -125,20 +183,55 @@
             clickCount++;
             clearTimeout(clickTimer);
             clickTimer = setTimeout(() => { clickCount = 0; hideToast(); }, 3000);
-
             if (clickCount === 2) showToast('Klik 3x lagi...');
             if (clickCount === 3) showToast('Klik 2x lagi...');
             if (clickCount === 4) showToast('Klik 1x lagi...');
             if (clickCount >= 5) {
-                clickCount = 0;
-                clearTimeout(clickTimer);
+                clickCount = 0; clearTimeout(clickTimer);
                 showToast('Membuka admin...');
                 setTimeout(() => window.location.href = 'page/admin.html', 600);
             }
         });
 
         function showToast(msg) { toastText.textContent = msg; toast.classList.add('show'); }
-        function hideToast()    { toast.classList.remove('show'); }
+        function hideToast() { toast.classList.remove('show'); }
+
+        // ── DARK/LIGHT MODE ───────────────────────────────────
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon  = document.getElementById('sunIcon');
+
+        const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+            localStorage.setItem('a18_theme', newTheme);
+        });
+
+        function setTheme(theme) {
+            html.dataset.theme = theme;
+            if (theme === 'light') {
+                moonIcon.style.display = 'none';
+                sunIcon.style.display  = '';
+            } else {
+                moonIcon.style.display = '';
+                sunIcon.style.display  = 'none';
+            }
+        }
+
+        // ── NAV DROPDOWN ──────────────────────────────────────
+        const moreBtn  = document.getElementById('moreBtn');
+        const dropdown = document.getElementById('navDropdown');
+
+        moreBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => dropdown.classList.remove('show'));
     </script>
 </body>
 </html>

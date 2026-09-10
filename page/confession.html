@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confession — Angkatan 18</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="students.html">Siswa</a></li>
+                <li><a href="messages.html">Pesan & Kesan</a></li>
+                <li><a href="confession.html" class="active">Confession</a></li>
+                <li><a href="gallery.html">Galeri</a></li>
+                <li><a href="announcements.html">Pengumuman</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h1>Confession</h1>
+        <p>Ungkapkan perasaanmu secara anonim</p>
+    </section>
+
+    <!-- NOTICE -->
+    <div class="confession-notice">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Semua confession bersifat anonim. Jaga sopan santun dan hormati sesama.
+    </div>
+
+    <!-- FORM -->
+    <div class="msg-form-wrap">
+        <div class="msg-form-card">
+            <h3>Tulis Confession</h3>
+            <form id="confForm">
+                <div class="form-group">
+                    <label>Confession <span style="color:#3a4a42;font-weight:400">(anonim)</span></label>
+                    <textarea id="confContent" placeholder="Ungkapkan perasaanmu..." rows="4" maxlength="500" required></textarea>
+                    <div class="char-count"><span id="confCount">0</span>/500</div>
+                </div>
+                <div class="form-group">
+                    <label>Untuk siapa? <span style="color:#3a4a42;font-weight:400">(opsional)</span></label>
+                    <input type="text" id="confTo" placeholder="Nama, inisial, atau dikosongkan..." maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label>Mood</label>
+                    <div class="emoji-picker">
+                        <button type="button" class="emoji-btn active" data-emoji="😊">😊</button>
+                        <button type="button" class="emoji-btn" data-emoji="🥺">🥺</button>
+                        <button type="button" class="emoji-btn" data-emoji="😅">😅</button>
+                        <button type="button" class="emoji-btn" data-emoji="😍">😍</button>
+                        <button type="button" class="emoji-btn" data-emoji="😭">😭</button>
+                        <button type="button" class="emoji-btn" data-emoji="😤">😤</button>
+                        <button type="button" class="emoji-btn" data-emoji="🤭">🤭</button>
+                        <button type="button" class="emoji-btn" data-emoji="🫣">🫣</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-full">Kirim Anonim 🤫</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="msg-filter-wrap">
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">Semua</button>
+            <button class="filter-tab" data-filter="has-to">Ada Tujuan</button>
+            <button class="filter-tab" data-filter="no-to">Curhat Bebas</button>
+        </div>
+    </div>
+
+    <!-- LIST -->
+    <div id="confList" class="msg-list">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Memuat confession...</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script type="module">
+        import { db, ref, push, onValue } from "../firebase.js";
+
+        let selectedMood = '😊';
+        let currentFilter = 'all';
+        let allConf = [];
+
+        document.querySelectorAll('.emoji-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedMood = btn.dataset.emoji;
+            });
+        });
+
+        document.getElementById('confContent').addEventListener('input', e => {
+            document.getElementById('confCount').textContent = e.target.value.length;
+        });
+
+        document.querySelectorAll('.filter-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderConf();
+            });
+        });
+
+        document.getElementById('confForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const content = document.getElementById('confContent').value.trim();
+            const to      = document.getElementById('confTo').value.trim();
+            if (!content) return;
+
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.textContent = 'Mengirim...';
+            btn.disabled = true;
+
+            try {
+                await push(ref(db, 'confessions'), {
+                    content,
+                    to: to || '',
+                    mood: selectedMood,
+                    timestamp: Date.now(),
+                    date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
+                });
+                e.target.reset();
+                document.getElementById('confCount').textContent = '0';
+                document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.emoji-btn[data-emoji="😊"]').classList.add('active');
+                selectedMood = '😊';
+            } catch (err) {
+                alert('Gagal: ' + err.message);
+            } finally {
+                btn.textContent = 'Kirim Anonim 🤫';
+                btn.disabled = false;
+            }
+        });
+
+        onValue(ref(db, 'confessions'), snap => {
+            allConf = [];
+            snap.forEach(child => allConf.unshift({ key: child.key, ...child.val() }));
+            renderConf();
+        });
+
+        function renderConf() {
+            const list = document.getElementById('confList');
+            let filtered = allConf;
+            if (currentFilter === 'has-to') filtered = allConf.filter(c => c.to);
+            if (currentFilter === 'no-to')  filtered = allConf.filter(c => !c.to);
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="empty-state">Belum ada confession. Jadilah yang pertama! 🤫</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map((c, i) => `
+                <div class="conf-card">
+                    <div class="conf-top">
+                        <span class="conf-number">Anonim #${allConf.length - allConf.indexOf(c)}</span>
+                        <span class="conf-mood">${c.mood}</span>
+                    </div>
+                    ${c.to ? `<p class="conf-to">Untuk: <strong>${c.to}</strong></p>` : ''}
+                    <p class="msg-content">${c.content}</p>
+                    <p class="msg-date">${c.date}</p>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

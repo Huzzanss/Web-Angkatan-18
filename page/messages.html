@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan & Kesan — Angkatan 18</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="students.html">Siswa</a></li>
+                <li><a href="messages.html" class="active">Pesan & Kesan</a></li>
+                <li><a href="gallery.html">Galeri</a></li>
+                <li><a href="announcements.html">Pengumuman</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h1>Pesan & Kesan</h1>
+        <p>Tulis pesan dan kesanmu untuk Angkatan 18</p>
+    </section>
+
+    <!-- FORM TULIS PESAN -->
+    <div class="msg-form-wrap">
+        <div class="msg-form-card">
+            <h3>Tulis Pesanmu</h3>
+            <form id="msgForm">
+                <div class="form-group">
+                    <label>Namamu</label>
+                    <input type="text" id="msgName" placeholder="Nama kamu..." maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label>Untuk siapa?</label>
+                    <input type="text" id="msgTo" placeholder="Untuk semua / nama teman..." maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label>Pesan & Kesan</label>
+                    <textarea id="msgContent" placeholder="Tulis pesan atau kesanmu di sini..." rows="4" maxlength="500" required></textarea>
+                    <div class="char-count"><span id="charCount">0</span>/500</div>
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <div class="category-tabs">
+                        <button type="button" class="cat-tab active" data-cat="pesan">💬 Pesan</button>
+                        <button type="button" class="cat-tab" data-cat="kesan">✨ Kesan</button>
+                        <button type="button" class="cat-tab" data-cat="doa">🤲 Doa</button>
+                        <button type="button" class="cat-tab" data-cat="kenangan">📸 Kenangan</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-full" id="submitBtn">Kirim Pesan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="msg-stats">
+        <div class="msg-stat">
+            <span id="totalMsg">0</span>
+            <p>Total Pesan</p>
+        </div>
+        <div class="msg-stat">
+            <span id="todayMsg">0</span>
+            <p>Hari Ini</p>
+        </div>
+        <div class="msg-stat">
+            <span id="uniqueMsg">0</span>
+            <p>Penulis</p>
+        </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="msg-filter-wrap">
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">Semua</button>
+            <button class="filter-tab" data-filter="pesan">Pesan</button>
+            <button class="filter-tab" data-filter="kesan">Kesan</button>
+            <button class="filter-tab" data-filter="doa">Doa</button>
+            <button class="filter-tab" data-filter="kenangan">Kenangan</button>
+        </div>
+        <div class="search-wrap" style="max-width:220px">
+            <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="msgSearch" class="search-box" placeholder="Cari pesan...">
+        </div>
+    </div>
+
+    <!-- MESSAGES LIST -->
+    <div id="msgList" class="msg-list">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Memuat pesan...</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script type="module">
+        import { db, ref, push, onValue } from "../firebase.js";
+
+        const CAT_EMOJI = { pesan:'💬', kesan:'✨', doa:'🤲', kenangan:'📸' };
+        const CAT_COLOR = { pesan:'#4EDEA3', kesan:'#a78bfa', doa:'#fb923c', kenangan:'#60b8f5' };
+
+        let allMessages = [];
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let selectedCat = 'pesan';
+
+        // ── CATEGORY TABS ──
+        document.querySelectorAll('.cat-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedCat = btn.dataset.cat;
+            });
+        });
+
+        // ── CHAR COUNT ──
+        const msgContent = document.getElementById('msgContent');
+        const charCount  = document.getElementById('charCount');
+        msgContent.addEventListener('input', () => {
+            charCount.textContent = msgContent.value.length;
+        });
+
+        // ── FILTER TABS ──
+        document.querySelectorAll('.filter-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderMessages();
+            });
+        });
+
+        // ── SEARCH ──
+        document.getElementById('msgSearch').addEventListener('input', e => {
+            currentSearch = e.target.value.toLowerCase().trim();
+            renderMessages();
+        });
+
+        // ── SUBMIT ──
+        document.getElementById('msgForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const name    = document.getElementById('msgName').value.trim();
+            const to      = document.getElementById('msgTo').value.trim();
+            const content = msgContent.value.trim();
+            if (!name || !content) return;
+
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = 'Mengirim...';
+            btn.disabled = true;
+
+            try {
+                await push(ref(db, 'messages'), {
+                    name,
+                    to: to || 'Semua',
+                    content,
+                    category: selectedCat,
+                    timestamp: Date.now(),
+                    date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
+                });
+                document.getElementById('msgForm').reset();
+                charCount.textContent = '0';
+                document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+                document.querySelector('.cat-tab[data-cat="pesan"]').classList.add('active');
+                selectedCat = 'pesan';
+            } catch (err) {
+                alert('Gagal mengirim: ' + err.message);
+            } finally {
+                btn.textContent = 'Kirim Pesan';
+                btn.disabled = false;
+            }
+        });
+
+        // ── FIREBASE LISTENER ──
+        onValue(ref(db, 'messages'), snap => {
+            allMessages = [];
+            snap.forEach(child => allMessages.unshift({ key: child.key, ...child.val() }));
+            updateStats();
+            renderMessages();
+        });
+
+        // ── STATS ──
+        function updateStats() {
+            const today = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+            const unique = [...new Set(allMessages.map(m => m.name))].length;
+            const todayCount = allMessages.filter(m => m.date === today).length;
+            document.getElementById('totalMsg').textContent  = allMessages.length;
+            document.getElementById('todayMsg').textContent  = todayCount;
+            document.getElementById('uniqueMsg').textContent = unique;
+        }
+
+        // ── RENDER ──
+        function renderMessages() {
+            const list = document.getElementById('msgList');
+            let filtered = allMessages;
+
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(m => m.category === currentFilter);
+            }
+            if (currentSearch) {
+                filtered = filtered.filter(m =>
+                    m.name.toLowerCase().includes(currentSearch) ||
+                    m.content.toLowerCase().includes(currentSearch) ||
+                    (m.to && m.to.toLowerCase().includes(currentSearch))
+                );
+            }
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="empty-state">Belum ada pesan. Jadilah yang pertama menulis! ✍️</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(m => `
+                <div class="msg-card" style="--cat-color:${CAT_COLOR[m.category] || '#4EDEA3'}">
+                    <div class="msg-card-top">
+                        <div class="msg-avatar">${m.name.charAt(0).toUpperCase()}</div>
+                        <div class="msg-meta">
+                            <strong>${m.name}</strong>
+                            ${m.to && m.to !== 'Semua' ? `<span class="msg-to">→ ${m.to}</span>` : ''}
+                            <p class="msg-date">${m.date}</p>
+                        </div>
+                        <span class="msg-cat-badge">${CAT_EMOJI[m.category] || '💬'} ${m.category}</span>
+                    </div>
+                    <p class="msg-content">${m.content}</p>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
