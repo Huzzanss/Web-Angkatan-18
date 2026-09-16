@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-logo">
@@ -32,55 +31,64 @@
         <p>Siapa yang paling aktif di Angkatan 18?</p>
     </section>
 
-    <!-- TOP 3 PODIUM -->
     <div id="podium" class="podium-wrap">
         <div class="loading-state"><div class="spinner"></div><p>Menghitung...</p></div>
     </div>
 
-    <!-- FULL LEADERBOARD -->
     <div class="lb-section">
         <div class="lb-tabs">
             <button class="filter-tab active" data-src="messages">Pesan & Kesan</button>
             <button class="filter-tab" data-src="shoutouts">Shoutout</button>
             <button class="filter-tab" data-src="forum">Forum</button>
-            <button class="filter-tab" data-src="all">Total Aktivitas</button>
+            <button class="filter-tab" data-src="all">Total</button>
         </div>
         <div id="lbList" class="lb-list">
             <div class="loading-state"><div class="spinner"></div><p>Memuat...</p></div>
         </div>
     </div>
 
-    <!-- BADGE SYSTEM -->
     <div class="badge-section">
         <h2>Badge Sistem</h2>
         <div class="badge-grid">
             <div class="badge-item">
-                <span class="badge-icon">🥇</span>
+                <div class="badge-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+                </div>
                 <strong>#1 Aktif</strong>
                 <p>Peringkat 1 total aktivitas</p>
             </div>
             <div class="badge-item">
-                <span class="badge-icon">✍️</span>
+                <div class="badge-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </div>
                 <strong>Penulis Sejati</strong>
                 <p>Tulis 5+ pesan & kesan</p>
             </div>
             <div class="badge-item">
-                <span class="badge-icon">📣</span>
+                <div class="badge-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+                </div>
                 <strong>Hype King/Queen</strong>
                 <p>Kirim 5+ shoutout</p>
             </div>
             <div class="badge-item">
-                <span class="badge-icon">💬</span>
+                <div class="badge-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
                 <strong>Forum Legend</strong>
                 <p>Buat 3+ thread forum</p>
             </div>
             <div class="badge-item">
-                <span class="badge-icon">🌟</span>
+                <div class="badge-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
                 <strong>All-Rounder</strong>
                 <p>Aktif di semua fitur</p>
             </div>
             <div class="badge-item">
-                <span class="badge-icon">🚀</span>
+                <div class="badge-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
                 <strong>Pionir</strong>
                 <p>Pertama berkontribusi</p>
             </div>
@@ -94,16 +102,16 @@
     <script type="module">
         import { db, ref, onValue } from "../firebase.js";
 
-        const MEDAL = ['🥇','🥈','🥉'];
+        const MEDALS = ['#FFD700','#C0C0C0','#CD7F32'];
+        const MEDAL_LABELS = ['1','2','3'];
         let currentSrc = 'messages';
-        let allData = { messages: {}, shoutouts: {}, forum: {} };
+        let allData = { messages:{}, shoutouts:{}, forum:{} };
 
-        // Load all data sources
         ['messages','shoutouts','forum'].forEach(src => {
             onValue(ref(db, src), snap => {
                 const counts = {};
-                snap.forEach(child => {
-                    const d = child.val();
+                snap.forEach(c => {
+                    const d    = c.val();
                     const name = d.name || d.from || d.author || 'Anonim';
                     counts[name] = (counts[name] || 0) + 1;
                 });
@@ -140,54 +148,53 @@
             const shouts = allData.shoutouts[name] || 0;
             const forums = allData.forum[name] || 0;
             const total  = msgs + shouts + forums;
-
-            if (msgs >= 5)   badges.push('✍️');
-            if (shouts >= 5) badges.push('📣');
-            if (forums >= 3) badges.push('💬');
-            if (total >= 10 && msgs > 0 && shouts > 0 && forums > 0) badges.push('🌟');
-            return badges;
+            if (msgs >= 5)   badges.push('<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>');
+            if (shouts >= 5) badges.push('<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>');
+            if (forums >= 3) badges.push('<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>');
+            if (total >= 10 && msgs > 0 && shouts > 0 && forums > 0) badges.push('<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>');
+            return badges.join(' ');
         }
 
         function renderLeaderboard() {
-            const scores  = getScores();
-            const sorted  = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-
-            // Podium top 3
+            const scores = getScores();
+            const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
             const podium = document.getElementById('podium');
-            if (sorted.length === 0) {
+
+            if (!sorted.length) {
                 podium.innerHTML = `<div class="empty-state">Belum ada aktivitas.</div>`;
                 document.getElementById('lbList').innerHTML = '';
                 return;
             }
 
             const top3 = sorted.slice(0, 3);
-            const podiumOrder = top3.length >= 3 ? [top3[1], top3[0], top3[2]] : top3.length === 2 ? [top3[1], top3[0]] : [top3[0]];
+            const podiumOrder = top3.length >= 3
+                ? [top3[1], top3[0], top3[2]]
+                : top3.length === 2 ? [top3[1], top3[0]] : [top3[0]];
 
             podium.innerHTML = `
                 <div class="podium">
-                    ${podiumOrder.map((entry, i) => {
-                        const rank = top3.indexOf(entry);
+                    ${podiumOrder.map(entry => {
+                        const rank   = top3.indexOf(entry);
                         const height = rank === 0 ? 100 : rank === 1 ? 70 : 50;
                         return `
                             <div class="podium-block" style="--height:${height}px">
                                 <div class="podium-avatar">${entry[0].charAt(0).toUpperCase()}</div>
                                 <div class="podium-name">${entry[0]}</div>
                                 <div class="podium-score">${entry[1]} poin</div>
-                                <div class="podium-stand">${MEDAL[rank]}</div>
-                            </div>
-                        `;
+                                <div class="podium-stand" style="--medal-color:${MEDALS[rank]}">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${MEDALS[rank]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+                                </div>
+                            </div>`;
                     }).join('')}
-                </div>
-            `;
+                </div>`;
 
-            // Full list
             document.getElementById('lbList').innerHTML = sorted.map(([name, score], i) => `
                 <div class="lb-item ${i < 3 ? 'lb-top' : ''}">
-                    <span class="lb-rank">${i < 3 ? MEDAL[i] : `#${i+1}`}</span>
+                    <span class="lb-rank" style="${i < 3 ? `color:${MEDALS[i]}` : ''}">${i < 3 ? `#${i+1}` : `#${i+1}`}</span>
                     <div class="lb-avatar">${name.charAt(0).toUpperCase()}</div>
                     <div class="lb-info">
                         <strong>${name}</strong>
-                        <div class="lb-badges">${getBadges(name).join(' ')}</div>
+                        <div class="lb-badges">${getBadges(name)}</div>
                     </div>
                     <span class="lb-score">${score} poin</span>
                 </div>

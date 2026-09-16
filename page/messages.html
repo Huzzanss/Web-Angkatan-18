@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-logo">
@@ -32,7 +31,6 @@
         <p>Tulis pesan dan kesanmu untuk Angkatan 18</p>
     </section>
 
-    <!-- FORM TULIS PESAN -->
     <div class="msg-form-wrap">
         <div class="msg-form-card">
             <h3>Tulis Pesanmu</h3>
@@ -47,24 +45,26 @@
                 </div>
                 <div class="form-group">
                     <label>Pesan & Kesan</label>
-                    <textarea id="msgContent" placeholder="Tulis pesan atau kesanmu di sini..." rows="4" maxlength="500" required></textarea>
+                    <textarea id="msgContent" placeholder="Tulis pesan atau kesanmu..." rows="4" maxlength="500" required></textarea>
                     <div class="char-count"><span id="charCount">0</span>/500</div>
                 </div>
                 <div class="form-group">
                     <label>Kategori</label>
                     <div class="category-tabs">
-                        <button type="button" class="cat-tab active" data-cat="pesan">💬 Pesan</button>
-                        <button type="button" class="cat-tab" data-cat="kesan">✨ Kesan</button>
-                        <button type="button" class="cat-tab" data-cat="doa">🤲 Doa</button>
-                        <button type="button" class="cat-tab" data-cat="kenangan">📸 Kenangan</button>
+                        <button type="button" class="cat-tab active" data-cat="pesan">Pesan</button>
+                        <button type="button" class="cat-tab" data-cat="kesan">Kesan</button>
+                        <button type="button" class="cat-tab" data-cat="doa">Doa</button>
+                        <button type="button" class="cat-tab" data-cat="kenangan">Kenangan</button>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-full" id="submitBtn">Kirim Pesan</button>
+                <button type="submit" class="btn btn-full">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Kirim Pesan
+                </button>
             </form>
         </div>
     </div>
 
-    <!-- STATS BAR -->
     <div class="msg-stats">
         <div class="msg-stat">
             <span id="totalMsg">0</span>
@@ -80,7 +80,6 @@
         </div>
     </div>
 
-    <!-- FILTER -->
     <div class="msg-filter-wrap">
         <div class="filter-tabs">
             <button class="filter-tab active" data-filter="all">Semua</button>
@@ -95,12 +94,8 @@
         </div>
     </div>
 
-    <!-- MESSAGES LIST -->
     <div id="msgList" class="msg-list">
-        <div class="loading-state">
-            <div class="spinner"></div>
-            <p>Memuat pesan...</p>
-        </div>
+        <div class="loading-state"><div class="spinner"></div><p>Memuat pesan...</p></div>
     </div>
 
     <footer class="footer">
@@ -110,15 +105,9 @@
     <script type="module">
         import { db, ref, push, onValue } from "../firebase.js";
 
-        const CAT_EMOJI = { pesan:'💬', kesan:'✨', doa:'🤲', kenangan:'📸' };
         const CAT_COLOR = { pesan:'#4EDEA3', kesan:'#a78bfa', doa:'#fb923c', kenangan:'#60b8f5' };
+        let allMessages = [], currentFilter = 'all', currentSearch = '', selectedCat = 'pesan';
 
-        let allMessages = [];
-        let currentFilter = 'all';
-        let currentSearch = '';
-        let selectedCat = 'pesan';
-
-        // ── CATEGORY TABS ──
         document.querySelectorAll('.cat-tab').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
@@ -127,14 +116,10 @@
             });
         });
 
-        // ── CHAR COUNT ──
-        const msgContent = document.getElementById('msgContent');
-        const charCount  = document.getElementById('charCount');
-        msgContent.addEventListener('input', () => {
-            charCount.textContent = msgContent.value.length;
+        document.getElementById('msgContent').addEventListener('input', e => {
+            document.getElementById('charCount').textContent = e.target.value.length;
         });
 
-        // ── FILTER TABS ──
         document.querySelectorAll('.filter-tab').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
@@ -144,95 +129,73 @@
             });
         });
 
-        // ── SEARCH ──
         document.getElementById('msgSearch').addEventListener('input', e => {
             currentSearch = e.target.value.toLowerCase().trim();
             renderMessages();
         });
 
-        // ── SUBMIT ──
         document.getElementById('msgForm').addEventListener('submit', async e => {
             e.preventDefault();
             const name    = document.getElementById('msgName').value.trim();
             const to      = document.getElementById('msgTo').value.trim();
-            const content = msgContent.value.trim();
+            const content = document.getElementById('msgContent').value.trim();
             if (!name || !content) return;
-
-            const btn = document.getElementById('submitBtn');
-            btn.textContent = 'Mengirim...';
+            const btn = document.getElementById('submitBtn') || e.target.querySelector('[type="submit"]');
             btn.disabled = true;
-
             try {
                 await push(ref(db, 'messages'), {
-                    name,
-                    to: to || 'Semua',
-                    content,
+                    name, to: to || 'Semua', content,
                     category: selectedCat,
                     timestamp: Date.now(),
                     date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
                 });
-                document.getElementById('msgForm').reset();
-                charCount.textContent = '0';
+                e.target.reset();
+                document.getElementById('charCount').textContent = '0';
                 document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
                 document.querySelector('.cat-tab[data-cat="pesan"]').classList.add('active');
                 selectedCat = 'pesan';
-            } catch (err) {
-                alert('Gagal mengirim: ' + err.message);
-            } finally {
-                btn.textContent = 'Kirim Pesan';
-                btn.disabled = false;
-            }
+            } catch (err) { alert('Gagal: ' + err.message); }
+            finally { btn.disabled = false; }
         });
 
-        // ── FIREBASE LISTENER ──
         onValue(ref(db, 'messages'), snap => {
             allMessages = [];
-            snap.forEach(child => allMessages.unshift({ key: child.key, ...child.val() }));
+            snap.forEach(c => allMessages.unshift({ key: c.key, ...c.val() }));
             updateStats();
             renderMessages();
         });
 
-        // ── STATS ──
         function updateStats() {
-            const today = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+            const today  = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
             const unique = [...new Set(allMessages.map(m => m.name))].length;
-            const todayCount = allMessages.filter(m => m.date === today).length;
             document.getElementById('totalMsg').textContent  = allMessages.length;
-            document.getElementById('todayMsg').textContent  = todayCount;
+            document.getElementById('todayMsg').textContent  = allMessages.filter(m => m.date === today).length;
             document.getElementById('uniqueMsg').textContent = unique;
         }
 
-        // ── RENDER ──
         function renderMessages() {
             const list = document.getElementById('msgList');
             let filtered = allMessages;
-
-            if (currentFilter !== 'all') {
-                filtered = filtered.filter(m => m.category === currentFilter);
-            }
-            if (currentSearch) {
-                filtered = filtered.filter(m =>
-                    m.name.toLowerCase().includes(currentSearch) ||
-                    m.content.toLowerCase().includes(currentSearch) ||
-                    (m.to && m.to.toLowerCase().includes(currentSearch))
-                );
-            }
-
-            if (filtered.length === 0) {
-                list.innerHTML = `<div class="empty-state">Belum ada pesan. Jadilah yang pertama menulis! ✍️</div>`;
+            if (currentFilter !== 'all') filtered = filtered.filter(m => m.category === currentFilter);
+            if (currentSearch) filtered = filtered.filter(m =>
+                m.name.toLowerCase().includes(currentSearch) ||
+                m.content.toLowerCase().includes(currentSearch) ||
+                (m.to && m.to.toLowerCase().includes(currentSearch))
+            );
+            if (!filtered.length) {
+                list.innerHTML = `<div class="empty-state">Belum ada pesan. Jadilah yang pertama menulis!</div>`;
                 return;
             }
-
             list.innerHTML = filtered.map(m => `
                 <div class="msg-card" style="--cat-color:${CAT_COLOR[m.category] || '#4EDEA3'}">
                     <div class="msg-card-top">
                         <div class="msg-avatar">${m.name.charAt(0).toUpperCase()}</div>
                         <div class="msg-meta">
                             <strong>${m.name}</strong>
-                            ${m.to && m.to !== 'Semua' ? `<span class="msg-to">→ ${m.to}</span>` : ''}
+                            ${m.to && m.to !== 'Semua' ? `<span class="msg-to">— ${m.to}</span>` : ''}
                             <p class="msg-date">${m.date}</p>
                         </div>
-                        <span class="msg-cat-badge">${CAT_EMOJI[m.category] || '💬'} ${m.category}</span>
+                        <span class="msg-cat-badge">${m.category}</span>
                     </div>
                     <p class="msg-content">${m.content}</p>
                 </div>

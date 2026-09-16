@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-logo">
@@ -24,7 +23,7 @@
         </div>
     </nav>
 
-    <!-- THREAD VIEW (hidden by default) -->
+    <!-- THREAD VIEW -->
     <div id="threadView" style="display:none">
         <div class="thread-header">
             <button id="backBtn" class="btn-outline">
@@ -33,11 +32,9 @@
             </button>
             <div id="threadTitle" class="thread-title-wrap"></div>
         </div>
-
         <div id="threadReplies" class="thread-replies">
             <div class="loading-state"><div class="spinner"></div><p>Memuat...</p></div>
         </div>
-
         <div class="reply-form-wrap">
             <form id="replyForm">
                 <div class="form-group">
@@ -48,7 +45,10 @@
                     <label>Balasan</label>
                     <textarea id="replyContent" placeholder="Tulis balasanmu..." rows="3" maxlength="500" required></textarea>
                 </div>
-                <button type="submit" class="btn">Kirim Balasan</button>
+                <button type="submit" class="btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Kirim Balasan
+                </button>
             </form>
         </div>
     </div>
@@ -63,7 +63,6 @@
             <p>Diskusi bebas seputar Angkatan 18</p>
         </section>
 
-        <!-- BUAT THREAD BARU -->
         <div class="msg-form-wrap">
             <div class="msg-form-card">
                 <h3>Buat Thread Baru</h3>
@@ -74,7 +73,7 @@
                     </div>
                     <div class="form-group">
                         <label>Judul Thread</label>
-                        <input type="text" id="threadTitle2" placeholder="Topik diskusi..." maxlength="100" required>
+                        <input type="text" id="threadTitleInput" placeholder="Topik diskusi..." maxlength="100" required>
                     </div>
                     <div class="form-group">
                         <label>Isi</label>
@@ -83,18 +82,20 @@
                     <div class="form-group">
                         <label>Kategori</label>
                         <div class="category-tabs">
-                            <button type="button" class="cat-tab active" data-cat="umum">💬 Umum</button>
-                            <button type="button" class="cat-tab" data-cat="tanya">❓ Tanya</button>
-                            <button type="button" class="cat-tab" data-cat="seru">🎉 Seru</button>
-                            <button type="button" class="cat-tab" data-cat="nostalgia">📸 Nostalgia</button>
+                            <button type="button" class="cat-tab active" data-cat="umum">Umum</button>
+                            <button type="button" class="cat-tab" data-cat="tanya">Tanya</button>
+                            <button type="button" class="cat-tab" data-cat="seru">Seru</button>
+                            <button type="button" class="cat-tab" data-cat="nostalgia">Nostalgia</button>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-full">Buat Thread</button>
+                    <button type="submit" class="btn btn-full">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Buat Thread
+                    </button>
                 </form>
             </div>
         </div>
 
-        <!-- FILTER -->
         <div class="msg-filter-wrap">
             <div class="filter-tabs">
                 <button class="filter-tab active" data-filter="all">Semua</button>
@@ -105,7 +106,6 @@
             </div>
         </div>
 
-        <!-- THREAD LIST -->
         <div id="threadList" class="msg-list">
             <div class="loading-state"><div class="spinner"></div><p>Memuat forum...</p></div>
         </div>
@@ -116,15 +116,10 @@
     </footer>
 
     <script type="module">
-        import { db, ref, push, onValue, get } from "../firebase.js";
+        import { db, ref, push, onValue } from "../firebase.js";
 
-        const CAT_EMOJI = { umum:'💬', tanya:'❓', seru:'🎉', nostalgia:'📸' };
-        let selectedCat  = 'umum';
-        let currentFilter = 'all';
-        let allThreads   = [];
-        let currentThread = null;
+        let selectedCat = 'umum', currentFilter = 'all', allThreads = [], currentThread = null;
 
-        // ── CATEGORY TABS ──
         document.querySelectorAll('.cat-tab').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
@@ -133,7 +128,6 @@
             });
         });
 
-        // ── FILTER TABS ──
         document.querySelectorAll('.filter-tab').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
@@ -143,22 +137,17 @@
             });
         });
 
-        // ── BUAT THREAD ──
         document.getElementById('threadForm').addEventListener('submit', async e => {
             e.preventDefault();
             const author  = document.getElementById('threadAuthor').value.trim();
-            const title   = document.getElementById('threadTitle2').value.trim();
+            const title   = document.getElementById('threadTitleInput').value.trim();
             const content = document.getElementById('threadContent').value.trim();
             if (!author || !title || !content) return;
-
             const btn = e.target.querySelector('[type="submit"]');
-            btn.textContent = 'Membuat...';
             btn.disabled = true;
-
             try {
                 await push(ref(db, 'forum'), {
-                    author, title, content,
-                    category: selectedCat,
+                    author, title, content, category: selectedCat,
                     timestamp: Date.now(),
                     date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' }),
                     replyCount: 0
@@ -167,18 +156,13 @@
                 document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
                 document.querySelector('.cat-tab[data-cat="umum"]').classList.add('active');
                 selectedCat = 'umum';
-            } catch (err) {
-                alert('Gagal: ' + err.message);
-            } finally {
-                btn.textContent = 'Buat Thread';
-                btn.disabled = false;
-            }
+            } catch (err) { alert('Gagal: ' + err.message); }
+            finally { btn.disabled = false; }
         });
 
-        // ── LOAD THREADS ──
         onValue(ref(db, 'forum'), snap => {
             allThreads = [];
-            snap.forEach(child => allThreads.unshift({ key: child.key, ...child.val() }));
+            snap.forEach(c => allThreads.unshift({ key: c.key, ...c.val() }));
             renderThreads();
         });
 
@@ -186,15 +170,13 @@
             const list = document.getElementById('threadList');
             let filtered = allThreads;
             if (currentFilter !== 'all') filtered = allThreads.filter(t => t.category === currentFilter);
-
-            if (filtered.length === 0) {
-                list.innerHTML = `<div class="empty-state">Belum ada thread. Mulai diskusi pertama! 💬</div>`;
+            if (!filtered.length) {
+                list.innerHTML = `<div class="empty-state">Belum ada thread. Mulai diskusi pertama!</div>`;
                 return;
             }
-
             list.innerHTML = filtered.map(t => `
                 <div class="thread-card" data-key="${t.key}">
-                    <div class="thread-cat">${CAT_EMOJI[t.category] || '💬'} ${t.category}</div>
+                    <span class="thread-cat">${t.category}</span>
                     <h3 class="thread-card-title">${t.title}</h3>
                     <p class="thread-preview">${t.content.substring(0, 120)}${t.content.length > 120 ? '...' : ''}</p>
                     <div class="thread-meta">
@@ -216,16 +198,13 @@
             });
         }
 
-        // ── OPEN THREAD ──
         function openThread(key) {
             currentThread = allThreads.find(t => t.key === key);
             if (!currentThread) return;
-
             document.getElementById('forumView').style.display = 'none';
             document.getElementById('threadView').style.display = '';
-
             document.getElementById('threadTitle').innerHTML = `
-                <div class="thread-cat">${CAT_EMOJI[currentThread.category] || '💬'} ${currentThread.category}</div>
+                <span class="thread-cat">${currentThread.category}</span>
                 <h2>${currentThread.title}</h2>
                 <div class="thread-op">
                     <div class="msg-avatar">${currentThread.author.charAt(0).toUpperCase()}</div>
@@ -237,60 +216,45 @@
                 <p class="msg-content" style="margin-top:12px">${currentThread.content}</p>
                 <div class="thread-divider">Balasan</div>
             `;
-
             onValue(ref(db, `forum_replies/${key}`), snap => {
                 const replies = [];
-                snap.forEach(child => replies.push({ key: child.key, ...child.val() }));
-                renderReplies(replies);
+                snap.forEach(c => replies.push({ key: c.key, ...c.val() }));
+                const wrap = document.getElementById('threadReplies');
+                if (!replies.length) {
+                    wrap.innerHTML = `<div class="empty-state" style="padding:24px">Belum ada balasan. Jadilah yang pertama!</div>`;
+                    return;
+                }
+                wrap.innerHTML = replies.map(r => `
+                    <div class="reply-card">
+                        <div class="msg-avatar small">${r.name.charAt(0).toUpperCase()}</div>
+                        <div class="reply-body">
+                            <strong>${r.name}</strong>
+                            <p>${r.content}</p>
+                            <span class="msg-date">${r.date}</span>
+                        </div>
+                    </div>
+                `).join('');
             });
         }
 
-        function renderReplies(replies) {
-            const wrap = document.getElementById('threadReplies');
-            if (replies.length === 0) {
-                wrap.innerHTML = `<div class="empty-state" style="padding:24px">Belum ada balasan. Jadilah yang pertama!</div>`;
-                return;
-            }
-            wrap.innerHTML = replies.map(r => `
-                <div class="reply-card">
-                    <div class="msg-avatar small">${r.name.charAt(0).toUpperCase()}</div>
-                    <div class="reply-body">
-                        <strong>${r.name}</strong>
-                        <p>${r.content}</p>
-                        <span class="msg-date">${r.date}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // ── REPLY ──
         document.getElementById('replyForm').addEventListener('submit', async e => {
             e.preventDefault();
             if (!currentThread) return;
             const name    = document.getElementById('replyName').value.trim();
             const content = document.getElementById('replyContent').value.trim();
             if (!name || !content) return;
-
             const btn = e.target.querySelector('[type="submit"]');
-            btn.textContent = 'Mengirim...';
             btn.disabled = true;
-
             try {
                 await push(ref(db, `forum_replies/${currentThread.key}`), {
-                    name, content,
-                    timestamp: Date.now(),
+                    name, content, timestamp: Date.now(),
                     date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
                 });
                 e.target.reset();
-            } catch (err) {
-                alert('Gagal: ' + err.message);
-            } finally {
-                btn.textContent = 'Kirim Balasan';
-                btn.disabled = false;
-            }
+            } catch (err) { alert('Gagal: ' + err.message); }
+            finally { btn.disabled = false; }
         });
 
-        // ── BACK ──
         document.getElementById('backBtn').addEventListener('click', () => {
             document.getElementById('threadView').style.display = 'none';
             document.getElementById('forumView').style.display = '';

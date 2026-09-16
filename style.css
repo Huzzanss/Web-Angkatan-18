@@ -55,7 +55,7 @@ ul{list-style:none}
 .nav-more-btn:hover{color:var(--text);background:var(--accent-dim)}
 .nav-dropdown{position:absolute;top:calc(100% + 12px);right:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:200px;display:none;flex-direction:column;gap:2px;box-shadow:0 8px 32px rgba(0,0,0,0.3);z-index:200}
 .nav-dropdown.show{display:flex}
-.nav-dropdown li a{display:block;padding:9px 12px;border-radius:7px;font-size:13px;color:var(--text2);transition:all 0.15s}
+.nav-dropdown li a{display:block;padding:9px 12px;border-radius:7px;font-size:13px;color:var(--text2);transition:all 0.15s;display:flex;align-items:center;gap:8px}
 .nav-dropdown li a:hover{background:var(--accent-dim);color:var(--accent)}
 
 /* ── THEME TOGGLE ── */
@@ -114,7 +114,7 @@ ul{list-style:none}
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .feature-card{display:flex;align-items:center;gap:14px;border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:all 0.15s;background:var(--bg)}
 .feature-card:hover{border-color:var(--border2);background:var(--bg2)}
-.feature-emoji{font-size:24px;flex-shrink:0}
+.feature-icon{width:42px;height:42px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0}
 .feature-card h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
 .feature-card p{font-size:12px;color:var(--text3)}
 
@@ -268,7 +268,7 @@ ul{list-style:none}
 .msg-to{font-size:12px;color:var(--accent);margin-left:4px}
 .msg-date{font-size:12px;color:var(--text3);margin-top:2px}
 .msg-cat-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--accent-dim);color:var(--accent);white-space:nowrap;flex-shrink:0}
-.msg-content{font-size:14px;color:var(--text2);line-height:1.6}
+.msg-content{font-size:14px;color:var(--text2);line-height:1.6;word-wrap:break-word}
 .msg-stats{max-width:1100px;margin:0 auto;padding:20px 24px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .msg-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
 .msg-stat span{font-size:28px;font-weight:700;color:var(--accent);display:block}
@@ -284,19 +284,18 @@ ul{list-style:none}
 .emoji-btn:hover{border-color:var(--border2);background:var(--bg3)}
 .emoji-btn.active{border-color:var(--accent);background:var(--accent-dim)}
 .shout-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;display:flex;gap:16px;align-items:flex-start}
-.shout-emoji{font-size:32px;flex-shrink:0}
+.shout-icon-wrap{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent)}
 .shout-body{flex:1}
 .shout-header{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .shout-to{font-size:16px;font-weight:700;color:var(--text)}
 .shout-from{font-size:12px;color:var(--text3)}
 
 /* ── CONFESSION ── */
-.confession-notice{max-width:720px;margin:16px auto 0;padding:0 24px}
-.confession-notice{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px}
+.confession-notice{max-width:720px;margin:16px auto 0;padding:0 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px}
 .conf-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
 .conf-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .conf-number{font-size:12px;color:var(--text3);font-weight:500}
-.conf-mood{font-size:22px}
+.conf-mood-icon{font-size:18px;display:flex;align-items:center;justify-content:center}
 .conf-to{font-size:13px;color:var(--text3);margin-bottom:8px}
 
 /* ── FORUM ── */
@@ -309,7 +308,7 @@ ul{list-style:none}
 .reply-card{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
 .reply-body{flex:1}
 .reply-body strong{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:4px}
-.reply-body p{font-size:14px;color:var(--text2);line-height:1.5}
+.reply-body p{font-size:14px;color:var(--text2);line-height:1.5;word-wrap:break-word}
 .reply-form-wrap{max-width:1100px;margin:20px auto 0;padding:0 24px 48px}
 .thread-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all 0.15s}
 .thread-card:hover{border-color:var(--border2);background:var(--bg)}
@@ -345,8 +344,7 @@ ul{list-style:none}
 .timer-block span{font-size:36px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;display:block;line-height:1}
 .timer-block p{font-size:11px;color:var(--text3);margin-top:4px}
 .timer-sep{font-size:28px;font-weight:700;color:var(--border2);margin-bottom:16px}
-.capsule-info{max-width:720px;margin:16px auto 0;padding:0 24px}
-.capsule-info{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px}
+.capsule-info{max-width:720px;margin:16px auto 0;padding:0 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px}
 .capsule-msg-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px}
 .capsule-dream{font-size:13px;color:var(--text3);margin-top:10px;padding:8px 12px;background:var(--bg3);border-radius:8px}
 
@@ -374,7 +372,7 @@ ul{list-style:none}
 .badge-section h2{font-size:18px;font-weight:600;color:var(--text);margin-bottom:16px}
 .badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .badge-item{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
-.badge-icon{font-size:28px;display:block;margin-bottom:8px}
+.badge-icon-wrap{width:44px;height:44px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent);margin:0 auto 10px}
 .badge-item strong{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:4px}
 .badge-item p{font-size:12px;color:var(--text3)}
 
