@@ -3,230 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Angkatan 18</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="auth-page">
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="auth-icon">🔐</div>
-                <h1>Admin Panel</h1>
-                <p>Kelola konten Angkatan 18</p>
-            </div>
-
-            <form id="loginForm" class="auth-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        class="form-input" 
-                        placeholder="Masukkan username"
-                        required
-                        autocomplete="off"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-pw-wrap">
-                        <input 
-                            type="password" 
-                            id="password" 
-                            class="form-input" 
-                            placeholder="Masukkan password"
-                            required
-                            autocomplete="off"
-                        >
-                        <button type="button" class="toggle-pw" id="togglePw">👁️</button>
-                    </div>
-                </div>
-
-                <div id="errorMsg" class="form-error" style="display: none;"></div>
-
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
-                    Login
-                </button>
-            </form>
-
-            <div class="auth-footer">
-                <p style="font-size: 12px; color: var(--text3); text-align: center; margin-top: 16px;">
-                    Demo credentials:<br>
-                    <code style="background: var(--bg3); padding: 4px 8px; border-radius: 4px; display: inline-block;">admin / admin123</code>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <script src="firebase.js"></script>
-    <script src="app.js"></script>
-    <script>
-        initTheme();
-
-        const loginForm = document.getElementById('loginForm');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const togglePw = document.getElementById('togglePw');
-        const errorMsg = document.getElementById('errorMsg');
-
-        // Check if already logged in
-        if (sessionStorage.getItem('admin_logged_in') === 'true') {
-            window.location.href = 'page/admin.html';
-        }
-
-        // Toggle password visibility
-        togglePw.addEventListener('click', () => {
-            const type = passwordInput.type === 'password' ? 'text' : 'password';
-            passwordInput.type = type;
-            togglePw.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
-        });
-
-        // Handle login
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
-
-            // Default credentials
-            const ADMIN_USER = 'admin';
-            const ADMIN_PASS = 'admin123';
-
-            if (username === ADMIN_USER && password === ADMIN_PASS) {
-                // Set session
-                sessionStorage.setItem('admin_logged_in', 'true');
-                sessionStorage.setItem('admin_username', username);
-                sessionStorage.setItem('login_time', Date.now());
-                
-                // Redirect to admin panel
-                window.location.href = 'page/admin.html';
-            } else {
-                errorMsg.textContent = '❌ Username atau password salah!';
-                errorMsg.style.display = 'block';
-                passwordInput.value = '';
-                passwordInput.focus();
-            }
-        });
-
-        // Focus username on load
-        usernameInput.focus();
-    </script>
-
+    <title>Admin Login — Angkatan 18</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .auth-page {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        :root {
+            --bg: #0a0e0d;
+            --bg-secondary: #0f1513;
+            --accent: #4EDEA3;
+            --text: #e8eae8;
+            --text-secondary: #9da9a4;
+            --border: #1a2521;
+        }
+        [data-theme="light"] {
+            --bg: #f5f7f6;
+            --bg-secondary: #eff1f0;
+            --accent: #0d9e6e;
+            --text: #0a0e0d;
+            --text-secondary: #4a5a50;
+            --border: #e0e5e1;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 20px;
         }
-
-        .auth-container {
+        .login-container {
             width: 100%;
-            max-width: 380px;
-        }
-
-        .auth-card {
-            background: var(--bg2);
+            max-width: 400px;
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 40px 32px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 40px;
         }
-
-        .auth-header {
+        .login-header {
             text-align: center;
             margin-bottom: 32px;
         }
-
-        .auth-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            display: flex;
+        .login-logo {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin: 0 auto 16px;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
         }
-
-        .auth-header h1 {
-            font-size: 22px;
+        .login-logo svg {
+            width: 24px;
+            height: 24px;
+        }
+        .login-title {
+            font-size: 24px;
             font-weight: 700;
-            color: var(--text);
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
-
-        .auth-header p {
-            font-size: 13px;
-            color: var(--text3);
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
         }
-
-        .auth-form {
+        .login-form {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
-
-        .input-pw-wrap {
-            position: relative;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-
-        .input-pw-wrap input {
-            padding-right: 40px;
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
         }
-
-        .toggle-pw {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 4px;
-            line-height: 0;
-            transition: opacity 0.15s;
-        }
-
-        .toggle-pw:hover {
-            opacity: 0.7;
-        }
-
-        .form-error {
-            background: rgba(232, 85, 85, 0.1);
-            border: 1px solid rgba(232, 85, 85, 0.2);
-            color: #ff6b6b;
-            padding: 10px 14px;
+        .form-group input {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
             border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .login-button {
+            padding: 10px 16px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 8px;
+        }
+        .login-button:hover {
+            opacity: 0.9;
+        }
+        .login-button:active {
+            opacity: 0.8;
+        }
+        .error-message {
+            color: #e85555;
             font-size: 13px;
-            margin-top: 4px;
+            text-align: center;
+            display: none;
         }
-
-        .auth-footer {
+        .error-message.show {
+            display: block;
+        }
+        .footer-text {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
             margin-top: 24px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        .auth-footer code {
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-        }
-
-        @media(max-width: 480px) {
-            .auth-card {
-                padding: 32px 24px;
-            }
-
-            .auth-header h1 {
-                font-size: 20px;
-            }
         }
     </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <a href="../index.html" class="login-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
+            <h1 class="login-title">Admin Panel</h1>
+            <p class="login-subtitle">Masukkan kredensial admin</p>
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="admin" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <div class="error-message" id="errorMsg"></div>
+            <button type="submit" class="login-button">Masuk</button>
+        </form>
+
+        <p class="footer-text">Halaman admin panel Angkatan 18</p>
+    </div>
+
+    <script>
+        if (sessionStorage.getItem('admin_logged_in') === 'true') {
+            window.location.href = 'admin.html';
+        }
+
+        const form = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('errorMsg');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'admin123') {
+                sessionStorage.setItem('admin_logged_in', 'true');
+                sessionStorage.setItem('admin_username', username);
+                window.location.href = 'admin.html';
+            } else {
+                errorMsg.textContent = 'Username atau password salah';
+                errorMsg.classList.add('show');
+                setTimeout(() => errorMsg.classList.remove('show'), 3000);
+            }
+        });
+    </script>
 </body>
 </html>
