@@ -19,11 +19,11 @@
 
     <main class="container">
         <div class="page-header">
-            <h1>⚙️ Admin Panel</h1>
+            <h1>⚙️ Admin Dashboard</h1>
             <p>Kelola konten Angkatan 18</p>
         </div>
 
-        <!-- Tabs Navigation -->
+        <!-- Admin Tabs -->
         <div class="admin-tabs">
             <button class="admin-tab-btn active" data-tab="galeri">📸 Galeri</button>
             <button class="admin-tab-btn" data-tab="fotoreq">📤 Foto Request</button>
@@ -34,73 +34,89 @@
 
         <!-- TAB 1: GALERI -->
         <div id="galeriTab" class="admin-tab-content active">
-            <h2>📸 Kelola Galeri</h2>
-            <div class="form-group">
-                <label for="photoUrl">URL Foto:</label>
-                <input type="text" id="photoUrl" class="form-input" placeholder="Paste URL gambar">
+            <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+                <h2>📸 Kelola Galeri</h2>
+                <div class="admin-form-box">
+                    <div class="form-group">
+                        <label for="photoUrl">URL Foto:</label>
+                        <input type="text" id="photoUrl" class="form-input" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label for="photoTitle">Judul:</label>
+                        <input type="text" id="photoTitle" class="form-input" placeholder="Judul foto">
+                    </div>
+                    <button id="addPhotoBtn" class="btn btn-primary">+ Tambah Foto</button>
+                </div>
+                <div id="photoList" class="admin-list"></div>
             </div>
-            <div class="form-group">
-                <label for="photoTitle">Judul:</label>
-                <input type="text" id="photoTitle" class="form-input" placeholder="Judul foto">
-            </div>
-            <button id="addPhotoBtn" class="btn btn-primary">+ Tambah Foto</button>
-            <div id="photoList" class="admin-list"></div>
         </div>
 
         <!-- TAB 2: FOTO REQUEST -->
         <div id="fotoreqTab" class="admin-tab-content">
-            <h2>📤 Permintaan Foto</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Foto yang menunggu persetujuan</p>
-            <div id="photoRequestList" class="admin-list"></div>
+            <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+                <h2>📤 Permintaan Foto</h2>
+                <p style="color: var(--text3); margin-bottom: 1rem;">Foto yang menunggu persetujuan</p>
+                <div id="photoRequestList" class="admin-list"></div>
+            </div>
         </div>
 
         <!-- TAB 3: PENGUMUMAN -->
         <div id="pengumumanTab" class="admin-tab-content">
-            <h2>📢 Buat Pengumuman</h2>
-            <div class="form-group">
-                <label for="announcementTitle">Judul:</label>
-                <input type="text" id="announcementTitle" class="form-input" placeholder="Judul pengumuman">
+            <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+                <h2>📢 Buat Pengumuman</h2>
+                <div class="admin-form-box">
+                    <div class="form-group">
+                        <label for="announcementTitle">Judul:</label>
+                        <input type="text" id="announcementTitle" class="form-input" placeholder="Judul pengumuman">
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementBody">Isi:</label>
+                        <textarea id="announcementBody" class="form-input" placeholder="Isi pengumuman" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementPriority">Prioritas:</label>
+                        <select id="announcementPriority" class="form-input">
+                            <option value="low">🟢 Rendah</option>
+                            <option value="medium" selected>🟡 Sedang</option>
+                            <option value="high">🔴 Tinggi</option>
+                        </select>
+                    </div>
+                    <button id="addAnnouncementBtn" class="btn btn-primary">+ Buat Pengumuman</button>
+                </div>
+                <div id="announcementList" class="admin-list"></div>
             </div>
-            <div class="form-group">
-                <label for="announcementBody">Isi:</label>
-                <textarea id="announcementBody" class="form-input" placeholder="Isi pengumuman" rows="4"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="announcementPriority">Prioritas:</label>
-                <select id="announcementPriority" class="form-input">
-                    <option value="low">🟢 Rendah</option>
-                    <option value="medium" selected>🟡 Sedang</option>
-                    <option value="high">🔴 Tinggi</option>
-                </select>
-            </div>
-            <button id="addAnnouncementBtn" class="btn btn-primary">+ Buat Pengumuman</button>
-            <div id="announcementList" class="admin-list"></div>
         </div>
 
         <!-- TAB 4: POLLING -->
         <div id="pollingTab" class="admin-tab-content">
-            <h2>🗳️ Buat Polling</h2>
-            <div class="form-group">
-                <label for="pollQuestion">Pertanyaan:</label>
-                <input type="text" id="pollQuestion" class="form-input" placeholder="Pertanyaan polling">
-            </div>
-            <div class="form-group">
-                <label>Pilihan:</label>
-                <div id="pollOptionsContainer">
-                    <input type="text" class="poll-option form-input" placeholder="Pilihan 1">
-                    <input type="text" class="poll-option form-input" placeholder="Pilihan 2">
+            <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+                <h2>🗳️ Buat Polling</h2>
+                <div class="admin-form-box">
+                    <div class="form-group">
+                        <label for="pollQuestion">Pertanyaan:</label>
+                        <input type="text" id="pollQuestion" class="form-input" placeholder="Pertanyaan polling">
+                    </div>
+                    <div class="form-group">
+                        <label>Pilihan:</label>
+                        <div id="pollOptionsContainer">
+                            <input type="text" class="poll-option form-input" placeholder="Pilihan 1">
+                            <input type="text" class="poll-option form-input" placeholder="Pilihan 2">
+                        </div>
+                        <button id="addOptionBtn" class="btn btn-secondary" style="margin-top: 0.5rem;">+ Tambah Pilihan</button>
+                    </div>
+                    <button id="addPollBtn" class="btn btn-primary">+ Buat Polling</button>
                 </div>
-                <button id="addOptionBtn" class="btn btn-secondary" style="margin-top: 0.5rem;">+ Tambah Pilihan</button>
+                <div id="pollList" class="admin-list"></div>
             </div>
-            <button id="addPollBtn" class="btn btn-primary">+ Buat Polling</button>
-            <div id="pollList" class="admin-list"></div>
         </div>
 
         <!-- TAB 5: BADGES -->
         <div id="badgesTab" class="admin-tab-content">
-            <h2>🎖️ Kelola Badges</h2>
-            <button id="openBadgeFormBtn" class="btn btn-primary">+ Berikan Badge</button>
-            <div id="badgeList" class="admin-list"></div>
+            <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+                <h2>🎖️ Kelola Badges</h2>
+                <button id="openBadgeFormBtn" class="btn btn-primary">+ Berikan Badge</button>
+                <div id="badgeList" class="admin-list"></div>
+            </div>
         </div>
     </main>
 
@@ -143,7 +159,7 @@
                 <p id="photoReqDesc"></p>
                 <small id="photoReqSubmitter"></small>
                 <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                    <button id="approvePhotoReqBtn" class="btn btn-success" style="flex: 1;">✓ Setujui</button>
+                    <button id="approvePhotoReqBtn" class="btn btn-primary" style="flex: 1;">✓ Setujui</button>
                     <button id="rejectPhotoReqBtn" class="btn btn-danger" style="flex: 1;">✗ Tolak</button>
                 </div>
             </div>
@@ -154,19 +170,25 @@
     <script src="../app.js"></script>
     <script>
         initTheme();
-        const db = firebase.database();
-        
-        // Simple auth check
-        const adminUser = prompt('Username:');
-        const adminPass = prompt('Password:');
-        if (adminUser !== 'admin' || adminPass !== 'admin123') {
-            alert('Kredensial salah!');
-            window.location.href = '../';
+
+        // CHECK SESSION
+        if (sessionStorage.getItem('admin_logged_in') !== 'true') {
+            window.location.href = 'login.html';
         }
 
-        // Tab Navigation
+        const db = firebase.database();
+
+        // LOGOUT
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            sessionStorage.removeItem('admin_logged_in');
+            sessionStorage.removeItem('admin_username');
+            window.location.href = 'login.html';
+        });
+
+        // TAB NAVIGATION
         const tabBtns = document.querySelectorAll('.admin-tab-btn');
         const tabContents = document.querySelectorAll('.admin-tab-content');
+
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 tabBtns.forEach(b => b.classList.remove('active'));
@@ -176,20 +198,13 @@
             });
         });
 
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            window.location.href = '../';
-        });
-
-        // GALERI
+        // ========== GALERI ==========
         document.getElementById('addPhotoBtn').addEventListener('click', () => {
             const url = document.getElementById('photoUrl').value.trim();
             const title = document.getElementById('photoTitle').value.trim();
             if (!url || !title) return alert('Isi semua field');
             
-            db.ref('gallery').push({
-                src: url, title, timestamp: Date.now()
-            }).then(() => {
+            db.ref('gallery').push({src: url, title, timestamp: Date.now()}).then(() => {
                 document.getElementById('photoUrl').value = '';
                 document.getElementById('photoTitle').value = '';
                 loadPhotos();
@@ -200,18 +215,23 @@
             db.ref('gallery').on('value', s => {
                 const items = [];
                 s.forEach(c => items.push({key: c.key, ...c.val()}));
-                document.getElementById('photoList').innerHTML = items.map(p => 
-                    `<div class="admin-item"><span>${p.title}</span><button class="btn btn-danger btn-sm" onclick="deletePhoto('${p.key}')">Hapus</button></div>`
-                ).join('');
+                document.getElementById('photoList').innerHTML = items.length === 0 
+                    ? '<div class="empty-state">Belum ada foto</div>'
+                    : items.map(p => `
+                    <div class="admin-item">
+                        <span>${p.title}</span>
+                        <button class="btn btn-danger btn-sm" onclick="deletePhoto('${p.key}')">Hapus</button>
+                    </div>`).join('');
             });
         }
 
         window.deletePhoto = (key) => {
-            if(confirm('Yakin?')) db.ref('gallery').child(key).remove();
+            if(confirm('Hapus foto ini?')) db.ref('gallery').child(key).remove();
         };
 
-        // FOTO REQUEST
+        // ========== FOTO REQUEST ==========
         let currentPhotoReqKey = null;
+
         function loadPhotoRequests() {
             db.ref('photoRequests').on('value', s => {
                 const items = [];
@@ -219,10 +239,10 @@
                     if(c.val().status === 'pending') items.push({key: c.key, ...c.val()});
                 });
                 document.getElementById('photoRequestList').innerHTML = items.length === 0
-                    ? '<div class="empty-state">Tidak ada permintaan</div>'
+                    ? '<div class="empty-state">Tidak ada permintaan foto</div>'
                     : items.map(r => `
                     <div class="admin-item">
-                        <div><strong>${r.title}</strong><br><small>oleh ${r.submitterName}</small></div>
+                        <div><strong>${r.title}</strong><br><small style="color: var(--text3);">dari ${r.submitterName}</small></div>
                         <button class="btn btn-primary btn-sm" onclick="previewPhotoReq('${r.key}', '${(r.src||'').replace(/'/g,"\\'")}', '${(r.title||'').replace(/'/g,"\\'")}', '${(r.description||'').replace(/'/g,"\\'")}', '${(r.submitterName||'').replace(/'/g, "\\'")}')" >Preview</button>
                     </div>`).join('');
             });
@@ -259,7 +279,7 @@
             loadPhotoRequests();
         });
 
-        // PENGUMUMAN
+        // ========== PENGUMUMAN ==========
         document.getElementById('addAnnouncementBtn').addEventListener('click', () => {
             const title = document.getElementById('announcementTitle').value.trim();
             const body = document.getElementById('announcementBody').value.trim();
@@ -277,17 +297,21 @@
             db.ref('announcements').on('value', s => {
                 const items = [];
                 s.forEach(c => items.push({key: c.key, ...c.val()}));
-                document.getElementById('announcementList').innerHTML = items.map(a => 
-                    `<div class="admin-item"><span>${a.title}</span><button class="btn btn-danger btn-sm" onclick="deleteAnnouncement('${a.key}')">Hapus</button></div>`
-                ).join('');
+                document.getElementById('announcementList').innerHTML = items.length === 0
+                    ? '<div class="empty-state">Belum ada pengumuman</div>'
+                    : items.map(a => `
+                    <div class="admin-item">
+                        <span>${a.title}</span>
+                        <button class="btn btn-danger btn-sm" onclick="deleteAnnouncement('${a.key}')">Hapus</button>
+                    </div>`).join('');
             });
         }
 
         window.deleteAnnouncement = (key) => {
-            if(confirm('Yakin?')) db.ref('announcements').child(key).remove();
+            if(confirm('Hapus pengumuman ini?')) db.ref('announcements').child(key).remove();
         };
 
-        // POLLING
+        // ========== POLLING ==========
         document.getElementById('addOptionBtn').addEventListener('click', () => {
             const input = document.createElement('input');
             input.type = 'text';
@@ -312,17 +336,21 @@
             db.ref('polls').on('value', s => {
                 const items = [];
                 s.forEach(c => items.push({key: c.key, ...c.val()}));
-                document.getElementById('pollList').innerHTML = items.map(p => 
-                    `<div class="admin-item"><span>${p.question}</span><button class="btn btn-danger btn-sm" onclick="deletePoll('${p.key}')">Hapus</button></div>`
-                ).join('');
+                document.getElementById('pollList').innerHTML = items.length === 0
+                    ? '<div class="empty-state">Belum ada polling</div>'
+                    : items.map(p => `
+                    <div class="admin-item">
+                        <span>${p.question}</span>
+                        <button class="btn btn-danger btn-sm" onclick="deletePoll('${p.key}')">Hapus</button>
+                    </div>`).join('');
             });
         }
 
         window.deletePoll = (key) => {
-            if(confirm('Yakin?')) db.ref('polls').child(key).remove();
+            if(confirm('Hapus polling ini?')) db.ref('polls').child(key).remove();
         };
 
-        // BADGES
+        // ========== BADGES ==========
         document.getElementById('openBadgeFormBtn').addEventListener('click', () => {
             document.getElementById('badgeFormModal').style.display = 'flex';
         });
@@ -348,9 +376,13 @@
             db.ref('badges').on('value', s => {
                 const items = [];
                 s.forEach(c => items.push({key: c.key, ...c.val()}));
-                document.getElementById('badgeList').innerHTML = items.map(b => 
-                    `<div class="admin-item"><span>${b.studentName} • ${getBadgeLabel(b.type)}</span><button class="btn btn-danger btn-sm" onclick="deleteBadge('${b.key}')">Hapus</button></div>`
-                ).join('');
+                document.getElementById('badgeList').innerHTML = items.length === 0
+                    ? '<div class="empty-state">Belum ada badge diberikan</div>'
+                    : items.map(b => `
+                    <div class="admin-item">
+                        <span>${b.studentName} • ${getBadgeLabel(b.type)}</span>
+                        <button class="btn btn-danger btn-sm" onclick="deleteBadge('${b.key}')">Hapus</button>
+                    </div>`).join('');
             });
         }
 
@@ -360,7 +392,7 @@
         }
 
         window.deleteBadge = (key) => {
-            if(confirm('Yakin?')) db.ref('badges').child(key).remove();
+            if(confirm('Hapus badge ini?')) db.ref('badges').child(key).remove();
         };
 
         // Initialize
@@ -371,5 +403,25 @@
         loadBadges();
         initNavigation();
     </script>
+
+    <style>
+        .admin-form-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .admin-form-box .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-sm {
+            padding: 8px 14px;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+    </style>
 </body>
 </html>
