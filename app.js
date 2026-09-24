@@ -1,4 +1,4 @@
-// ── GLOBAL UTILITIES ──
+// ── GLOBAL APP INITIALIZATION ──
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
 });
@@ -12,12 +12,26 @@ function initializeApp() {
 function initTheme() {
     const html = document.documentElement;
     const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+    const themeToggle = document.getElementById('themeToggle');
+    
     setTheme(savedTheme);
+    
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+    }
 }
 
 function setTheme(theme) {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem('a18_theme', theme);
+    
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
 }
 
 // ── NAVIGATION ──
@@ -31,14 +45,22 @@ function initNavigation() {
             dropdown.classList.toggle('show');
         });
 
-        document.addEventListener('click', () => {
-            dropdown.classList.remove('show');
+        document.addEventListener('click', (e) => {
+            if (!moreBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        dropdown.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                dropdown.classList.remove('show');
+            });
         });
     }
 }
 
 // ── UTILITIES ──
-export function formatDate(timestamp) {
+function formatDate(timestamp) {
     return new Date(timestamp).toLocaleDateString('id-ID', {
         day: 'numeric',
         month: 'long',
@@ -46,7 +68,8 @@ export function formatDate(timestamp) {
     });
 }
 
-export function getInitials(name) {
+function getInitials(name) {
+    if (!name) return '?';
     return name
         .split(' ')
         .slice(0, 2)
@@ -55,11 +78,12 @@ export function getInitials(name) {
         .toUpperCase();
 }
 
-export function truncateText(text, length = 100) {
+function truncateText(text, length = 100) {
+    if (!text) return '';
     return text.length > length ? text.substring(0, length) + '...' : text;
 }
 
-export function debounce(func, wait) {
+function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
         const later = () => {
@@ -71,7 +95,7 @@ export function debounce(func, wait) {
     };
 }
 
-export function showToast(message, type = 'success', duration = 3000) {
+function showToast(message, type = 'success', duration = 3000) {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
@@ -86,14 +110,90 @@ export function showToast(message, type = 'success', duration = 3000) {
         border-radius: 8px;
         font-size: 13px;
         z-index: 1000;
+        font-weight: 500;
         animation: slideIn 0.3s ease;
     `;
     document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), duration);
+    setTimeout(() => {
+        toast.remove();
+    }, duration);
 }
 
 // ── CONSTANTS ──
-export const STUDENTS_COUNT = 79;
-export const MALE_STUDENTS = 37;
-export const FEMALE_STUDENTS = 42;
-export const CLASSES = ['7A', '7B', '7C', '7D'];
+const STUDENTS_COUNT = 79;
+const MALE_STUDENTS = 37;
+const FEMALE_STUDENTS = 42;
+const CLASSES = ['8A', '8B', '8C', '8D'];
+
+// ── BADGE UTILITIES ──
+function getBadgeIcon(type) {
+    const badges = {
+        'best-student': '🏆',
+        'helpful': '🤝',
+        'funny': '😂',
+        'smart': '🧠',
+        'creative': '🎨',
+        'leader': '👑'
+    };
+    return badges[type] || '⭐';
+}
+
+function getBadgeLabel(type) {
+    const labels = {
+        'best-student': 'Siswa Terbaik',
+        'helpful': 'Membantu',
+        'funny': 'Lucu',
+        'smart': 'Pintar',
+        'creative': 'Kreatif',
+        'leader': 'Pemimpin'
+    };
+    return labels[type] || 'Badge';
+}
+
+// ── COLOR AVATARS ──
+const AVATAR_COLORS = [
+    '#60b8f5',  // blue
+    '#e879a0',  // pink
+    '#4EDEA3',  // accent
+    '#e8a455',  // orange
+    '#e85555',  // red
+    '#a78bfa'   // purple
+];
+
+function getAvatarColor(name) {
+    if (!name) return AVATAR_COLORS[0];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+}
+
+// ── AUTO-LOGOUT TIMEOUT (optional) ──
+let inactivityTimer;
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+        // Could auto-logout here if needed
+    }, 30 * 60 * 1000); // 30 minutes
+}
+
+document.addEventListener('click', resetInactivityTimer);
+document.addEventListener('keypress', resetInactivityTimer);
+
+// ── LAZY LOAD IMAGES (performance) ──
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                observer.unobserve(img);
+            }
+        });
+    });
+
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
