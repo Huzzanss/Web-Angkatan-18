@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Angkatan 18</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="../../">Leaderboard</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle"></button>
+            <button class="more-btn" id="moreBtn"></button>
+            <div class="nav-dropdown" id="navDropdown">
+                <a href="../students/">Data Siswa</a>
+                <a href="../gallery/">Galeri</a>
+                <a href="../messages/">Pesan & Kesan</a>
+                <a href="../forum/">Forum</a>
+                <a href="../timecapsule/">Time Capsule</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Leaderboard Angkatan 18</h1>
+            <p>Penghargaan untuk teman-teman terbaik</p>
+        </div>
+
+        <div class="leaderboard-container">
+            <div class="leaderboard-section">
+                <h2>Top Contributors</h2>
+                <div id="leaderboardList" class="leaderboard-list">
+                    <div class="loading">Memuat leaderboard...</div>
+                </div>
+            </div>
+
+            <div class="badge-stats-section">
+                <h2>Statistik Badge</h2>
+                <div id="badgeStats" class="badge-stats-grid">
+                    <div class="loading">Memuat statistik...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { db, ref, onValue } from "../../firebase.js";
+
+        const leaderboardList = document.getElementById('leaderboardList');
+        const badgeStats = document.getElementById('badgeStats');
+
+        let allBadges = [];
+
+        const badgeTypes = {
+            'best-student': { icon: '', label: 'Siswa Terbaik' },
+            'helpful': { icon: '', label: 'Membantu' },
+            'funny': { icon: '', label: 'Lucu' },
+            'smart': { icon: '', label: 'Pintar' },
+            'creative': { icon: '', label: 'Kreatif' },
+            'leader': { icon: '', label: 'Pemimpin' }
+        };
+
+        // Load badges from Firebase
+        function loadBadges() {
+            onValue(ref(db, 'badges'), (snapshot) => {
+                allBadges = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => {
+                        allBadges.push(child.val());
+                    });
+                }
+                renderLeaderboard();
+                renderBadgeStats();
+            });
+        }
+
+        function renderLeaderboard() {
+            // Count badges per student
+            const studentBadgeCounts = {};
+            allBadges.forEach(badge => {
+                studentBadgeCounts[badge.studentName] = (studentBadgeCounts[badge.studentName] || 0) + 1;
+            });
+
+            // Sort by count
+            const sorted = Object.entries(studentBadgeCounts)
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 20); // Top 20
+
+            if (sorted.length === 0) {
+                leaderboardList.innerHTML = '<div class="empty-state">Belum ada badge diberikan</div>';
+                return;
+            }
+
+            leaderboardList.innerHTML = sorted.map(([name, count], index) => {
+                const position = index + 1;
+                const medal = position === 1 ? '' : position === 2 ? '' : position === 3 ? '' : '';
+
+                const studentBadges = allBadges.filter(b => b.studentName === name);
+                const badgesHtml = studentBadges.map(b => badgeTypes[b.type]?.icon || '').join('');
+
+                return `
+                    <div class="leaderboard-item">
+                        <span class="leaderboard-position">${medal}</span>
+                        <span class="leaderboard-name">${name}</span>
+                        <div class="leaderboard-badges">${badgesHtml}</div>
+                        <span class="leaderboard-count">${count}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderBadgeStats() {
+            const stats = {};
+            Object.keys(badgeTypes).forEach(type => {
+                stats[type] = allBadges.filter(b => b.type === type).length;
+            });
+
+            badgeStats.innerHTML = Object.entries(badgeTypes).map(([type, info]) => `
+                <div class="badge-stat-card">
+                    <div class="stat-icon">${info.icon}</div>
+                    <div class="stat-info">
+                        <p class="stat-label">${info.label}</p>
+                        <p class="stat-count">${stats[type] || 0}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        loadBadges();
+    </script>
+</body>
+</html>

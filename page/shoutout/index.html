@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoutout — Angkatan 18</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                Angkatan 18
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../students/">Siswa</a></li>
+                <li><a href="../shoutout/" class="active">Shoutout</a></li>
+                <li><a href="../gallery/">Galeri</a></li>
+                <li><a href="../announcements/">Pengumuman</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+        </div>
+        <h1>Shoutout</h1>
+        <p>Apresiasi dan ucapan spesial untuk teman-teman Angkatan 18</p>
+    </section>
+
+    <div class="msg-form-wrap">
+        <div class="msg-form-card">
+            <h3>Beri Shoutout</h3>
+            <form id="shoutForm">
+                <div class="form-group">
+                    <label>Dari</label>
+                    <input type="text" id="shoutFrom" placeholder="Namamu..." maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label>Untuk</label>
+                    <input type="text" id="shoutTo" placeholder="Nama teman yang mau di-shoutout..." maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label>Alasan</label>
+                    <textarea id="shoutMsg" placeholder="Kenapa dia layak dapat shoutout?" rows="3" maxlength="300" required></textarea>
+                    <div class="char-count"><span id="shoutCount">0</span>/300</div>
+                </div>
+                <div class="form-group">
+                    <label>Tipe Shoutout</label>
+                    <div class="category-tabs">
+                        <button type="button" class="cat-tab active" data-val="achievement">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+                            Prestasi
+                        </button>
+                        <button type="button" class="cat-tab" data-val="thanks">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            Terima Kasih
+                        </button>
+                        <button type="button" class="cat-tab" data-val="birthday">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Ulang Tahun
+                        </button>
+                        <button type="button" class="cat-tab" data-val="support">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                            Semangat
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-full">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Kirim Shoutout
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="shoutList" class="msg-list">
+        <div class="loading-state"><div class="spinner"></div><p>Memuat shoutout...</p></div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script type="module">
+        import { db, ref, push, onValue } from "../../firebase.js";
+
+        const TYPE_ICON = {
+            achievement: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>`,
+            thanks:      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+            birthday:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+            support:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>`,
+        };
+
+        let selectedType = 'achievement';
+
+        document.querySelectorAll('.cat-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedType = btn.dataset.val;
+            });
+        });
+
+        document.getElementById('shoutMsg').addEventListener('input', e => {
+            document.getElementById('shoutCount').textContent = e.target.value.length;
+        });
+
+        document.getElementById('shoutForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const from = document.getElementById('shoutFrom').value.trim();
+            const to   = document.getElementById('shoutTo').value.trim();
+            const msg  = document.getElementById('shoutMsg').value.trim();
+            if (!from || !to || !msg) return;
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.disabled = true;
+            try {
+                await push(ref(db, 'shoutouts'), {
+                    from, to, msg, type: selectedType,
+                    timestamp: Date.now(),
+                    date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
+                });
+                e.target.reset();
+                document.getElementById('shoutCount').textContent = '0';
+                document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+                document.querySelector('.cat-tab[data-val="achievement"]').classList.add('active');
+                selectedType = 'achievement';
+            } catch (err) { alert('Gagal: ' + err.message); }
+            finally { btn.disabled = false; }
+        });
+
+        onValue(ref(db, 'shoutouts'), snap => {
+            const items = [];
+            snap.forEach(c => items.unshift({ key: c.key, ...c.val() }));
+            const list = document.getElementById('shoutList');
+            if (!items.length) {
+                list.innerHTML = `<div class="empty-state">Belum ada shoutout. Jadilah yang pertama!</div>`;
+                return;
+            }
+            list.innerHTML = items.map(s => `
+                <div class="shout-card">
+                    <div class="shout-icon-wrap">${TYPE_ICON[s.type] || TYPE_ICON.achievement}</div>
+                    <div class="shout-body">
+                        <div class="shout-header">
+                            <span class="shout-to">${s.to}</span>
+                            <span class="shout-from">dari ${s.from}</span>
+                        </div>
+                        <p class="msg-content">${s.msg}</p>
+                        <p class="msg-date">${s.date}</p>
+                    </div>
+                </div>
+            `).join('');
+        });
+    </script>
+</body>
+</html>

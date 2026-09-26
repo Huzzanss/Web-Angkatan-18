@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri | Angkatan 18</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="../../">Galeri</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle"></button>
+            <button class="more-btn" id="moreBtn"></button>
+            <div class="nav-dropdown" id="navDropdown">
+                <a href="../messages/">Pesan & Kesan</a>
+                <a href="../shoutout/">Shoutout</a>
+                <a href="../confession/">Confessions</a>
+                <a href="../forum/">Forum</a>
+                <a href="../polling/">Polling</a>
+                <a href="../timecapsule/">Time Capsule</a>
+                <a href="../wordle/">Wordle</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Galeri Angkatan 18</h1>
+            <p>Koleksi momen berharga bersama Angkatan 18</p>
+        </div>
+
+        <div class="gallery-header">
+            <div class="filter-group">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Cari foto..."
+                    autocomplete="off"
+                >
+            </div>
+            <button id="submitPhotoBtn" class="btn btn-primary">Ajukan Foto</button>
+        </div>
+
+        <div id="galleryGrid" class="gallery-grid">
+            <div class="loading">Memuat galeri...</div>
+        </div>
+    </main>
+
+    <!-- Modal Lightbox -->
+    <div id="lightboxModal" class="modal">
+        <button class="modal-close" id="closeLightbox">&times;</button>
+        <div class="lightbox-content">
+            <img id="lightboxImage" src="" alt="">
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDate"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Submit Foto -->
+    <div id="submitPhotoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ajukan Foto</h2>
+                <button class="modal-close" id="closeSubmitModal">&times;</button>
+            </div>
+            <form id="submitPhotoForm" class="modal-body">
+                <div class="form-group">
+                    <label for="submitterName">Nama Kamu</label>
+                    <input 
+                        type="text" 
+                        id="submitterName" 
+                        class="form-input" 
+                        placeholder="Masukkan nama kamu"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="photoTitle">Judul Foto</label>
+                    <input 
+                        type="text" 
+                        id="photoTitle" 
+                        class="form-input" 
+                        placeholder="Judul foto"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="photoDescription">Deskripsi (Opsional)</label>
+                    <textarea 
+                        id="photoDescription" 
+                        class="form-input" 
+                        placeholder="Ceritakan tentang foto ini (maks 300 karakter)"
+                        maxlength="300"
+                        rows="3"
+                    ></textarea>
+                    <small id="charCount">0/300</small>
+                </div>
+                <div class="form-group">
+                    <label for="photoFile">Upload Foto (JPG/PNG, maks 5MB)</label>
+                    <div class="file-upload" id="fileUpload">
+                        <input 
+                            type="file" 
+                            id="photoFile" 
+                            accept="image/jpeg,image/png" 
+                            required
+                        >
+                        <div class="upload-text">
+                            <span>Drag & drop foto di sini atau klik untuk upload</span>
+                        </div>
+                        <img id="photoPreview" class="photo-preview" src="" alt="Preview" style="display:none;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim Pengajuan</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../firebase.js"></script>
+    <script src="../../app.js"></script>
+    <script>
+        // Initialize theme
+        initTheme();
+
+        const db = firebase.database();
+        const galleryGrid = document.getElementById('galleryGrid');
+        const searchInput = document.getElementById('searchInput');
+        const submitPhotoBtn = document.getElementById('submitPhotoBtn');
+        const submitPhotoModal = document.getElementById('submitPhotoModal');
+        const closeSubmitModal = document.getElementById('closeSubmitModal');
+        const submitPhotoForm = document.getElementById('submitPhotoForm');
+        const lightboxModal = document.getElementById('lightboxModal');
+        const closeLightbox = document.getElementById('closeLightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxDate = document.getElementById('lightboxDate');
+        const fileUpload = document.getElementById('fileUpload');
+        const photoFile = document.getElementById('photoFile');
+        const photoPreview = document.getElementById('photoPreview');
+        const charCountSpan = document.getElementById('charCount');
+        const photoDescription = document.getElementById('photoDescription');
+
+        let allPhotos = [];
+
+        // Load gallery from Firebase
+        function loadGallery() {
+            db.ref('gallery').on('value', (snapshot) => {
+                allPhotos = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => {
+                        allPhotos.push({
+                            key: child.key,
+                            ...child.val()
+                        });
+                    });
+                }
+                renderGallery(allPhotos);
+            });
+        }
+
+        function renderGallery(photos) {
+            if (photos.length === 0) {
+                galleryGrid.innerHTML = '<div class="empty-state">Belum ada foto. Jadilah yang pertama!</div>';
+                return;
+            }
+
+            galleryGrid.innerHTML = photos.map(photo => `
+                <div class="gallery-item" onclick="openLightbox('${photo.src}', '${(photo.title || 'Foto').replace(/'/g, "\\'")}', '${(photo.date || 'N/A').replace(/'/g, "\\'")}')">
+                    <img src="${photo.src}" alt="${photo.title || 'Foto'}">
+                    <div class="gallery-item-overlay">
+                        <h3>${photo.title || 'Foto'}</h3>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openLightbox(src, title, date) {
+            lightboxImage.src = src;
+            lightboxTitle.textContent = title;
+            lightboxDate.textContent = date;
+            lightboxModal.style.display = 'flex';
+        }
+
+        closeLightbox.addEventListener('click', () => {
+            lightboxModal.style.display = 'none';
+        });
+
+        lightboxModal.addEventListener('click', (e) => {
+            if (e.target === lightboxModal) {
+                lightboxModal.style.display = 'none';
+            }
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allPhotos.filter(p => 
+                (p.title || '').toLowerCase().includes(term) ||
+                (p.description || '').toLowerCase().includes(term)
+            );
+            renderGallery(filtered);
+        });
+
+        // Submit Photo Modal
+        submitPhotoBtn.addEventListener('click', () => {
+            submitPhotoModal.style.display = 'flex';
+        });
+
+        closeSubmitModal.addEventListener('click', () => {
+            submitPhotoModal.style.display = 'none';
+        });
+
+        submitPhotoModal.addEventListener('click', (e) => {
+            if (e.target === submitPhotoModal) {
+                submitPhotoModal.style.display = 'none';
+            }
+        });
+
+        // Drag & Drop
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragover');
+        });
+
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragover');
+        });
+
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                photoFile.files = files;
+                handleFileSelect();
+            }
+        });
+
+        photoFile.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            const file = photoFile.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File terlalu besar (maks 5MB)');
+                    photoFile.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    photoPreview.src = e.target.result;
+                    photoPreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Character counter
+        photoDescription.addEventListener('input', () => {
+            charCountSpan.textContent = `${photoDescription.value.length}/300`;
+        });
+
+        // Submit form
+        submitPhotoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitterName = document.getElementById('submitterName').value;
+            const title = document.getElementById('photoTitle').value;
+            const description = document.getElementById('photoDescription').value;
+            const file = photoFile.files[0];
+
+            if (!file) {
+                alert('Pilih foto terlebih dahulu');
+                return;
+            }
+
+            try {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64 = e.target.result;
+                    const now = new Date();
+                    const dateStr = now.toLocaleDateString('id-ID', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    const photoRequest = {
+                        submitterName,
+                        title,
+                        description: description || '',
+                        src: base64,
+                        timestamp: now.getTime(),
+                        date: dateStr,
+                        status: 'pending'
+                    };
+
+                    db.ref('photoRequests').push(photoRequest).then(() => {
+                        alert('Foto berhasil diajukan! Tunggu persetujuan admin.');
+                        submitPhotoForm.reset();
+                        photoPreview.style.display = 'none';
+                        charCountSpan.textContent = '0/300';
+                        submitPhotoModal.style.display = 'none';
+                    }).catch(err => {
+                        alert('Gagal mengajukan foto: ' + err.message);
+                    });
+                };
+                reader.readAsDataURL(file);
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        });
+
+        // Initialize
+        loadGallery();
+        initNavigation();
+    </script>
+</body>
+</html>
