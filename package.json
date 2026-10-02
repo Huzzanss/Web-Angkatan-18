@@ -1,6 +1,8 @@
 {
   "name": "website-angkatan-18",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Website Angkatan 18 — statik frontend + Express API backend (deploy ke Vercel dengan /api/index.js).",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,6 +13,11 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
-    "firebase": "^10.12.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase": "^10.12.2",
+    "firebase-admin": "^12.1.1",
+    "jsonwebtoken": "^9.0.2"
   }
 }

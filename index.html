@@ -1,13 +1,33 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id" data-theme="dark" data-sfx="on">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Angkatan 18 — SMP Islam Bunga Bangsa</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+      // Theme restoration pada load
+      (function(){
+        var saved = localStorage.getItem("a18_theme");
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+      })();
+    </script>
 </head>
 <body>
 
+    <!-- BOOT SCREEN (tampil 1x per sesi) -->
+    <div class="boot-screen" id="bootScreen">
+      <div class="boot-content">
+        <div class="boot-logo">A18</div>
+        <p class="boot-title">ANGKATAN 18</p>
+        <p class="boot-subtitle">SMP ISLAM BUNGA BANGSA SAMARINDA</p>
+        <div class="boot-bar"><div class="boot-bar-fill"></div></div>
+        <p class="boot-loading">LOADING...</p>
+      </div>
+    </div>
+
+    <!-- HEADER/NAV -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="secretTrigger">
@@ -60,7 +80,14 @@
                         </ul>
                     </li>
                 </ul>
-                <button class="theme-toggle" id="themeToggle" title="Toggle tema">
+                <button class="theme-toggle" id="sfxToggle" title="Bisukan/nyalakan efek suara">
+                    <svg class="icon-sfx-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+                    <svg class="icon-sfx-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m17 9 4 6M21 9l-4 6"/></svg>
+                </button>
+                <button class="theme-toggle" id="bgmToggle" title="Nyalakan/matikan musik latar (chiptune)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </button>
+                <button class="theme-toggle" id="themeToggle" title="Ganti tema">
                     <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                     <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                 </button>
@@ -73,7 +100,7 @@
         <div class="hero-bg-grid"></div>
         <div class="hero-content">
             <p class="hero-eyebrow">SMP Islam Bunga Bangsa Samarinda</p>
-            <h1>Angkatan 18</h1>
+            <h1 id="heroTitle">Angkatan 18</h1>
             <p class="hero-desc">Batch 2026 – 2029 &nbsp;·&nbsp; 79 Siswa</p>
             <div class="hero-actions">
                 <a href="page/students/" class="btn">Direktori Siswa</a>
@@ -205,10 +232,24 @@
         <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
+    <!-- NPC WIDGET (bubble chat mengambang) -->
+    <div class="npc-widget" id="npcWidget">
+        <button class="npc-close" id="npcClose" aria-label="Tutup">&times;</button>
+        <div class="npc-bubble" id="npcBubble">Memuat pesan...</div>
+        <div class="npc-avatar" id="npcAvatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        </div>
+    </div>
+
     <div id="secretToast" class="secret-toast">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <span id="secretToastText"></span>
     </div>
+
+    <!-- Efek suara & musik chiptune -->
+    <script src="sound.js"></script>
+    <!-- Main app (fetch dari /api) -->
+    <script src="app.js"></script>
 
     <script>
         let clickCount = 0, clickTimer = null;
@@ -234,6 +275,7 @@
         function showToast(msg) { toastText.textContent = msg; toast.classList.add('show'); }
         function hideToast()    { toast.classList.remove('show'); }
 
+        // Theme toggle
         const html        = document.documentElement;
         const themeToggle = document.getElementById('themeToggle');
         const moonIcon    = document.getElementById('moonIcon');
@@ -245,6 +287,7 @@
             const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
             setTheme(next);
             localStorage.setItem('a18_theme', next);
+            if (typeof playSfx === 'function') playSfx('click');
         });
 
         function setTheme(t) {
@@ -253,10 +296,75 @@
             sunIcon.style.display  = t === 'light' ? '' : 'none';
         }
 
+        // Nav dropdown
         const moreBtn  = document.getElementById('moreBtn');
         const dropdown = document.getElementById('navDropdown');
         moreBtn.addEventListener('click', e => { e.stopPropagation(); dropdown.classList.toggle('show'); });
         document.addEventListener('click', () => dropdown.classList.remove('show'));
+
+        // Sound toggles
+        const sfxToggle = document.getElementById('sfxToggle');
+        const bgmToggle = document.getElementById('bgmToggle');
+
+        sfxToggle.addEventListener('click', () => {
+            const nowEnabled = !isSfxEnabled();
+            setSfxEnabled(nowEnabled);
+            html.setAttribute('data-sfx', nowEnabled ? 'on' : 'off');
+            if (nowEnabled) playSfx('click');
+        });
+
+        bgmToggle.addEventListener('click', () => {
+            const playing = toggleBgm();
+            bgmToggle.classList.toggle('bgm-active', playing);
+            if (typeof showToast === 'function') {
+              showToast(playing ? '🎵 Musik latar nyala' : '🔇 Musik latar mati', 1400);
+            }
+        });
+
+        // Typewriter effect untuk hero title
+        function typewriterEffect(el, speed = 40) {
+            if (!el) return;
+            const text = el.textContent;
+            el.textContent = "";
+            el.classList.add("typewriter-active");
+            let i = 0;
+            (function tick() {
+                if (i <= text.length) {
+                    el.textContent = text.slice(0, i);
+                    i++;
+                    setTimeout(tick, speed);
+                } else {
+                    el.classList.remove("typewriter-active");
+                }
+            })();
+        }
+
+        // Boot screen & typewriter
+        (function initBootAndTypewriter() {
+            const bootEl = document.getElementById('bootScreen');
+            const heroTitle = document.getElementById('heroTitle');
+
+            function startTypewriter() {
+                if (heroTitle) typewriterEffect(heroTitle);
+            }
+
+            if (!bootEl || sessionStorage.getItem('bootShown')) {
+                if (bootEl) bootEl.remove();
+                startTypewriter();
+                return;
+            }
+
+            sessionStorage.setItem('bootShown', '1');
+            if (typeof playSfx === 'function') playSfx('boot');
+
+            setTimeout(() => {
+                bootEl.classList.add('boot-hide');
+                setTimeout(() => {
+                    bootEl.remove();
+                    startTypewriter();
+                }, 500);
+            }, 1600);
+        })();
     </script>
 </body>
 </html>

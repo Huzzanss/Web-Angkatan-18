@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "buildCommand": "npm install",
+  "env": {
+    "FIREBASE_DATABASE_URL": "@firebase_database_url",
+    "FIREBASE_SERVICE_ACCOUNT_KEY": "@firebase_service_account_key",
+    "JWT_SECRET": "@jwt_secret",
+    "ADMIN_USERNAME": "@admin_username",
+    "ADMIN_PASSWORD": "@admin_password",
+    "ALLOWED_ORIGINS": "@allowed_origins"
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    }
+  ]
+}

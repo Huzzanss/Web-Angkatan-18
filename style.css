@@ -39,6 +39,43 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
 
+/* ── BOOT SCREEN (retro loading) ── */
+.boot-screen{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#0a0e0d 0%,#0f1a15 100%);display:flex;align-items:center;justify-content:center;animation:bootIn 0.3s ease}
+.boot-screen.boot-hide{animation:bootOut 0.5s ease forwards}
+@keyframes bootIn{from{opacity:0}to{opacity:1}}
+@keyframes bootOut{to{opacity:0;pointer-events:none}}
+.boot-content{text-align:center;z-index:1}
+.boot-logo{font-size:48px;font-weight:700;color:var(--accent);letter-spacing:-0.02em;margin-bottom:12px;font-family:monospace;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.boot-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:0.12em;margin-bottom:4px}
+.boot-subtitle{font-size:11px;color:var(--text3);letter-spacing:0.08em;margin-bottom:20px;text-transform:uppercase}
+.boot-bar{width:200px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin:0 auto}
+.boot-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent) 0%,var(--blue) 100%);animation:fillBar 1.5s ease forwards}
+@keyframes fillBar{from{width:0}to{width:100%}}
+.boot-loading{font-size:12px;color:var(--text3);letter-spacing:0.08em;margin-top:16px;font-weight:500}
+
+/* ── NPC WIDGET (floating chat bubble) ── */
+.npc-widget{position:fixed;bottom:28px;right:28px;z-index:99;display:flex;flex-direction:column;gap:8px;align-items:flex-end;opacity:1;transition:all 0.3s;max-width:280px}
+.npc-widget.npc-hidden{opacity:0;pointer-events:none}
+.npc-bubble{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--text2);line-height:1.5;box-shadow:0 6px 20px rgba(0,0,0,0.3);animation:bubbleIn 0.3s ease;max-width:260px;word-wrap:break-word}
+@keyframes bubbleIn{from{opacity:0;transform:scale(0.8) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.npc-avatar{width:48px;height:48px;border-radius:50%;background:var(--bg3);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);cursor:pointer;transition:transform 0.15s;box-shadow:0 4px 12px rgba(78,222,163,0.2)}
+.npc-avatar:hover{transform:scale(1.05)}
+.npc-close{position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;background:var(--red);border:none;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:transform 0.15s;line-height:0}
+.npc-close:hover{transform:scale(1.1)}
+
+/* ── TYPEWRITER EFFECT ── */
+.typewriter-active::after{content:'|';animation:blink 0.7s infinite;color:var(--accent)}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* ── SFX TOGGLE STATE ── */
+[data-sfx="off"] .icon-sfx-on{display:none}
+[data-sfx="off"] .icon-sfx-off{display:block}
+[data-sfx="on"] .icon-sfx-off{display:none}
+[data-sfx="on"] .icon-sfx-on{display:block}
+
+.bgm-active{color:var(--accent)!important}
+
 /* ── NAVBAR ── */
 .navbar{position:sticky;top:0;z-index:100;background:rgba(10,14,13,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 [data-theme="light"] .navbar{background:rgba(245,247,246,0.9)}
