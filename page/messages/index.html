@@ -1,206 +1,187 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesan & Kesan — Angkatan 18</title>
+    <title>Pesan & Kesan | Angkatan 18</title>
     <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../../index.html" class="nav-logo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                Angkatan 18
-            </a>
-            <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../students/">Siswa</a></li>
-                <li><a href="../messages/" class="active">Pesan & Kesan</a></li>
-                <li><a href="../gallery/">Galeri</a></li>
-                <li><a href="../announcements/">Pengumuman</a></li>
-            </ul>
+            <a href="../../" class="nav-logo">Angkatan 18</a>
+            <div style="display:flex;align-items:center;gap:20px">
+                <ul class="nav-links">
+                    <li><a href="../../">Home</a></li>
+                    <li><a href="../students/">Siswa</a></li>
+                    <li><a href="../gallery/">Galeri</a></li>
+                    <li><a href="../announcements/">Pengumuman</a></li>
+                    <li class="nav-more">
+                        <button class="nav-more-btn" id="moreBtn">Lainnya
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <ul class="nav-dropdown" id="navDropdown">
+                            <li><a href="../messages/" class="active">Pesan & Kesan</a></li>
+                            <li><a href="../shoutout/">Shoutout</a></li>
+                            <li><a href="../confession/">Confession</a></li>
+                            <li><a href="../forum/">Forum</a></li>
+                            <li><a href="../polling/">Polling</a></li>
+                            <li><a href="../timecapsule/">Time Capsule</a></li>
+                            <li><a href="../leaderboard/">Leaderboard</a></li>
+                            <li><a href="../wordle/">Wordle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" title="Ganti tema">
+                    <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <section class="page-header">
+    <div class="page-header">
         <div class="page-header-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <h1>Pesan & Kesan</h1>
-        <p>Tulis pesan dan kesanmu untuk Angkatan 18</p>
-    </section>
+        <p>Tinggalkan pesan untuk seangkatan</p>
+    </div>
 
-    <div class="msg-form-wrap">
-        <div class="msg-form-card">
-            <h3>Tulis Pesanmu</h3>
-            <form id="msgForm">
-                <div class="form-group">
-                    <label>Namamu</label>
-                    <input type="text" id="msgName" placeholder="Nama kamu..." maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label>Untuk siapa?</label>
-                    <input type="text" id="msgTo" placeholder="Untuk semua / nama teman..." maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label>Pesan & Kesan</label>
-                    <textarea id="msgContent" placeholder="Tulis pesan atau kesanmu..." rows="4" maxlength="500" required></textarea>
-                    <div class="char-count"><span id="charCount">0</span>/500</div>
-                </div>
-                <div class="form-group">
-                    <label>Kategori</label>
-                    <div class="category-tabs">
-                        <button type="button" class="cat-tab active" data-cat="pesan">Pesan</button>
-                        <button type="button" class="cat-tab" data-cat="kesan">Kesan</button>
-                        <button type="button" class="cat-tab" data-cat="doa">Doa</button>
-                        <button type="button" class="cat-tab" data-cat="kenangan">Kenangan</button>
+    <div class="content-section">
+        <div style="max-width:800px;margin:0 auto">
+            <div class="card">
+                <h3 style="margin-top:0">Tulis Pesan</h3>
+                <form id="messageForm">
+                    <div class="form-group">
+                        <label>Nama (opsional)</label>
+                        <input type="text" id="messageName" placeholder="Nama atau inisial">
+                    </div>
+                    <div class="form-group">
+                        <label>Pesan</label>
+                        <textarea id="messageContent" placeholder="Tuliskan pesan dan kesan Anda..." rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Kirim Pesan</button>
+                </form>
+            </div>
+
+            <div style="margin-top:24px">
+                <div id="messagesList" style="display:flex;flex-direction:column;gap:12px">
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        Memuat pesan...
                     </div>
                 </div>
-                <button type="submit" class="btn btn-full">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    Kirim Pesan
-                </button>
-            </form>
+            </div>
         </div>
-    </div>
-
-    <div class="msg-stats">
-        <div class="msg-stat">
-            <span id="totalMsg">0</span>
-            <p>Total Pesan</p>
-        </div>
-        <div class="msg-stat">
-            <span id="todayMsg">0</span>
-            <p>Hari Ini</p>
-        </div>
-        <div class="msg-stat">
-            <span id="uniqueMsg">0</span>
-            <p>Penulis</p>
-        </div>
-    </div>
-
-    <div class="msg-filter-wrap">
-        <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">Semua</button>
-            <button class="filter-tab" data-filter="pesan">Pesan</button>
-            <button class="filter-tab" data-filter="kesan">Kesan</button>
-            <button class="filter-tab" data-filter="doa">Doa</button>
-            <button class="filter-tab" data-filter="kenangan">Kenangan</button>
-        </div>
-        <div class="search-wrap" style="max-width:220px">
-            <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="msgSearch" class="search-box" placeholder="Cari pesan...">
-        </div>
-    </div>
-
-    <div id="msgList" class="msg-list">
-        <div class="loading-state"><div class="spinner"></div><p>Memuat pesan...</p></div>
     </div>
 
     <footer class="footer">
         <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
-    <script type="module">
-        import { db, ref, push, onValue } from "../../firebase.js";
+    <script src="../../app.js"></script>
+    <script src="../../sound.js"></script>
+    <script>
+        const API_BASE = '/api';
 
-        const CAT_COLOR = { pesan:'#4EDEA3', kesan:'#a78bfa', doa:'#fb923c', kenangan:'#60b8f5' };
-        let allMessages = [], currentFilter = 'all', currentSearch = '', selectedCat = 'pesan';
+        initTheme();
 
-        document.querySelectorAll('.cat-tab').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedCat = btn.dataset.cat;
-            });
-        });
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const moreBtn = document.getElementById('moreBtn');
+        const dropdown = document.getElementById('navDropdown');
+        const messageForm = document.getElementById('messageForm');
+        const messagesList = document.getElementById('messagesList');
 
-        document.getElementById('msgContent').addEventListener('input', e => {
-            document.getElementById('charCount').textContent = e.target.value.length;
-        });
-
-        document.querySelectorAll('.filter-tab').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                renderMessages();
-            });
-        });
-
-        document.getElementById('msgSearch').addEventListener('input', e => {
-            currentSearch = e.target.value.toLowerCase().trim();
-            renderMessages();
-        });
-
-        document.getElementById('msgForm').addEventListener('submit', async e => {
-            e.preventDefault();
-            const name    = document.getElementById('msgName').value.trim();
-            const to      = document.getElementById('msgTo').value.trim();
-            const content = document.getElementById('msgContent').value.trim();
-            if (!name || !content) return;
-            const btn = document.getElementById('submitBtn') || e.target.querySelector('[type="submit"]');
-            btn.disabled = true;
-            try {
-                await push(ref(db, 'messages'), {
-                    name, to: to || 'Semua', content,
-                    category: selectedCat,
-                    timestamp: Date.now(),
-                    date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
-                });
-                e.target.reset();
-                document.getElementById('charCount').textContent = '0';
-                document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-                document.querySelector('.cat-tab[data-cat="pesan"]').classList.add('active');
-                selectedCat = 'pesan';
-            } catch (err) { alert('Gagal: ' + err.message); }
-            finally { btn.disabled = false; }
-        });
-
-        onValue(ref(db, 'messages'), snap => {
-            allMessages = [];
-            snap.forEach(c => allMessages.unshift({ key: c.key, ...c.val() }));
-            updateStats();
-            renderMessages();
-        });
-
-        function updateStats() {
-            const today  = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
-            const unique = [...new Set(allMessages.map(m => m.name))].length;
-            document.getElementById('totalMsg').textContent  = allMessages.length;
-            document.getElementById('todayMsg').textContent  = allMessages.filter(m => m.date === today).length;
-            document.getElementById('uniqueMsg').textContent = unique;
+        function initTheme() {
+            const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+            html.dataset.theme = savedTheme;
+            updateThemeIcons(savedTheme);
         }
 
-        function renderMessages() {
-            const list = document.getElementById('msgList');
-            let filtered = allMessages;
-            if (currentFilter !== 'all') filtered = filtered.filter(m => m.category === currentFilter);
-            if (currentSearch) filtered = filtered.filter(m =>
-                m.name.toLowerCase().includes(currentSearch) ||
-                m.content.toLowerCase().includes(currentSearch) ||
-                (m.to && m.to.toLowerCase().includes(currentSearch))
-            );
-            if (!filtered.length) {
-                list.innerHTML = `<div class="empty-state">Belum ada pesan. Jadilah yang pertama menulis!</div>`;
+        function updateThemeIcons(theme) {
+            moonIcon.style.display = theme === 'dark' ? '' : 'none';
+            sunIcon.style.display = theme === 'light' ? '' : 'none';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            html.dataset.theme = newTheme;
+            localStorage.setItem('a18_theme', newTheme);
+            updateThemeIcons(newTheme);
+        });
+
+        moreBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+        });
+        document.addEventListener('click', () => dropdown.classList.remove('show'));
+
+        async function loadMessages() {
+            try {
+                const res = await fetch(`${API_BASE}/messages`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const messages = await res.json();
+                renderMessages(messages);
+            } catch (err) {
+                console.error('Load error:', err);
+                messagesList.innerHTML = '<div class="empty-state">Gagal memuat pesan</div>';
+            }
+        }
+
+        function renderMessages(messages) {
+            if (!messages.length) {
+                messagesList.innerHTML = '<div class="empty-state">Belum ada pesan</div>';
                 return;
             }
-            list.innerHTML = filtered.map(m => `
-                <div class="msg-card" style="--cat-color:${CAT_COLOR[m.category] || '#4EDEA3'}">
-                    <div class="msg-card-top">
-                        <div class="msg-avatar">${m.name.charAt(0).toUpperCase()}</div>
-                        <div class="msg-meta">
-                            <strong>${m.name}</strong>
-                            ${m.to && m.to !== 'Semua' ? `<span class="msg-to">— ${m.to}</span>` : ''}
-                            <p class="msg-date">${m.date}</p>
-                        </div>
-                        <span class="msg-cat-badge">${m.category}</span>
-                    </div>
-                    <p class="msg-content">${m.content}</p>
+
+            messagesList.innerHTML = messages.map(msg => `
+                <div class="card">
+                    <p style="margin:0 0 8px 0;color:var(--accent);font-weight:600">${msg.name || 'Anonim'}</p>
+                    <p style="margin:0 0 8px 0;color:var(--text);white-space:pre-wrap">${msg.content}</p>
+                    <p style="font-size:12px;color:var(--text-secondary);margin:0">${new Date(msg.date).toLocaleDateString('id-ID')}</p>
                 </div>
             `).join('');
         }
+
+        messageForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const name = document.getElementById('messageName').value.trim() || 'Anonim';
+            const content = document.getElementById('messageContent').value.trim();
+            if (!content) return;
+
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.disabled = true;
+            const originalText = btn.textContent;
+            btn.textContent = 'Mengirim...';
+
+            try {
+                const res = await fetch(`${API_BASE}/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        content,
+                        date: new Date().toISOString()
+                    })
+                });
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                messageForm.reset();
+                await loadMessages();
+            } catch (err) {
+                alert('Gagal mengirim: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        });
+
+        loadMessages();
     </script>
 </body>
 </html>

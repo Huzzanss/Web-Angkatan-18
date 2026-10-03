@@ -3,432 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel — Angkatan 18</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Admin Panel | Angkatan 18</title>
     <link rel="stylesheet" href="../../style.css">
-    <style>
-        .admin-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
-        .admin-title { font-size: 28px; font-weight: 700; }
-        .logout-btn { padding: 8px 16px; background: #e85555; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; }
-        .logout-btn:hover { opacity: 0.9; }
-        .tabs-container { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
-        .tab-button { padding: 12px 16px; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 14px; font-weight: 500; border-bottom: 2px solid transparent; transition: all 0.2s; }
-        .tab-button.active { color: var(--accent); border-bottom-color: var(--accent); }
-        .tab-button:hover { color: var(--text); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .form-section { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
-        .form-section h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font-size: 13px; font-family: 'Inter', sans-serif; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
-        .form-actions { display: flex; gap: 8px; }
-        .btn-add { padding: 8px 14px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
-        .btn-add:hover { opacity: 0.9; }
-        .btn-delete { padding: 6px 12px; background: #e85555; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
-        .items-list { display: flex; flex-direction: column; gap: 12px; }
-        .item-card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .item-info { flex: 1; }
-        .item-title { font-size: 14px; font-weight: 600; color: var(--text); }
-        .item-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
-        .modal.show { display: flex; }
-        .modal-content { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; }
-        .modal-header { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
-        .modal-buttons { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
-        .btn-confirm { padding: 8px 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        .btn-cancel { padding: 8px 16px; background: var(--border); color: var(--text); border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        .btn-confirm:hover { opacity: 0.9; }
-        .btn-cancel:hover { opacity: 0.8; }
-        .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-        .badge-item { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; position: relative; }
-        .badge-name { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-        .badge-count { font-size: 12px; color: var(--text-secondary); }
-    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../../index.html" class="nav-logo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                Angkatan 18 Admin
-            </a>
-            <button class="logout-btn" id="logoutBtn">Keluar</button>
+            <a href="../../index.html" class="nav-logo">Angkatan 18</a>
+            <div style="display:flex;align-items:center;gap:20px">
+                <ul class="nav-links">
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="../students/">Siswa</a></li>
+                    <li><a href="../gallery/">Galeri</a></li>
+                    <li><a href="../announcements/">Pengumuman</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" title="Ganti tema">
+                    <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="admin-container">
-        <div class="admin-header">
-            <h1 class="admin-title">Admin Panel</h1>
+    <div class="page-header">
+        <div class="page-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
-
-        <div class="tabs-container">
-            <button class="tab-button active" data-tab="galeri">Galeri</button>
-            <button class="tab-button" data-tab="fotoreq">Foto Request</button>
-            <button class="tab-button" data-tab="pengumuman">Pengumuman</button>
-            <button class="tab-button" data-tab="polling">Polling</button>
-            <button class="tab-button" data-tab="badges">Badges</button>
-        </div>
-
-        <!-- GALERI TAB -->
-        <div id="galeri" class="tab-content active">
-            <div class="form-section">
-                <h3>Tambah Foto</h3>
-                <div class="form-group">
-                    <label>URL Foto</label>
-                    <input type="text" id="galleryUrl" placeholder="https://...">
-                </div>
-                <div class="form-group">
-                    <label>Judul</label>
-                    <input type="text" id="galleryTitle" placeholder="Judul foto">
-                </div>
-                <div class="form-actions">
-                    <button class="btn-add" id="addGalleryBtn">Tambah Foto</button>
-                </div>
-            </div>
-            <div class="items-list" id="galleryList"></div>
-        </div>
-
-        <!-- FOTO REQUEST TAB -->
-        <div id="fotoreq" class="tab-content">
-            <div class="items-list" id="photoReqList"></div>
-        </div>
-
-        <!-- PENGUMUMAN TAB -->
-        <div id="pengumuman" class="tab-content">
-            <div class="form-section">
-                <h3>Buat Pengumuman</h3>
-                <div class="form-group">
-                    <label>Judul</label>
-                    <input type="text" id="announcementTitle" placeholder="Judul pengumuman">
-                </div>
-                <div class="form-group">
-                    <label>Isi</label>
-                    <textarea id="announcementBody" placeholder="Isi pengumuman" rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Prioritas</label>
-                    <select id="announcementPriority">
-                        <option value="normal">Normal</option>
-                        <option value="high">Tinggi</option>
-                        <option value="urgent">Urgen</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button class="btn-add" id="addAnnouncementBtn">Buat Pengumuman</button>
-                </div>
-            </div>
-            <div class="items-list" id="announcementList"></div>
-        </div>
-
-        <!-- POLLING TAB -->
-        <div id="polling" class="tab-content">
-            <div class="form-section">
-                <h3>Buat Poll</h3>
-                <div class="form-group">
-                    <label>Pertanyaan</label>
-                    <input type="text" id="pollQuestion" placeholder="Apa pertanyaanmu?">
-                </div>
-                <div id="pollOptions"></div>
-                <div class="form-actions">
-                    <button class="btn-add" id="addOptionBtn" style="margin-bottom: 16px;">Tambah Opsi</button>
-                    <button class="btn-add" id="addPollBtn">Buat Poll</button>
-                </div>
-            </div>
-            <div class="items-list" id="pollList"></div>
-        </div>
-
-        <!-- BADGES TAB -->
-        <div id="badges" class="tab-content">
-            <div class="form-section">
-                <h3>Berikan Badge</h3>
-                <div class="form-group">
-                    <label>Nama Siswa</label>
-                    <input type="text" id="badgeStudent" placeholder="Nama siswa">
-                </div>
-                <div class="form-group">
-                    <label>Tipe Badge</label>
-                    <select id="badgeType">
-                        <option value="best-student">Best Student</option>
-                        <option value="helpful">Helpful</option>
-                        <option value="funny">Funny</option>
-                        <option value="smart">Smart</option>
-                        <option value="creative">Creative</option>
-                        <option value="leader">Leader</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button class="btn-add" id="addBadgeBtn">Berikan Badge</button>
-                </div>
-            </div>
-            <div id="badgesGrid" class="badge-grid"></div>
-        </div>
+        <h1>Admin Panel</h1>
+        <p>Kelola konten Angkatan 18</p>
     </div>
 
-    <div id="photoPreviewModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">Pratinjau Foto</div>
-            <img id="previewImage" src="" style="width: 100%; border-radius: 6px; margin-bottom: 16px;">
-            <div id="previewInfo"></div>
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closePhotoPreviewModal()">Tutup</button>
-                <button class="btn-confirm" id="approvePhotoBtn">Setujui</button>
-                <button class="btn-delete" id="rejectPhotoBtn">Tolak</button>
+    <div class="content-section">
+        <div style="max-width:1000px;margin:0 auto">
+            <div id="adminContent" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px">
+                <!-- Admin Menu akan di-generate oleh script -->
             </div>
         </div>
     </div>
 
-    <script src="../../firebase.js"></script>
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script src="../../sound.js"></script>
     <script>
-        if (sessionStorage.getItem('admin_logged_in') !== 'true') {
+        const getToken = () => sessionStorage.getItem('a18_admin_token');
+        
+        // Check auth
+        if (!getToken()) {
             window.location.href = '../login/';
         }
 
-        const db = firebase.database();
-        let currentPhotoId = null;
-        let pollOptionCount = 0;
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const adminContent = document.getElementById('adminContent');
 
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            sessionStorage.removeItem('admin_logged_in');
-            sessionStorage.removeItem('admin_username');
-            window.location.href = '../login/';
-        });
-
-        document.querySelectorAll('.tab-button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                const tabId = btn.dataset.tab;
-                document.getElementById(tabId).classList.add('active');
-                
-                if (tabId === 'fotoreq') loadPhotoRequests();
-                if (tabId === 'badges') loadBadges();
-            });
-        });
-
-        document.getElementById('addGalleryBtn').addEventListener('click', () => {
-            const url = document.getElementById('galleryUrl').value;
-            const title = document.getElementById('galleryTitle').value;
-            if (url && title) {
-                db.ref('gallery').push({
-                    src: url,
-                    title: title,
-                    timestamp: Date.now()
-                });
-                document.getElementById('galleryUrl').value = '';
-                document.getElementById('galleryTitle').value = '';
-                loadGallery();
-            }
-        });
-
-        function loadGallery() {
-            db.ref('gallery').on('value', snap => {
-                const list = document.getElementById('galleryList');
-                list.innerHTML = '';
-                snap.forEach(child => {
-                    const item = child.val();
-                    const el = document.createElement('div');
-                    el.className = 'item-card';
-                    el.innerHTML = `
-                        <div class="item-info">
-                            <div class="item-title">${item.title}</div>
-                            <div class="item-desc">${item.src.substring(0, 50)}...</div>
-                        </div>
-                        <button class="btn-delete" onclick="deleteGallery('${child.key}')">Hapus</button>
-                    `;
-                    list.appendChild(el);
-                });
-            });
+        function initTheme() {
+            const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+            html.dataset.theme = savedTheme;
+            updateThemeIcons(savedTheme);
         }
 
-        function deleteGallery(key) {
-            db.ref('gallery/' + key).remove();
+        function updateThemeIcons(theme) {
+            moonIcon.style.display = theme === 'dark' ? '' : 'none';
+            sunIcon.style.display = theme === 'light' ? '' : 'none';
         }
 
-        function loadPhotoRequests() {
-            db.ref('photoRequests').on('value', snap => {
-                const list = document.getElementById('photoReqList');
-                list.innerHTML = '';
-                snap.forEach(child => {
-                    const item = child.val();
-                    if (item.status === 'pending') {
-                        const el = document.createElement('div');
-                        el.className = 'item-card';
-                        el.innerHTML = `
-                            <div class="item-info">
-                                <div class="item-title">${item.title}</div>
-                                <div class="item-desc">Dari: ${item.submitterName}</div>
-                            </div>
-                            <button class="btn-add" onclick="previewPhoto('${child.key}', '${item.src}', '${item.title}', '${item.submitterName}')">Lihat</button>
-                        `;
-                        list.appendChild(el);
-                    }
-                });
-            });
-        }
-
-        function previewPhoto(id, src, title, name) {
-            currentPhotoId = id;
-            document.getElementById('previewImage').src = src;
-            document.getElementById('previewInfo').innerHTML = `<strong>${title}</strong><br>Dari: ${name}`;
-            document.getElementById('photoPreviewModal').classList.add('show');
-        }
-
-        function closePhotoPreviewModal() {
-            document.getElementById('photoPreviewModal').classList.remove('show');
-        }
-
-        document.getElementById('approvePhotoBtn').addEventListener('click', () => {
-            db.ref('photoRequests/' + currentPhotoId).update({ status: 'approved' });
-            db.ref('photoRequests/' + currentPhotoId).once('value', snap => {
-                const item = snap.val();
-                db.ref('gallery').push({
-                    src: item.src,
-                    title: item.title,
-                    timestamp: Date.now()
-                });
-            });
-            closePhotoPreviewModal();
-            loadPhotoRequests();
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            html.dataset.theme = newTheme;
+            localStorage.setItem('a18_theme', newTheme);
+            updateThemeIcons(newTheme);
         });
 
-        document.getElementById('rejectPhotoBtn').addEventListener('click', () => {
-            db.ref('photoRequests/' + currentPhotoId).update({ status: 'rejected' });
-            closePhotoPreviewModal();
-            loadPhotoRequests();
-        });
+        const adminMenus = [
+            { title: 'Pengumuman', desc: 'Kelola pengumuman', href: '../announcements/', icon: 'M4 4h16v10H4z' },
+            { title: 'Galeri', desc: 'Upload foto angkatan', href: '../gallery/', icon: 'M21 15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z' },
+            { title: 'Polling', desc: 'Buat survey & voting', href: '../polling/', icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77' },
+            { title: 'Leaderboard', desc: 'Kelola poin siswa', href: '../leaderboard/', icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77' },
+            { title: 'Siswa', desc: 'Daftar siswa angkatan', href: '../students/', icon: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' },
+            { title: 'Logout', desc: 'Keluar dari admin', href: '#logout', icon: 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4' }
+        ];
 
-        document.getElementById('addAnnouncementBtn').addEventListener('click', () => {
-            const title = document.getElementById('announcementTitle').value;
-            const body = document.getElementById('announcementBody').value;
-            const priority = document.getElementById('announcementPriority').value;
-            if (title && body) {
-                db.ref('announcements').push({
-                    title: title,
-                    body: body,
-                    priority: priority,
-                    timestamp: Date.now()
-                });
-                document.getElementById('announcementTitle').value = '';
-                document.getElementById('announcementBody').value = '';
-            }
-        });
-
-        db.ref('announcements').on('value', snap => {
-            const list = document.getElementById('announcementList');
-            list.innerHTML = '';
-            snap.forEach(child => {
-                const item = child.val();
-                const el = document.createElement('div');
-                el.className = 'item-card';
-                el.innerHTML = `
-                    <div class="item-info">
-                        <div class="item-title">${item.title}</div>
-                        <div class="item-desc">Prioritas: ${item.priority}</div>
+        adminContent.innerHTML = adminMenus.map(menu => `
+            <div class="card" style="cursor:pointer;transition:all 0.2s" onclick="${menu.href === '#logout' ? 'logout()' : `window.location.href='${menu.href}'`}">
+                <div style="display:flex;align-items:flex-start;gap:12px">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5">
+                        <path d="${menu.icon}"/>
+                    </svg>
+                    <div>
+                        <h3 style="margin:0 0 4px 0;font-size:16px">${menu.title}</h3>
+                        <p style="margin:0;font-size:12px;color:var(--text-secondary)">${menu.desc}</p>
                     </div>
-                    <button class="btn-delete" onclick="deleteAnnouncement('${child.key}')">Hapus</button>
-                `;
-                list.appendChild(el);
-            });
-        });
+                </div>
+            </div>
+        `).join('');
 
-        function deleteAnnouncement(key) {
-            db.ref('announcements/' + key).remove();
-        }
-
-        document.getElementById('addOptionBtn').addEventListener('click', () => {
-            pollOptionCount++;
-            const container = document.getElementById('pollOptions');
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.className = 'form-group';
-            input.placeholder = `Opsi ${pollOptionCount}`;
-            input.style.marginBottom = '8px';
-            input.dataset.option = pollOptionCount;
-            container.appendChild(input);
-        });
-
-        document.getElementById('addPollBtn').addEventListener('click', () => {
-            const question = document.getElementById('pollQuestion').value;
-            const options = Array.from(document.querySelectorAll('#pollOptions input'))
-                .map(el => el.value)
-                .filter(v => v);
-            if (question && options.length >= 2) {
-                db.ref('polls').push({
-                    question: question,
-                    options: options,
-                    timestamp: Date.now()
-                });
-                document.getElementById('pollQuestion').value = '';
-                document.getElementById('pollOptions').innerHTML = '';
-                pollOptionCount = 0;
+        function logout() {
+            if (confirm('Logout dari admin panel?')) {
+                sessionStorage.removeItem('a18_admin_token');
+                window.location.href = '../login/';
             }
-        });
-
-        db.ref('polls').on('value', snap => {
-            const list = document.getElementById('pollList');
-            list.innerHTML = '';
-            snap.forEach(child => {
-                const item = child.val();
-                const el = document.createElement('div');
-                el.className = 'item-card';
-                el.innerHTML = `
-                    <div class="item-info">
-                        <div class="item-title">${item.question}</div>
-                        <div class="item-desc">${item.options.length} opsi</div>
-                    </div>
-                    <button class="btn-delete" onclick="deletePoll('${child.key}')">Hapus</button>
-                `;
-                list.appendChild(el);
-            });
-        });
-
-        function deletePoll(key) {
-            db.ref('polls/' + key).remove();
         }
 
-        document.getElementById('addBadgeBtn').addEventListener('click', () => {
-            const name = document.getElementById('badgeStudent').value;
-            const type = document.getElementById('badgeType').value;
-            if (name) {
-                db.ref('badges').push({
-                    studentName: name,
-                    type: type,
-                    timestamp: Date.now()
-                });
-                document.getElementById('badgeStudent').value = '';
-            }
-        });
-
-        function loadBadges() {
-            db.ref('badges').on('value', snap => {
-                const types = {};
-                snap.forEach(child => {
-                    const item = child.val();
-                    if (!types[item.type]) types[item.type] = 0;
-                    types[item.type]++;
-                });
-                
-                const grid = document.getElementById('badgesGrid');
-                grid.innerHTML = '';
-                Object.entries(types).forEach(([type, count]) => {
-                    const el = document.createElement('div');
-                    el.className = 'badge-item';
-                    el.innerHTML = `
-                        <div class="badge-name">${type}</div>
-                        <div class="badge-count">${count} pemberian</div>
-                    `;
-                    grid.appendChild(el);
-                });
-            });
-        }
-
-        loadGallery();
+        initTheme();
     </script>
 </body>
 </html>

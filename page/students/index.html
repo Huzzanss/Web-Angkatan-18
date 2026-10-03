@@ -3,294 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Siswa | Angkatan 18</title>
+    <title>Daftar Siswa | Angkatan 18</title>
     <link rel="stylesheet" href="../../style.css">
+    <style>
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .student-card {
+            padding: 16px;
+            background: var(--bg-secondary, rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .student-card:hover {
+            border-color: var(--accent);
+            background: rgba(78, 222, 163, 0.05);
+        }
+        .student-avatar {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 12px;
+            background: linear-gradient(135deg, var(--accent), var(--blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--bg);
+            font-size: 24px;
+        }
+        .student-name {
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text);
+        }
+        .student-class {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .search-box {
+            margin-bottom: 24px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(78, 222, 163, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 14px;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-brand">
-            <a href="../../">Siswa</a>
-        </div>
-        <div class="nav-right">
-            <button class="theme-toggle" id="themeToggle"></button>
-            <button class="more-btn" id="moreBtn"></button>
-            <div class="nav-dropdown" id="navDropdown">
-                <a href="../gallery/">Galeri</a>
-                <a href="../announcements/">Pengumuman</a>
-                <a href="../polling/">Polling</a>
-                <a href="../timecapsule/">Time Capsule</a>
-                <a href="../wordle/">Wordle</a>
-                <a href="../leaderboard/">Leaderboard</a>
+        <div class="nav-container">
+            <a href="../../" class="nav-logo">Angkatan 18</a>
+            <div style="display:flex;align-items:center;gap:20px">
+                <ul class="nav-links">
+                    <li><a href="../../">Home</a></li>
+                    <li><a href="../students/" class="active">Siswa</a></li>
+                    <li><a href="../gallery/">Galeri</a></li>
+                    <li><a href="../announcements/">Pengumuman</a></li>
+                    <li class="nav-more">
+                        <button class="nav-more-btn" id="moreBtn">Lainnya
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <ul class="nav-dropdown" id="navDropdown">
+                            <li><a href="../messages/">Pesan & Kesan</a></li>
+                            <li><a href="../shoutout/">Shoutout</a></li>
+                            <li><a href="../confession/">Confession</a></li>
+                            <li><a href="../forum/">Forum</a></li>
+                            <li><a href="../polling/">Polling</a></li>
+                            <li><a href="../timecapsule/">Time Capsule</a></li>
+                            <li><a href="../leaderboard/">Leaderboard</a></li>
+                            <li><a href="../wordle/">Wordle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" title="Ganti tema">
+                    <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
             </div>
         </div>
     </nav>
 
-    <main class="container">
-        <div class="page-header">
-            <h1>Data Siswa Angkatan 18</h1>
-            <p>Lihat profil semua teman-teman seangkatan</p>
+    <div class="page-header">
+        <div class="page-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
+        <h1>Daftar Siswa</h1>
+        <p>79 Siswa Angkatan 18 - 2026-2029</p>
+    </div>
 
-        <div class="students-controls">
-            <div class="filter-group">
-                <button class="filter-btn active" data-filter="all">Semua (79)</button>
-                <button class="filter-btn" data-filter="male">Putra (37)</button>
-                <button class="filter-btn" data-filter="female">Putri (42)</button>
+    <div class="content-section">
+        <div style="max-width:1200px;margin:0 auto">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Cari nama siswa...">
             </div>
-            <input 
-                type="text" 
-                id="searchInput" 
-                class="search-input" 
-                placeholder="Cari nama siswa..." 
-                autocomplete="off"
-            >
-        </div>
 
-        <div id="studentsGrid" class="students-grid">
-            <div class="loading">Memuat data siswa...</div>
-        </div>
-    </main>
-
-    <!-- Profile Modal -->
-    <div id="profileModal" class="modal">
-        <div class="modal-content profile-modal">
-            <button class="modal-close" id="closeProfileModal">&times;</button>
-            <div class="profile-header">
-                <div class="profile-avatar" id="profileAvatar"></div>
-                <div class="profile-info">
-                    <h2 id="profileName"></h2>
-                    <p id="profileClass"></p>
-                    <p id="profileGender"></p>
+            <div class="students-grid" id="studentsGrid">
+                <div class="loading-state" style="grid-column:1/-1">
+                    <div class="spinner"></div>
+                    Memuat daftar siswa...
                 </div>
             </div>
-            <div class="profile-badges" id="profileBadges"></div>
         </div>
     </div>
 
-    <script src="../../firebase.js"></script>
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
     <script src="../../app.js"></script>
+    <script src="../../sound.js"></script>
     <script>
         initTheme();
 
-        const db = firebase.database();
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const moreBtn = document.getElementById('moreBtn');
+        const dropdown = document.getElementById('navDropdown');
         const studentsGrid = document.getElementById('studentsGrid');
         const searchInput = document.getElementById('searchInput');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const profileModal = document.getElementById('profileModal');
-        const closeProfileModal = document.getElementById('closeProfileModal');
 
-        let currentFilter = 'all';
-        let allStudents = STUDENTS;
-        let allBadges = [];
+        let allStudents = [];
 
-        // Load badges
-        function loadBadges() {
-            db.ref('badges').on('value', (snapshot) => {
-                allBadges = [];
-                if (snapshot.exists()) {
-                    snapshot.forEach(child => {
-                        allBadges.push(child.val());
-                    });
-                }
-                renderStudents();
-            });
+        function initTheme() {
+            const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+            html.dataset.theme = savedTheme;
+            updateThemeIcons(savedTheme);
         }
 
-        function renderStudents(filtered = null) {
-            const toRender = filtered || getFilteredStudents();
-            
-            if (toRender.length === 0) {
-                studentsGrid.innerHTML = '<div class="empty-state">Tidak ada siswa ditemukan</div>';
+        function updateThemeIcons(theme) {
+            moonIcon.style.display = theme === 'dark' ? '' : 'none';
+            sunIcon.style.display = theme === 'light' ? '' : 'none';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            html.dataset.theme = newTheme;
+            localStorage.setItem('a18_theme', newTheme);
+            updateThemeIcons(newTheme);
+        });
+
+        moreBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+        });
+        document.addEventListener('click', () => dropdown.classList.remove('show'));
+
+        const studentsData = [
+            { name: 'Hafidz Wijaya', class: 'VIII A' },
+            { name: 'Bilal Pratama', class: 'VIII A' },
+            { name: 'Aisha Putri', class: 'VIII A' }
+        ];
+
+        function renderStudents(students) {
+            if (!students.length) {
+                studentsGrid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">Tidak ada siswa yang cocok</div>';
                 return;
             }
 
-            studentsGrid.innerHTML = toRender.map(student => {
-                const badges = allBadges.filter(b => b.studentName === student.name);
-                const badgesHtml = badges.length > 0 
-                    ? `<div class="student-badges">${badges.map(b => getBadgeIcon(b.type)).join('')}</div>`
-                    : '';
+            studentsGrid.innerHTML = students.map(student => {
+                const initials = student.name
+                    .split(' ')
+                    .map(word => word[0])
+                    .join('')
+                    .toUpperCase()
+                    .slice(0, 2);
 
                 return `
-                    <div class="student-card" onclick="openProfile('${student.name.replace(/'/g, "\\'")}', '${student.class.replace(/'/g, "\\'")}', '${student.gender.replace(/'/g, "\\'")}')" style="cursor: pointer;">
-                        <div class="student-avatar">${getInitials(student.name)}</div>
-                        <h3>${student.name}</h3>
-                        <p>${student.class}</p>
-                        ${badgesHtml}
+                    <div class="student-card">
+                        <div class="student-avatar">${initials}</div>
+                        <p class="student-name">${student.name}</p>
+                        <p class="student-class">${student.class}</p>
                     </div>
                 `;
             }).join('');
         }
 
-        function getFilteredStudents() {
-            let filtered = allStudents;
-            
-            if (currentFilter === 'male') {
-                filtered = filtered.filter(s => s.gender === 'Laki-laki');
-            } else if (currentFilter === 'female') {
-                filtered = filtered.filter(s => s.gender === 'Perempuan');
-            }
-
-            const searchTerm = searchInput.value.toLowerCase();
-            if (searchTerm) {
-                filtered = filtered.filter(s => 
-                    s.name.toLowerCase().includes(searchTerm)
-                );
-            }
-
-            return filtered;
-        }
-
-        function getBadgeIcon(type) {
-            const badges = {
-                'best-student': '[Best]',
-                'helpful': '[Help]',
-                'funny': '[Funny]',
-                'smart': '[Smart]',
-                'creative': '[Creative]',
-                'leader': '[Leader]'
-            };
-            return badges[type] || '[Badge]';
-        }
-
-        function openProfile(name, className, gender) {
-            document.getElementById('profileName').textContent = name;
-            document.getElementById('profileClass').textContent = className;
-            document.getElementById('profileGender').textContent = gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan';
-            document.getElementById('profileAvatar').textContent = getInitials(name);
-
-            const studentBadges = allBadges.filter(b => b.studentName === name);
-            const badgesHtml = studentBadges.length > 0
-                ? `<div class="profile-badges-grid">${studentBadges.map(b => `
-                    <div class="badge-item">
-                        <div class="badge-icon-wrap">${getBadgeIcon(b.type)}</div>
-                        <small>${getBadgeLabel(b.type)}</small>
-                    </div>
-                `).join('')}</div>`
-                : '<p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem;">Belum ada badge</p>';
-
-            document.getElementById('profileBadges').innerHTML = badgesHtml;
-            profileModal.style.display = 'flex';
-        }
-
-        function getBadgeLabel(type) {
-            const labels = {
-                'best-student': 'Siswa Terbaik',
-                'helpful': 'Membantu',
-                'funny': 'Lucu',
-                'smart': 'Pintar',
-                'creative': 'Kreatif',
-                'leader': 'Pemimpin'
-            };
-            return labels[type] || 'Badge';
-        }
-
-        closeProfileModal.addEventListener('click', () => {
-            profileModal.style.display = 'none';
+        searchInput.addEventListener('input', e => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allStudents.filter(student =>
+                student.name.toLowerCase().includes(query)
+            );
+            renderStudents(filtered);
         });
 
-        profileModal.addEventListener('click', (e) => {
-            if (e.target === profileModal) {
-                profileModal.style.display = 'none';
-            }
-        });
+        function loadStudents() {
+            allStudents = studentsData;
+            renderStudents(allStudents);
+        }
 
-        // Filter buttons
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                renderStudents();
-            });
-        });
-
-        // Search
-        searchInput.addEventListener('input', () => {
-            renderStudents();
-        });
-
-        // Students data
-        const STUDENTS = [
-            { name: 'Muhammad Hafidz', class: '8A', gender: 'Laki-laki' },
-            { name: 'Aisyah Putri', class: '8A', gender: 'Perempuan' },
-            { name: 'Budi Santoso', class: '8A', gender: 'Laki-laki' },
-            { name: 'Citra Dewi', class: '8A', gender: 'Perempuan' },
-            { name: 'Dandi Wijaya', class: '8B', gender: 'Laki-laki' },
-            { name: 'Elisa Hartono', class: '8B', gender: 'Perempuan' },
-            { name: 'Fajar Rahman', class: '8B', gender: 'Laki-laki' },
-            { name: 'Gina Salsabila', class: '8B', gender: 'Perempuan' },
-            { name: 'Hendra Kusuma', class: '8C', gender: 'Laki-laki' },
-            { name: 'Indira Lestari', class: '8C', gender: 'Perempuan' },
-            { name: 'Joko Pratama', class: '8C', gender: 'Laki-laki' },
-            { name: 'Karina Azalea', class: '8C', gender: 'Perempuan' },
-            { name: 'Luthfi Ardianto', class: '8D', gender: 'Laki-laki' },
-            { name: 'Maya Sari', class: '8D', gender: 'Perempuan' },
-            { name: 'Nicky Wijaya', class: '8D', gender: 'Laki-laki' },
-            { name: 'Olivia Chandra', class: '8D', gender: 'Perempuan' },
-            { name: 'Prabowo Suryanto', class: '8A', gender: 'Laki-laki' },
-            { name: 'Queena Putri', class: '8A', gender: 'Perempuan' },
-            { name: 'Reza Pahlevi', class: '8B', gender: 'Laki-laki' },
-            { name: 'Sasha Bella', class: '8B', gender: 'Perempuan' },
-            { name: 'Teguh Hidayat', class: '8C', gender: 'Laki-laki' },
-            { name: 'Uswatun Hasanah', class: '8C', gender: 'Perempuan' },
-            { name: 'Vicky Dermawan', class: '8D', gender: 'Laki-laki' },
-            { name: 'Wulan Dari Timur', class: '8D', gender: 'Perempuan' },
-            { name: 'Xander Pratama', class: '8A', gender: 'Laki-laki' },
-            { name: 'Yasmin Kayla', class: '8A', gender: 'Perempuan' },
-            { name: 'Zulkifli Rahman', class: '8B', gender: 'Laki-laki' },
-            { name: 'Amira Salsabila', class: '8B', gender: 'Perempuan' },
-            { name: 'Bambang Irawan', class: '8C', gender: 'Laki-laki' },
-            { name: 'Cantika Dewi', class: '8C', gender: 'Perempuan' },
-            { name: 'Dwi Cahyo', class: '8D', gender: 'Laki-laki' },
-            { name: 'Eka Wijaya', class: '8D', gender: 'Perempuan' },
-            { name: 'Fendy Kusuma', class: '8A', gender: 'Laki-laki' },
-            { name: 'Ghea Putri', class: '8A', gender: 'Perempuan' },
-            { name: 'Hani Wijaya', class: '8B', gender: 'Perempuan' },
-            { name: 'Irfan Harahap', class: '8B', gender: 'Laki-laki' },
-            { name: 'Jasmine Chandra', class: '8C', gender: 'Perempuan' },
-            { name: 'Kinan Pratama', class: '8C', gender: 'Laki-laki' },
-            { name: 'Lina Marlina', class: '8D', gender: 'Perempuan' },
-            { name: 'Maulana Ihsan', class: '8D', gender: 'Laki-laki' },
-            { name: 'Novia Setiawan', class: '8A', gender: 'Perempuan' },
-            { name: 'Okta Budi', class: '8A', gender: 'Laki-laki' },
-            { name: 'Permata Sari', class: '8B', gender: 'Perempuan' },
-            { name: 'Rahmad Gama', class: '8B', gender: 'Laki-laki' },
-            { name: 'Siti Nurhaliza', class: '8C', gender: 'Perempuan' },
-            { name: 'Toni Suryanto', class: '8C', gender: 'Laki-laki' },
-            { name: 'Umi Marhaeni', class: '8D', gender: 'Perempuan' },
-            { name: 'Verdi Putra', class: '8D', gender: 'Laki-laki' },
-            { name: 'Wilda Chandra', class: '8A', gender: 'Perempuan' },
-            { name: 'Yudha Pratama', class: '8A', gender: 'Laki-laki' },
-            { name: 'Zalina Putri', class: '8B', gender: 'Perempuan' },
-            { name: 'Advan Wijaya', class: '8B', gender: 'Laki-laki' },
-            { name: 'Bella Kusuma', class: '8C', gender: 'Perempuan' },
-            { name: 'Cipta Putra', class: '8C', gender: 'Laki-laki' },
-            { name: 'Dalia Sari', class: '8D', gender: 'Perempuan' },
-            { name: 'Eka Prasetyo', class: '8D', gender: 'Laki-laki' },
-            { name: 'Firdaus Harahap', class: '8A', gender: 'Laki-laki' },
-            { name: 'Gita Martina', class: '8A', gender: 'Perempuan' },
-            { name: 'Hamdan Wijaya', class: '8B', gender: 'Laki-laki' },
-            { name: 'Indah Paramita', class: '8B', gender: 'Perempuan' },
-            { name: 'Jendra Kusuma', class: '8C', gender: 'Laki-laki' },
-            { name: 'Kintamani Putri', class: '8C', gender: 'Perempuan' },
-            { name: 'Lipan Wijaya', class: '8D', gender: 'Laki-laki' },
-            { name: 'Mila Chandra', class: '8D', gender: 'Perempuan' },
-            { name: 'Nanda Putra', class: '8A', gender: 'Laki-laki' },
-            { name: 'Olive Sari', class: '8A', gender: 'Perempuan' },
-            { name: 'Pranoto Adi', class: '8B', gender: 'Laki-laki' },
-            { name: 'Qori Hafiza', class: '8B', gender: 'Perempuan' },
-            { name: 'Rinto Wijaya', class: '8C', gender: 'Laki-laki' },
-            { name: 'Sena Lestari', class: '8C', gender: 'Perempuan' },
-            { name: 'Teja Kusuma', class: '8D', gender: 'Laki-laki' },
-            { name: 'Usha Marlina', class: '8D', gender: 'Perempuan' },
-            { name: 'Vandi Putra', class: '8A', gender: 'Laki-laki' },
-            { name: 'Widya Chandra', class: '8A', gender: 'Perempuan' },
-            { name: 'Yusran Pratama', class: '8B', gender: 'Laki-laki' },
-            { name: 'Ziti Wijaya', class: '8B', gender: 'Perempuan' }
-        ];
-
-        loadBadges();
-        initNavigation();
+        loadStudents();
     </script>
 </body>
 </html>

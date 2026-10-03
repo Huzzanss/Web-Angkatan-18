@@ -1,185 +1,200 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confession — Angkatan 18</title>
+    <title>Confession | Angkatan 18</title>
     <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../../index.html" class="nav-logo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                Angkatan 18
-            </a>
-            <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../students/">Siswa</a></li>
-                <li><a href="../confession/" class="active">Confession</a></li>
-                <li><a href="../gallery/">Galeri</a></li>
-                <li><a href="../announcements/">Pengumuman</a></li>
-            </ul>
+            <a href="../../" class="nav-logo">Angkatan 18</a>
+            <div style="display:flex;align-items:center;gap:20px">
+                <ul class="nav-links">
+                    <li><a href="../../">Home</a></li>
+                    <li><a href="../students/">Siswa</a></li>
+                    <li><a href="../gallery/">Galeri</a></li>
+                    <li><a href="../announcements/">Pengumuman</a></li>
+                    <li class="nav-more">
+                        <button class="nav-more-btn" id="moreBtn">Lainnya
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <ul class="nav-dropdown" id="navDropdown">
+                            <li><a href="../messages/">Pesan & Kesan</a></li>
+                            <li><a href="../shoutout/">Shoutout</a></li>
+                            <li><a href="../confession/" class="active">Confession</a></li>
+                            <li><a href="../forum/">Forum</a></li>
+                            <li><a href="../polling/">Polling</a></li>
+                            <li><a href="../timecapsule/">Time Capsule</a></li>
+                            <li><a href="../leaderboard/">Leaderboard</a></li>
+                            <li><a href="../wordle/">Wordle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" title="Ganti tema">
+                    <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <section class="page-header">
+    <div class="page-header">
         <div class="page-header-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg>
         </div>
         <h1>Confession</h1>
-        <p>Ungkapkan perasaanmu secara anonim</p>
-    </section>
-
-    <div class="confession-notice">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Semua confession bersifat anonim. Jaga sopan santun dan hormati sesama.
+        <p>Berbagi cerita dengan anonim</p>
     </div>
 
-    <div class="msg-form-wrap">
-        <div class="msg-form-card">
-            <h3>Tulis Confession</h3>
-            <form id="confForm">
-                <div class="form-group">
-                    <label>Confession <span style="color:var(--text3);font-weight:400;text-transform:none">(anonim)</span></label>
-                    <textarea id="confContent" placeholder="Ungkapkan perasaanmu..." rows="4" maxlength="500" required></textarea>
-                    <div class="char-count"><span id="confCount">0</span>/500</div>
-                </div>
-                <div class="form-group">
-                    <label>Untuk siapa? <span style="color:var(--text3);font-weight:400;text-transform:none">(opsional)</span></label>
-                    <input type="text" id="confTo" placeholder="Nama, inisial, atau dikosongkan..." maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label>Mood</label>
-                    <div class="mood-picker">
-                        <button type="button" class="mood-btn active" data-mood="happy" title="Senang">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                        </button>
-                        <button type="button" class="mood-btn" data-mood="sad" title="Sedih">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                        </button>
-                        <button type="button" class="mood-btn" data-mood="love" title="Cinta">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                        </button>
-                        <button type="button" class="mood-btn" data-mood="nervous" title="Nervous">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 15h8"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                        </button>
-                        <button type="button" class="mood-btn" data-mood="grateful" title="Bersyukur">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        </button>
-                        <button type="button" class="mood-btn" data-mood="excited" title="Excited">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        </button>
+    <div class="content-section">
+        <div style="max-width:800px;margin:0 auto">
+            <div class="card">
+                <h3 style="margin-top:0">Buat Confession</h3>
+                <form id="confessionForm">
+                    <div class="form-group">
+                        <label>Cerita Anda</label>
+                        <textarea id="confessionContent" placeholder="Cerita atau rahasia Anda..." rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Kirim Confession</button>
+                </form>
+            </div>
+
+            <div style="margin-top:24px">
+                <div id="confessionsList" style="display:flex;flex-direction:column;gap:12px">
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        Memuat confession...
                     </div>
                 </div>
-                <button type="submit" class="btn btn-full">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    Kirim Anonim
-                </button>
-            </form>
+            </div>
         </div>
-    </div>
-
-    <div class="msg-filter-wrap">
-        <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">Semua</button>
-            <button class="filter-tab" data-filter="has-to">Ada Tujuan</button>
-            <button class="filter-tab" data-filter="no-to">Curhat Bebas</button>
-        </div>
-    </div>
-
-    <div id="confList" class="msg-list">
-        <div class="loading-state"><div class="spinner"></div><p>Memuat confession...</p></div>
     </div>
 
     <footer class="footer">
         <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
     </footer>
 
-    <script type="module">
-        import { db, ref, push, onValue } from "../../firebase.js";
+    <script src="../../app.js"></script>
+    <script src="../../sound.js"></script>
+    <script>
+        const API_BASE = '/api';
 
-        const MOOD_ICON = {
-            happy:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
-            sad:      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
-            love:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
-            nervous:  `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 15h8"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
-            grateful: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-            excited:  `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-        };
+        initTheme();
 
-        let selectedMood = 'happy', currentFilter = 'all', allConf = [];
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const moreBtn = document.getElementById('moreBtn');
+        const dropdown = document.getElementById('navDropdown');
+        const confessionForm = document.getElementById('confessionForm');
+        const confessionsList = document.getElementById('confessionsList');
 
-        document.querySelectorAll('.mood-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedMood = btn.dataset.mood;
-            });
+        function initTheme() {
+            const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+            html.dataset.theme = savedTheme;
+            updateThemeIcons(savedTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            moonIcon.style.display = theme === 'dark' ? '' : 'none';
+            sunIcon.style.display = theme === 'light' ? '' : 'none';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            html.dataset.theme = newTheme;
+            localStorage.setItem('a18_theme', newTheme);
+            updateThemeIcons(newTheme);
         });
 
-        document.getElementById('confContent').addEventListener('input', e => {
-            document.getElementById('confCount').textContent = e.target.value.length;
+        moreBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
         });
+        document.addEventListener('click', () => dropdown.classList.remove('show'));
 
-        document.querySelectorAll('.filter-tab').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                renderConf();
-            });
-        });
-
-        document.getElementById('confForm').addEventListener('submit', async e => {
-            e.preventDefault();
-            const content = document.getElementById('confContent').value.trim();
-            const to      = document.getElementById('confTo').value.trim();
-            if (!content) return;
-            const btn = e.target.querySelector('[type="submit"]');
-            btn.disabled = true;
+        async function loadConfessions() {
             try {
-                await push(ref(db, 'confessions'), {
-                    content, to: to || '', mood: selectedMood,
-                    timestamp: Date.now(),
-                    date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
-                });
-                e.target.reset();
-                document.getElementById('confCount').textContent = '0';
-                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-                document.querySelector('.mood-btn[data-mood="happy"]').classList.add('active');
-                selectedMood = 'happy';
-            } catch (err) { alert('Gagal: ' + err.message); }
-            finally { btn.disabled = false; }
-        });
+                const res = await fetch(`${API_BASE}/confession`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const confessions = await res.json();
+                renderConfessions(confessions);
+            } catch (err) {
+                console.error('Load error:', err);
+                confessionsList.innerHTML = '<div class="empty-state">Gagal memuat confession</div>';
+            }
+        }
 
-        onValue(ref(db, 'confessions'), snap => {
-            allConf = [];
-            snap.forEach(c => allConf.unshift({ key: c.key, ...c.val() }));
-            renderConf();
-        });
-
-        function renderConf() {
-            const list = document.getElementById('confList');
-            let filtered = allConf;
-            if (currentFilter === 'has-to') filtered = allConf.filter(c => c.to);
-            if (currentFilter === 'no-to')  filtered = allConf.filter(c => !c.to);
-            if (!filtered.length) {
-                list.innerHTML = `<div class="empty-state">Belum ada confession.</div>`;
+        function renderConfessions(confessions) {
+            if (!confessions.length) {
+                confessionsList.innerHTML = '<div class="empty-state">Belum ada confession</div>';
                 return;
             }
-            list.innerHTML = filtered.map((c, i) => `
-                <div class="conf-card">
-                    <div class="conf-top">
-                        <span class="conf-number">Anonim #${allConf.length - allConf.indexOf(c)}</span>
-                        <span class="conf-mood-icon">${MOOD_ICON[c.mood] || MOOD_ICON.happy}</span>
+
+            confessionsList.innerHTML = confessions.map(conf => `
+                <div class="card">
+                    <p style="margin:0 0 8px 0;color:var(--text);white-space:pre-wrap">${conf.content}</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <p style="font-size:12px;color:var(--text-secondary);margin:0">${new Date(conf.date).toLocaleDateString('id-ID')}</p>
+                        <button class="btn-icon" onclick="likeConfession('${conf.id}')" style="display:flex;align-items:center;gap:4px;padding:4px 8px;background:rgba(78,222,163,0.1);border:1px solid rgba(78,222,163,0.2);border-radius:6px;cursor:pointer;color:var(--accent);font-size:12px">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <span>${conf.likes || 0}</span>
+                        </button>
                     </div>
-                    ${c.to ? `<p class="conf-to">Untuk: <strong>${c.to}</strong></p>` : ''}
-                    <p class="msg-content">${c.content}</p>
-                    <p class="msg-date">${c.date}</p>
                 </div>
             `).join('');
         }
+
+        confessionForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const content = document.getElementById('confessionContent').value.trim();
+            if (!content) return;
+
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.disabled = true;
+            const originalText = btn.textContent;
+            btn.textContent = 'Mengirim...';
+
+            try {
+                const res = await fetch(`${API_BASE}/confession`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content,
+                        date: new Date().toISOString(),
+                        likes: 0
+                    })
+                });
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                confessionForm.reset();
+                await loadConfessions();
+            } catch (err) {
+                alert('Gagal mengirim: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        });
+
+        async function likeConfession(id) {
+            try {
+                const res = await fetch(`${API_BASE}/confession/${id}/like`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                await loadConfessions();
+            } catch (err) {
+                console.error('Like error:', err);
+            }
+        }
+
+        loadConfessions();
     </script>
 </body>
 </html>

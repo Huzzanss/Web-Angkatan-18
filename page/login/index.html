@@ -3,187 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login — Angkatan 18</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Admin Login | Angkatan 18</title>
+    <link rel="stylesheet" href="../../style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        :root {
-            --bg: #0a0e0d;
-            --bg-secondary: #0f1513;
-            --accent: #4EDEA3;
-            --text: #e8eae8;
-            --text-secondary: #9da9a4;
-            --border: #1a2521;
-        }
-        [data-theme="light"] {
-            --bg: #f5f7f6;
-            --bg-secondary: #eff1f0;
-            --accent: #0d9e6e;
-            --text: #0a0e0d;
-            --text-secondary: #4a5a50;
-            --border: #e0e5e1;
-        }
         body {
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
             padding: 20px;
         }
         .login-container {
             width: 100%;
             max-width: 400px;
-            background: var(--bg-secondary);
+        }
+        .login-box {
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 40px;
-        }
-        .login-header {
+            padding: 40px 24px;
             text-align: center;
-            margin-bottom: 32px;
         }
         .login-logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--accent);
-            text-decoration: none;
-        }
-        .login-logo svg {
-            width: 24px;
-            height: 24px;
+            font-size: 48px;
+            margin-bottom: 20px;
         }
         .login-title {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
             margin-bottom: 8px;
         }
         .login-subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-secondary);
+            margin-bottom: 32px;
         }
         .login-form {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
         .form-group label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: block;
         }
         .form-group input {
+            width: 100%;
             padding: 10px 12px;
+            background: rgba(78, 222, 163, 0.05);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--bg);
+            border-radius: 6px;
             color: var(--text);
             font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
         .form-group input:focus {
             outline: none;
             border-color: var(--accent);
+            background: rgba(78, 222, 163, 0.08);
         }
-        .login-button {
+        .login-submit {
             padding: 10px 16px;
             background: var(--accent);
-            color: var(--bg);
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 6px;
+            color: var(--bg);
             font-weight: 600;
             cursor: pointer;
             transition: opacity 0.2s;
-            margin-top: 8px;
+            font-size: 14px;
         }
-        .login-button:hover {
+        .login-submit:hover:not(:disabled) {
             opacity: 0.9;
         }
-        .login-button:active {
-            opacity: 0.8;
+        .login-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
-        .error-message {
-            color: #e85555;
+        .login-error {
+            padding: 12px;
+            background: rgba(232, 121, 160, 0.1);
+            border: 1px solid rgba(232, 121, 160, 0.3);
+            border-radius: 6px;
+            color: #e879a0;
             font-size: 13px;
-            text-align: center;
             display: none;
+            margin-bottom: 16px;
         }
-        .error-message.show {
-            display: block;
+        .login-back {
+            margin-top: 20px;
         }
-        .footer-text {
-            text-align: center;
-            font-size: 12px;
+        .login-back a {
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-top: 24px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .login-back a:hover {
+            color: var(--accent);
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(78, 222, 163, 0.1);
+            border: 1px solid rgba(78, 222, 163, 0.2);
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            color: var(--accent);
+            line-height: 0;
+        }
+        .theme-toggle:hover {
+            background: rgba(78, 222, 163, 0.15);
         }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" title="Ganti tema">
+        <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+
     <div class="login-container">
-        <div class="login-header">
-            <a href="../../index.html" class="login-logo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                Angkatan 18
-            </a>
-            <h1 class="login-title">Admin Panel</h1>
-            <p class="login-subtitle">Masukkan kredensial admin</p>
+        <div class="login-box">
+            <div class="login-logo">🔐</div>
+            <div class="login-title">Admin Panel</div>
+            <div class="login-subtitle">Angkatan 18</div>
+
+            <div class="login-error" id="errorMessage"></div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="login-submit" id="submitBtn">Masuk</button>
+            </form>
+
+            <div class="login-back">
+                <a href="../../">Kembali ke Home</a>
+            </div>
         </div>
-
-        <form class="login-form" id="loginForm">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="admin" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
-            </div>
-            <div class="error-message" id="errorMsg"></div>
-            <button type="submit" class="login-button">Masuk</button>
-        </form>
-
-        <p class="footer-text">Halaman admin panel Angkatan 18</p>
     </div>
 
+    <script src="../../sound.js"></script>
     <script>
-        if (sessionStorage.getItem('admin_logged_in') === 'true') {
-            window.location.href = '../admin/';
+        const API_BASE = '/api';
+
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+            html.dataset.theme = savedTheme;
+            updateThemeIcons(savedTheme);
         }
 
-        const form = document.getElementById('loginForm');
-        const errorMsg = document.getElementById('errorMsg');
+        function updateThemeIcons(theme) {
+            moonIcon.style.display = theme === 'dark' ? '' : 'none';
+            sunIcon.style.display = theme === 'light' ? '' : 'none';
+        }
 
-        form.addEventListener('submit', (e) => {
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            html.dataset.theme = newTheme;
+            localStorage.setItem('a18_theme', newTheme);
+            updateThemeIcons(newTheme);
+        });
+
+        initTheme();
+
+        loginForm.addEventListener('submit', async e => {
             e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
 
-            if (username === 'admin' && password === 'admin123') {
-                sessionStorage.setItem('admin_logged_in', 'true');
-                sessionStorage.setItem('admin_username', username);
-                window.location.href = '../admin/';
-            } else {
-                errorMsg.textContent = 'Username atau password salah';
-                errorMsg.classList.add('show');
-                setTimeout(() => errorMsg.classList.remove('show'), 3000);
+            if (!username || !password) {
+                showError('Username dan password harus diisi');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Memproses...';
+            errorMessage.style.display = 'none';
+
+            try {
+                const res = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.message || 'Login gagal');
+                }
+
+                if (data.token) {
+                    sessionStorage.setItem('a18_admin_token', data.token);
+                    window.location.href = '../admin/';
+                } else {
+                    throw new Error('Token tidak diterima');
+                }
+            } catch (err) {
+                showError(err.message || 'Terjadi kesalahan');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             }
         });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = '';
+        }
+
+        document.getElementById('username').focus();
     </script>
 </body>
 </html>

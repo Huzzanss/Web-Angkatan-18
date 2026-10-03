@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum | Angkatan 18</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../../" class="nav-logo">Angkatan 18</a>
+            <div style="display:flex;align-items:center;gap:20px">
+                <ul class="nav-links">
+                    <li><a href="../../">Home</a></li>
+                    <li><a href="../students/">Siswa</a></li>
+                    <li><a href="../gallery/">Galeri</a></li>
+                    <li><a href="../announcements/">Pengumuman</a></li>
+                    <li class="nav-more">
+                        <button class="nav-more-btn" id="moreBtn">Lainnya
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <ul class="nav-dropdown" id="navDropdown">
+                            <li><a href="../messages/">Pesan & Kesan</a></li>
+                            <li><a href="../shoutout/">Shoutout</a></li>
+                            <li><a href="../confession/">Confession</a></li>
+                            <li><a href="../forum/" class="active">Forum</a></li>
+                            <li><a href="../polling/">Polling</a></li>
+                            <li><a href="../timecapsule/">Time Capsule</a></li>
+                            <li><a href="../leaderboard/">Leaderboard</a></li>
+                            <li><a href="../wordle/">Wordle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" title="Ganti tema">
+                    <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="page-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h1>Forum</h1>
+        <p>Diskusi dan berbagi ide</p>
+    </div>
+
+    <div class="content-section">
+        <div style="max-width:900px;margin:0 auto">
+            <div style="margin-bottom:24px">
+                <button id="createThreadBtn" class="btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Buat Thread
+                </button>
+            </div>
+
+            <div id="threadsList" style="display:flex;flex-direction:column;gap:16px">
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    Memuat forum...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="threadModal" class="modal-overlay" style="display:none">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h3>Buat Thread</h3>
+                <button class="modal-close" id="closeThreadModal">&times;</button>
+            </div>
+            <form id="threadForm">
+                <div class="form-group">
+                    <label>Judul</label>
+                    <input type="text" id="threadTitle" placeholder="Judul diskusi" required>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi</label>
+                    <textarea id="threadDesc" placeholder="Jelaskan topik diskusi..." rows="5" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="cancelThreadBtn">Batal</button>
+                    <button type="submit" class="btn">Buat</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="replyModal" class="modal-overlay" style="display:none">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h3>Balas Thread</h3>
+                <button class="modal-close" id="closeReplyModal">&times;</button>
+            </div>
+            <form id="replyForm">
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" id="replyName" placeholder="Nama Anda">
+                </div>
+                <div class="form-group">
+                    <label>Balasan</label>
+                    <textarea id="replyContent" placeholder="Tulis balasan..." rows="4" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-ghost" id="cancelReplyBtn">Batal</button>
+                    <button type="submit" class="btn">Kirim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Angkatan 18 — SMP Islam Bunga Bangsa Samarinda</p>
+    </footer>
+
+    <script src="../../app.js"></script>
+    <script src="../../sound.js"></script>
+    <script>
+        const API_BASE = '/api';
+        let currentThreadId = null;
+
+        initTheme();
+
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const moreBtn = document.getElementById('moreBtn');
+        const dropdown = document.getElementById('navDropdown');
+        const threadsList = document.getElementById('threadsList');
+        const createThreadBtn = document.getElementById('createThreadBtn');
+        const threadModal = document.getElementById('threadModal');
+        const closeThreadModal = document.getElementById('closeThreadModal');
+        const cancelThreadBtn = document.getElementById('cancelThreadBtn');
+        const threadForm = document.getElementById('threadForm');
+        const replyModal = document.getElementById('replyModal');
+        const closeReplyModal = document.getElementById('closeReplyModal');
+        const cancelReplyBtn = document.getElementById('cancelReplyBtn');
+        const replyForm = document.getElementById('replyForm');
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('a18_theme') || 'dark';
+            html.dataset.theme = savedTheme;
+            updateThemeIcons(savedTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            moonIcon.style.display = theme === 'dark' ? '' : 'none';
+            sunIcon.style.display = theme === 'light' ? '' : 'none';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            html.dataset.theme = newTheme;
+            localStorage.setItem('a18_theme', newTheme);
+            updateThemeIcons(newTheme);
+        });
+
+        moreBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+        });
+        document.addEventListener('click', () => dropdown.classList.remove('show'));
+
+        createThreadBtn.addEventListener('click', () => {
+            threadForm.reset();
+            threadModal.style.display = 'flex';
+        });
+
+        closeThreadModal.addEventListener('click', () => threadModal.style.display = 'none');
+        cancelThreadBtn.addEventListener('click', () => threadModal.style.display = 'none');
+        threadModal.addEventListener('click', e => {
+            if (e.target === threadModal) threadModal.style.display = 'none';
+        });
+
+        closeReplyModal.addEventListener('click', () => replyModal.style.display = 'none');
+        cancelReplyBtn.addEventListener('click', () => replyModal.style.display = 'none');
+        replyModal.addEventListener('click', e => {
+            if (e.target === replyModal) replyModal.style.display = 'none';
+        });
+
+        async function loadThreads() {
+            try {
+                const res = await fetch(`${API_BASE}/forum`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const threads = await res.json();
+                renderThreads(threads);
+            } catch (err) {
+                console.error('Load error:', err);
+                threadsList.innerHTML = '<div class="empty-state">Gagal memuat forum</div>';
+            }
+        }
+
+        function renderThreads(threads) {
+            if (!threads.length) {
+                threadsList.innerHTML = '<div class="empty-state">Belum ada thread</div>';
+                return;
+            }
+
+            threadsList.innerHTML = threads.map(thread => `
+                <div class="card" onclick="toggleReplies('${thread.id}')">
+                    <div style="cursor:pointer">
+                        <h3 style="margin:0 0 8px 0;color:var(--accent)">${thread.title}</h3>
+                        <p style="margin:0 0 12px 0;color:var(--text);white-space:pre-wrap">${thread.description}</p>
+                        <p style="font-size:12px;color:var(--text-secondary);margin:0">${new Date(thread.date).toLocaleDateString('id-ID')} • ${thread.replies?.length || 0} balasan</p>
+                    </div>
+                    <button class="btn-small" style="margin-top:12px;width:100%" onclick="event.stopPropagation(); openReplyModal('${thread.id}')">Balas</button>
+                    <div id="replies-${thread.id}" style="display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px" onclick="event.stopPropagation()">
+                        ${(thread.replies || []).map(reply => `
+                            <div style="margin-bottom:12px;padding:12px;background:rgba(78,222,163,0.05);border-radius:6px">
+                                <p style="margin:0 0 4px 0;font-weight:600;color:var(--accent);font-size:13px">${reply.name || 'Anonim'}</p>
+                                <p style="margin:0;color:var(--text);font-size:13px;white-space:pre-wrap">${reply.content}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleReplies(threadId) {
+            const repliesDiv = document.getElementById(`replies-${threadId}`);
+            if (repliesDiv) {
+                repliesDiv.style.display = repliesDiv.style.display === 'none' ? '' : 'none';
+            }
+        }
+
+        function openReplyModal(threadId) {
+            currentThreadId = threadId;
+            replyForm.reset();
+            replyModal.style.display = 'flex';
+        }
+
+        threadForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const title = document.getElementById('threadTitle').value.trim();
+            const description = document.getElementById('threadDesc').value.trim();
+            if (!title || !description) return;
+
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Membuat...';
+
+            try {
+                const res = await fetch(`${API_BASE}/forum`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title,
+                        description,
+                        date: new Date().toISOString(),
+                        replies: []
+                    })
+                });
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                threadForm.reset();
+                threadModal.style.display = 'none';
+                await loadThreads();
+            } catch (err) {
+                alert('Gagal membuat: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Buat';
+            }
+        });
+
+        replyForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const name = document.getElementById('replyName').value.trim() || 'Anonim';
+            const content = document.getElementById('replyContent').value.trim();
+            if (!content) return;
+
+            const btn = e.target.querySelector('[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Mengirim...';
+
+            try {
+                const res = await fetch(`${API_BASE}/forum/${currentThreadId}/replies`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        content,
+                        date: new Date().toISOString()
+                    })
+                });
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                replyForm.reset();
+                replyModal.style.display = 'none';
+                await loadThreads();
+            } catch (err) {
+                alert('Gagal mengirim: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Kirim';
+            }
+        });
+
+        loadThreads();
+    </script>
+</body>
+</html>
